@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './imageguess.css'
+import enWordArr from '../words(en)';
 
 const APIkey = 'caailYVBDQ7hpb4Ls9S49MSR0NrCdykg';
 
@@ -11,16 +12,18 @@ function ImageGuess() {
     const [imageURL, setImageURL] = useState('');
     const [playerControl, setPlayerControl] = useState('hidden');
     const [startButton, setStartButton] = useState('Start');
-    const [gameAnswer, setGameAnswer] = useState('');
+    const [gameFeedback, setGameFeedback] = useState('');
 
     const startGame = () => {
 
-        const randomIndex = Math.floor(Math.random() * wordArr.length);
-        const randomWord = wordArr[randomIndex];
+        const randomIndex = Math.floor(Math.random() * enWordArr.length);
+        const randomWord = enWordArr[randomIndex];
 
         setCurrentWord(randomWord);
         setPlayerControl('visible');
         setStartButton('Restart');
+        
+    
 
         const queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${APIkey}&q=${randomWord}&limit=1&offset=0&rating=g&lang=en&bundle=messaging_non_clips`;
 
@@ -43,10 +46,15 @@ function ImageGuess() {
         // console.log(userAnswer);
 
         if (userAnswer === currentWord) {
-            setGameAnswer(currentWord + ' is correct!');
-        }
-
-
+            setGameFeedback(currentWord + ' is correct!');
+            setTimeout(() => {
+                // nextQuestion();
+                startGame();
+                setGameFeedback('');
+              }, "2000");
+        }   else {
+                setGameFeedback('Try again!')
+            };
     };
 
 
@@ -66,9 +74,9 @@ function ImageGuess() {
 
                 <div id="guessBox" className="mt-5">
 
-                    <div className="correctWord my-5">
+                    <div className="gameFeedback my-5">
 
-                        {gameAnswer}
+                        {gameFeedback}
 
                     </div>
 
