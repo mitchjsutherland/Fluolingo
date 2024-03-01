@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './imageguess.css'
-import enWordArr from '../words(en)';
+//import enWordArr from '../words(en)';
 
 const APIkey = 'caailYVBDQ7hpb4Ls9S49MSR0NrCdykg';
 
-const wordArr = ['bear', 'fox', 'turtle', 'flamingo'];
+//const wordArr = ['bear', 'fox', 'turtle', 'flamingo'];
 
 function ImageGuess() {
 
@@ -13,11 +13,28 @@ function ImageGuess() {
     const [playerControl, setPlayerControl] = useState('hidden');
     const [startButton, setStartButton] = useState('Start');
     const [gameFeedback, setGameFeedback] = useState('');
+    const [words, setWords] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:4000/api/words/english')
+          .then(response => response.json())
+          .then(data => {
+            setWords(data);
+          })
+          .catch(error => {
+            console.error('Error fetching words:', error);
+          });
+      }, []);
 
     const startGame = () => {
 
-        const randomIndex = Math.floor(Math.random() * enWordArr.length);
-        const randomWord = enWordArr[randomIndex];
+        console.log(words);
+
+
+        const randomIndex = Math.floor(Math.random() * words.length);
+        const randomWord = words[randomIndex];
+
+        console.log(randomWord);
 
         setCurrentWord(randomWord);
         setPlayerControl('visible');
