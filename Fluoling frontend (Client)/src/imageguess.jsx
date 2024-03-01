@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+
+import { Link } from 'react-router-dom';
+
 import './imageguess.css'
 //import enWordArr from '../words(en)';
 
@@ -74,6 +77,11 @@ function ImageGuess() {
             };
     };
 
+    const handleExit = () => {
+        // Refresh the page
+        window.location.reload();
+    };
+
 
     return (
 
@@ -109,7 +117,7 @@ function ImageGuess() {
             </div>
 
             <button onClick={startGame} className="mt-5" >{startButton}</button>
-
+            <button onClick={handleExit} className="mt-5">Exit Game</button>
         </div>
     );
 }
