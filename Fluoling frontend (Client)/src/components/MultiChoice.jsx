@@ -34,14 +34,26 @@ const App = () => {
   
     fetchData();
   }, [selectedLanguage]);
-
-  const handleAnswerClick = (selectedAnswer) => {
+ 
+  const handleAnswerClick = async (selectedAnswer) => {
     if (selectedAnswer === correctAnswer) {
       setScore(score + 1);
     } else {
       setScore(Math.max(0, score - 1));
     }
-    fetchImage(); // Fetch new image
+  
+    try {
+      const fetchedAnswers = await fetchQuestions();
+      if (fetchedAnswers.length > 0) {
+        const selectedQuestion = fetchedAnswers[Math.floor(Math.random() * fetchedAnswers.length)];
+        setAnswers([...selectedQuestion.incorrect_answers[selectedLanguage.toLowerCase()], selectedQuestion.correct_answer[selectedLanguage.toLowerCase()]]);
+        setCorrectAnswer(selectedQuestion.correct_answer[selectedLanguage.toLowerCase()]);
+      } else {
+        console.error('No answers found for the selected language:', selectedLanguage.toLowerCase());
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
   const handleLanguageChange = (language) => {
