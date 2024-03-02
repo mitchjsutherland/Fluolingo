@@ -1,13 +1,16 @@
+// External import
 import React, { useState, useEffect } from 'react';
-
 import { Link } from 'react-router-dom';
+// import Countdown from 'react-countdown';
 
+// Local import
 import './imageguess.css'
 //import enWordArr from '../words(en)';
 
+
+// GIPHY API Key
 const APIkey = 'caailYVBDQ7hpb4Ls9S49MSR0NrCdykg';
 
-//const wordArr = ['bear', 'fox', 'turtle', 'flamingo'];
 
 function ImageGuess() {
 
@@ -17,8 +20,12 @@ function ImageGuess() {
     const [startButton, setStartButton] = useState('Start');
     const [gameFeedback, setGameFeedback] = useState('');
     const [words, setWords] = useState([]);
+    const [gameClock, setGameClock] = useState('hidden');
+    const [timer, setTimer] = useState(5); 
+
 
     useEffect(() => {
+        
         fetch('http://localhost:4000/api/words/english')
           .then(response => response.json())
           .then(data => {
@@ -27,23 +34,49 @@ function ImageGuess() {
           .catch(error => {
             console.error('Error fetching words:', error);
           });
-      }, []);
+    }, []);
+
 
     const startGame = () => {
+        
+        setTimer(5);
+        setPlayerControl('visible');
+        setGameClock('visible');
+        setStartButton('Restart');
+        showImage();
+        startTimer();
+        
+    };
 
-        console.log(words);
+    const startTimer = () => {
+        
+        const intervalId = setInterval(() => {
 
+            setTimer(prevTimer => {
+
+                if (prevTimer > 0) {
+                    return prevTimer - 1
+
+                } else {
+                    clearInterval(intervalId);
+                    setPlayerControl('hidden');
+                    // gameOver();
+                }       
+            });
+        }, 1000);
+
+    };
+
+
+    const showImage = () => {
+
+        // console.log(words);
+        // console.log(randomWord);
 
         const randomIndex = Math.floor(Math.random() * words.length);
         const randomWord = words[randomIndex];
 
-        console.log(randomWord);
-
         setCurrentWord(randomWord);
-        setPlayerControl('visible');
-        setStartButton('Restart');
-        
-    
 
         const queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${APIkey}&q=${randomWord}&limit=1&offset=0&rating=g&lang=en&bundle=messaging_non_clips`;
 
@@ -56,10 +89,13 @@ function ImageGuess() {
         // console.log(data.data[0]['images']['original']['url']);
         setImageURL(data.data[0]['images']['original']['url']);
         });
+        
+    }
 
-    };
 
-    const checkWord = () => {
+    const checkWord = (event) => {
+
+        event.preventDefault();
 
         const userAnswer = document.getElementById('playerInput').value;
 
@@ -69,13 +105,15 @@ function ImageGuess() {
             setGameFeedback(currentWord + ' is correct!');
             setTimeout(() => {
                 // nextQuestion();
-                startGame();
+                showImage();
                 setGameFeedback('');
               }, "2000");
         }   else {
                 setGameFeedback('Try again!')
             };
+
     };
+
 
     const handleExit = () => {
         // Refresh the page
@@ -91,7 +129,12 @@ function ImageGuess() {
 
             <div id="gameBox">
 
-                <div id="imageBox">
+                <div id="gameClock" className={gameClock}>
+                    {/* <Countdown date={Date.now() + 10000} renderer={countDown} /> */}
+                    {timer} 
+                </div>
+
+                <div id="imageBox" className="mt-5">
                     {imageURL && <img src={imageURL} alt="Giphy" />}
                 </div>
 
