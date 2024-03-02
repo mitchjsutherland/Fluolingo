@@ -14,6 +14,7 @@ const App = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('French');
   const [activityStarted, setActivityStarted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(60); // 60 seconds countdown
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     if (activityStarted) {
@@ -59,10 +60,11 @@ const App = () => {
   const handleAnswerClick = async (selectedAnswer) => {
     if (selectedAnswer === correctAnswer) {
       setScore(score + 1);
+      setMessage('CORRECT!');
     } else {
       setScore(Math.max(0, score - 1));
-      // Decrease timer by 5 seconds for incorrect answer
       setTimeLeft(timeLeft - 5);
+      setMessage('INCORRECT!');
     }
     fetchData(); // Fetch new question
   };
@@ -90,6 +92,7 @@ const App = () => {
           <MultipleChoiceAnswers answers={answers} handleAnswerClick={handleAnswerClick} />
           <div className="score-container">Score: {score}</div>
           <div className="timer-container">Time Left: {timeLeft}</div>
+          <div className="message-container">{message}</div>
         </>
       )}
     </div>
