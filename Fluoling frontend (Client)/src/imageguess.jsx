@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 // Local import
 import './imageguess.css'
-import LetterTiles from './lettertiles'; 
+import LetterTile from './lettertiles'; 
 
 //import enWordArr from '../words(en)';
 
@@ -32,6 +32,7 @@ function ImageGuess() {
 
     const randomIndex = Math.floor(Math.random() * words.length);
     const randomWord = words[randomIndex];
+    // let tiles = [];
 
 
     useEffect(() => {
@@ -116,6 +117,10 @@ function ImageGuess() {
         if (newUserAnswer === currentWord) {
 
             setGameFeedback(currentWord + ' is correct!');
+
+            const updatedTiles = letterTiles.map(tile => ({...tile, isGuessed: true }));
+            setLetterTiles(updatedTiles);
+
             setTimeout(() => {
                 // nextQuestion();
             showImage();
@@ -135,7 +140,7 @@ function ImageGuess() {
 
         // console.log(randomWord);
 
-        const tiles = randomWord.split('').map((letter, index) => ({
+        const newTiles = randomWord.split('').map((letter, index) => ({
 
             id: index,
             letter,
@@ -143,14 +148,24 @@ function ImageGuess() {
 
         }));
 
-        console.log(tiles);
+        console.log(newTiles);
+        setLetterTiles(newTiles);
 
         // tiles.forEach(tile => {
         //     console.log(tile.letter)
         // });
 
-        setLetterTiles(tiles);
+        // setLetterTiles(tiles);
  
+    };
+
+
+    const updateLetterTiles = (userAnswer) => {
+
+        const updatedTiles = letterTiles.map(tile => ({...tile, isGuessed: userAnswer.charAt(tile.id) === tile.letter}));
+
+        setLetterTiles(updatedTiles);
+
     };
 
 
@@ -180,8 +195,11 @@ function ImageGuess() {
                 {/* <div id="wordBox">{currentWord}</div> */}
 
                 <div id="letterTiles" className="letterTiles">
-                    
 
+                    {letterTiles.map(({ id, letter, isGuessed }) => (
+                        <LetterTile key={id} letter={isGuessed ? letter : ' '} isGuessed={isGuessed} />
+                    ))}
+                    
                 </div>
 
                 <div id="guessBox" className="mt-5">

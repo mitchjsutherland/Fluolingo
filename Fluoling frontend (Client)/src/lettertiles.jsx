@@ -1,15 +1,15 @@
 import React from 'react';
 
-function LetterTiles({ letter, isGuessed }) {
+function LetterTile({ letter, isGuessed }) {
 
     return (
 
         <div className="letterTile">
-            {isGuessed ? letter : ''}
+            {isGuessed ? letter : ' '}
         </div>
 
     );
 
 }
 
-export default LetterTiles;
+export default LetterTile;
