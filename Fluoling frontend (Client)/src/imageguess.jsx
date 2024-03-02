@@ -12,6 +12,10 @@ import './imageguess.css'
 const APIkey = 'caailYVBDQ7hpb4Ls9S49MSR0NrCdykg';
 
 
+// Bug notes:
+// 'Beer' as a query term has shown a picture of a deer 
+
+
 function ImageGuess() {
 
     const [currentWord, setCurrentWord] = useState('');
@@ -21,7 +25,8 @@ function ImageGuess() {
     const [gameFeedback, setGameFeedback] = useState('');
     const [words, setWords] = useState([]);
     const [gameClock, setGameClock] = useState('hidden');
-    const [timer, setTimer] = useState(5); 
+    const [timer, setTimer] = useState(10); 
+    const [userInput, setUserInput] = useState('');
 
 
     useEffect(() => {
@@ -39,14 +44,41 @@ function ImageGuess() {
 
     const startGame = () => {
         
-        setTimer(5);
         setPlayerControl('visible');
         setGameClock('visible');
         setStartButton('Restart');
+        setTimer(10);
+
         showImage();
         startTimer();
         
     };
+
+
+    const showImage = () => {
+
+        const randomIndex = Math.floor(Math.random() * words.length);
+        const randomWord = words[randomIndex];
+
+        // console.log(words);
+        console.log(randomWord);
+
+        setCurrentWord(randomWord);
+
+        const queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${APIkey}&q=${randomWord}&limit=1&offset=0&rating=g&lang=en&bundle=messaging_non_clips`;
+
+        fetch(queryURL)
+
+        .then((response) => 
+            // return 
+            response.json())
+        .then((data) => {
+        // console.log(data.data[0]['images']['original']['url']);
+        setImageURL(data.data[0]['images']['original']['url']);
+        });
+        
+    }
+
 
     const startTimer = () => {
         
@@ -68,40 +100,17 @@ function ImageGuess() {
     };
 
 
-    const showImage = () => {
-
-        // console.log(words);
-        // console.log(randomWord);
-
-        const randomIndex = Math.floor(Math.random() * words.length);
-        const randomWord = words[randomIndex];
-
-        setCurrentWord(randomWord);
-
-        const queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${APIkey}&q=${randomWord}&limit=1&offset=0&rating=g&lang=en&bundle=messaging_non_clips`;
-
-        fetch(queryURL)
-
-        .then((response) => 
-            // return 
-            response.json())
-        .then((data) => {
-        // console.log(data.data[0]['images']['original']['url']);
-        setImageURL(data.data[0]['images']['original']['url']);
-        });
-        
-    }
-
-
     const checkWord = (event) => {
 
-        event.preventDefault();
+        // event.preventDefault();
 
         const userAnswer = document.getElementById('playerInput').value;
+        const newUserAnswer = userAnswer.charAt(0).toUpperCase() + userAnswer.slice(1);
 
         // console.log(userAnswer);
+        // console.log(newUserAnswer);
 
-        if (userAnswer === currentWord) {
+        if (newUserAnswer === currentWord) {
             setGameFeedback(currentWord + ' is correct!');
             setTimeout(() => {
                 // nextQuestion();
@@ -110,7 +119,7 @@ function ImageGuess() {
               }, "2000");
         }   else {
                 setGameFeedback('Try again!')
-            };
+        };
 
     };
 
