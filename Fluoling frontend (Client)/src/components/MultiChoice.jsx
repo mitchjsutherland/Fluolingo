@@ -61,6 +61,8 @@ const App = () => {
       setScore(score + 1);
     } else {
       setScore(Math.max(0, score - 1));
+      // Decrease timer by 5 seconds for incorrect answer
+      setTimeLeft(timeLeft - 5);
     }
     fetchData(); // Fetch new question
   };
