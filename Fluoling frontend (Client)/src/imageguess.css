@@ -5,3 +5,13 @@
 .visible {
     display: block;
 }
+
+.letterTiles {
+    height: 100px;
+}
+
+.letterTile {
+    color: red;
+    height: 50px;
+    width: 30px
+}

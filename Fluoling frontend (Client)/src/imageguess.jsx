@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 
 // Local import
 import './imageguess.css'
+import LetterTiles from './lettertiles'; 
+
 //import enWordArr from '../words(en)';
 
 
@@ -25,8 +27,11 @@ function ImageGuess() {
     const [gameFeedback, setGameFeedback] = useState('');
     const [words, setWords] = useState([]);
     const [gameClock, setGameClock] = useState('hidden');
-    const [timer, setTimer] = useState(10); 
-    const [userInput, setUserInput] = useState('');
+    const [timer, setTimer] = useState(20); 
+    const [letterTiles, setLetterTiles] = useState([]);
+
+    const randomIndex = Math.floor(Math.random() * words.length);
+    const randomWord = words[randomIndex];
 
 
     useEffect(() => {
@@ -47,7 +52,7 @@ function ImageGuess() {
         setPlayerControl('visible');
         setGameClock('visible');
         setStartButton('Restart');
-        setTimer(10);
+        setTimer(20);
 
         showImage();
         startTimer();
@@ -57,12 +62,8 @@ function ImageGuess() {
 
     const showImage = () => {
 
-        const randomIndex = Math.floor(Math.random() * words.length);
-        const randomWord = words[randomIndex];
-
         // console.log(words);
         console.log(randomWord);
-
         setCurrentWord(randomWord);
 
         const queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${APIkey}&q=${randomWord}&limit=1&offset=0&rating=g&lang=en&bundle=messaging_non_clips`;
@@ -76,6 +77,8 @@ function ImageGuess() {
         // console.log(data.data[0]['images']['original']['url']);
         setImageURL(data.data[0]['images']['original']['url']);
         });
+
+        createLetterTiles();
         
     }
 
@@ -111,16 +114,43 @@ function ImageGuess() {
         // console.log(newUserAnswer);
 
         if (newUserAnswer === currentWord) {
+
             setGameFeedback(currentWord + ' is correct!');
             setTimeout(() => {
                 // nextQuestion();
-                showImage();
-                setGameFeedback('');
-              }, "2000");
+            showImage();
+            setGameFeedback('');
+            }, "2000");
+
         }   else {
-                setGameFeedback('Try again!')
+
+            setGameFeedback('Try again!')
+            updateLetterTiles(newUserAnswer);
         };
 
+    };
+
+
+    const createLetterTiles = () => {
+
+        // console.log(randomWord);
+
+        const tiles = randomWord.split('').map((letter, index) => ({
+
+            id: index,
+            letter,
+            isGuessed: false,
+
+        }));
+
+        console.log(tiles);
+
+        // tiles.forEach(tile => {
+        //     console.log(tile.letter)
+        // });
+
+        setLetterTiles(tiles);
+ 
     };
 
 
@@ -148,6 +178,11 @@ function ImageGuess() {
                 </div>
 
                 {/* <div id="wordBox">{currentWord}</div> */}
+
+                <div id="letterTiles" className="letterTiles">
+                    
+
+                </div>
 
                 <div id="guessBox" className="mt-5">
 
