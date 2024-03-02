@@ -1,0 +1,20 @@
+/* MultiChoice.css */
+
+.language-selector {
+    margin-bottom: 20px;
+  }
+  
+  .language-button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: #ffffff; /* Default background color */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #333; /* Default text color */
+  }
+  
+  .language-button.selected {
+    background-color: hotpink; /* Hot pink background color */
+    color: #444; /* Dark grey text color */
+  }

@@ -3,6 +3,7 @@ import ImageDisplay from './ImageDisplay';
 import MultipleChoiceAnswers from './MultipleChoiceAnswers';
 import fetchQuestions from './fetchAnswers';
 import fetchImage from './fetchImage';
+import './MultiChoice.css'; // Import your CSS file
 
 const APIkey = 'caailYVBDQ7hpb4Ls9S49MSR0NrCdykg';
 
@@ -84,9 +85,9 @@ const App = () => {
       ) : (
         <>
           <div className="language-selector">
-            <button onClick={() => handleLanguageChange('French')}>French</button>
-            <button onClick={() => handleLanguageChange('Czech')}>Czech</button>
-            <button onClick={() => handleLanguageChange('Turkish')}>Turkish</button>
+            <button className={`language-button ${selectedLanguage === 'French' ? 'selected' : ''}`} onClick={() => handleLanguageChange('French')}>French</button>
+            <button className={`language-button ${selectedLanguage === 'Czech' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Czech')}>Czech</button>
+            <button className={`language-button ${selectedLanguage === 'Turkish' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Turkish')}>Turkish</button>
           </div>
           <ImageDisplay imageUrl={image} />
           <MultipleChoiceAnswers answers={answers} handleAnswerClick={handleAnswerClick} />
