@@ -7,21 +7,21 @@
         },
         "correct_answer": {
           "french": "Maison",
-          "czech": "Answer2",
-          "turkish": "Answer3"
+          "czech": "Dům",
+          "turkish": "Ev"
         }
       },
       {
-        "english_search_term": "search_term_2",
-        "answers": {
-          "french": ["Answer1", "Answer2", "Answer3", "Answer4"],
-          "czech": ["Answer1", "Answer2", "Answer3", "Answer4"],
-          "turkish": ["Answer1", "Answer2", "Answer3", "Answer4"]
+        "english_search_term": "beach",
+        "incorrect_answers": {
+          "french": ["Answer1", "Answer3", "Answer4"],
+          "czech": ["Answer2", "Answer3", "Answer4"],
+          "turkish": ["Answer1", "Answer3", "Answer4"]
         },
         "correct_answer": {
-          "french": "Answer3",
-          "czech": "Answer1",
-          "turkish": "Answer2"
+          "french": "Plage",
+          "czech": "Pláž",
+          "turkish": "Plaj"
         }
       }
      

@@ -1,35 +1,37 @@
 import React, { useState, useEffect } from 'react';
 
-const ImageDisplay = () => {
-  const [imageUrl, setImageUrl] = useState('');
-  const APIkey = 'caailYVBDQ7hpb4Ls9S49MSR0NrCdykg';
+const ImageDisplay = ({ imageUrl }) => {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    const fetchImage = async () => {
-      try {
-        const response = await fetch(`https://api.giphy.com/v1/gifs/random?api_key=${APIkey}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch image');
-        }
-        const data = await response.json();
-        setImageUrl(data.data.image_url);
-      } catch (error) {
-        console.error('Error fetching image:', error);
-      }
-    };
+    setLoading(true);
+    setError(false);
 
-    fetchImage();
+    if (imageUrl) {
+      const img = new Image();
+      img.onload = () => {
+        setLoading(false);
+      };
+      img.onerror = () => {
+        setLoading(false);
+        setError(true);
+      };
+      img.src = imageUrl;
+    } else {
+      setLoading(false);
+    }
+  }, [imageUrl]);
 
-    return () => {
-      // Cleanup function (if any)
-    };
-  }, []);
+  if (loading) {
+    return <p>Loading image...</p>;
+  }
 
-  return (
-    <div>
-      {imageUrl && <img src={imageUrl} alt="GIF" />}
-    </div>
-  );
+  if (error) {
+    return <p>Error: Failed to load image</p>;
+  }
+
+  return <img src={imageUrl} alt="GIF" />;
 };
 
 export default ImageDisplay;
