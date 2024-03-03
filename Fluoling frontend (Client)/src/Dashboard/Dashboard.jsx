@@ -3,6 +3,11 @@ import React, {useState, useEffect} from 'react';
 
 import { useLocation } from 'react-router';
 
+
+import App from "../components/MultiChoice";
+
+
+
 import { useParams } from 'react-router-dom';
 
 
@@ -18,6 +23,7 @@ import ImageGuessMode from '../imageguessmode';
 
 
 function Dashboard({user}) {
+
     const [selectedGame, setSelectedGame] = useState(null);
     const [showMessage, setShowMessage] = useState(true);
     const location = useLocation();
@@ -122,7 +128,7 @@ function Dashboard({user}) {
         <p>Select a language game:</p>
         <div>
           <button onClick={() => handleGameSelection('Image Guess')}>Image Guess</button>
-          <button onClick={() => handleGameSelection('Game2')}>Language Game 2</button>
+          <button onClick={() => handleGameSelection('Game2')}>MultiChoice Quiz</button>
           {/* Add more game selection buttons as needed */}
         </div>
         
@@ -130,8 +136,10 @@ function Dashboard({user}) {
 
         </div>}
         <div>
-          {selectedGame === 'Image Guess' && <ImageGuessMode />}
-          {selectedGame === 'Game2' && <LanguageGame2 />}
+
+          {selectedGame === 'Image Guess' && <ImageGuess />}
+          {selectedGame === 'Game2' && <App />}
+
           {/* Add more game components as needed */}
 
  

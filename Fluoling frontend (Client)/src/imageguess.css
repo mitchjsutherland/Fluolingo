@@ -6,6 +6,64 @@
     display: block;
 }
 
+
+.heading {
+    padding: 30px 40px;
+    font-size: 50px;
+  }
+
+.restartButton {
+    margin-right: 10px;
+    padding: 10px 20px;
+    background-color: #ffffff; /* Default background color */
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #333; /* Default text color */
+}
+
+.restartButton:hover {
+    background-color: hotpink;
+    border: 1px solid black;
+    color: white;
+}
+
+.exitButton {
+    margin-right: 10px;
+    padding: 10px 20px;
+    background-color: #ffffff; /* Default background color */
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #333; /* Default text color */
+}
+
+.exitButton:hover {
+    background-color: hotpink;
+    border: 1px solid black;
+    color: white;
+}
+
+#answerSubmit {
+    margin-right: 10px;
+    padding: 10px 20px;
+    background-color: #ffffff; /* Default background color */
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #333; /* Default text color */
+}
+
+#answerSubmit:hover {
+    background-color: hotpink;
+    border: 1px solid black;
+    color: white;
+}
+
+#playerInput {
+    padding: 5px 10px;
+    margin-right: 10px;
+
 .letterTiles {
     height: 100px;
     display: flex;
@@ -29,4 +87,5 @@
 
 .inactive {
     color: lightgrey;
+
 }

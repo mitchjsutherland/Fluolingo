@@ -194,7 +194,12 @@ function ImageGuess() {
 
         <div className="gameMain">
 
+            <img src="../public/flamingo-logo.svg" alt="Fluolingo Logo" className="logo" />
+            <h1 className="heading">Fluolingo</h1>
+            <h3 className="mb-5">Let the games begin...</h3>
+
             <h1 className={gameComment}>{gameCommentText}</h1>
+
 
             <div id="gameBox" className="mt-5">
 
@@ -241,8 +246,8 @@ function ImageGuess() {
                 
             </div>
 
-            <button onClick={startGame} className="mt-5" >{startButton}</button>
-            <button onClick={handleExit} className="mt-5">Exit Game</button>
+            <button onClick={startGame} className="mt-5 restartButton" >{startButton}</button>
+            <button onClick={handleExit} className="mt-5 exitButton">Exit Game</button>
         </div>
     );
 }

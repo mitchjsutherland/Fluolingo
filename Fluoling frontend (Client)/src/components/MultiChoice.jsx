@@ -84,7 +84,15 @@ const App = () => {
       setScore(Math.max(0, score - 1));
       setMessage('INCORRECT!');
     }
-    fetchData();
+
+
+    // Clear the message after a delay
+    setTimeout(() => {
+      setMessage('');
+    }, 1000);
+
+    fetchData(); // Fetch new question
+
   };
 
   const handleLanguageChange = (language) => {
@@ -134,10 +142,19 @@ const App = () => {
         <div className="flag-display">{languageFlags[selectedLanguage]}</div>
       )}
       {!activityStarted ? (
+
+        
+          <div>
+          <img src="../public/flamingo-logo.svg" alt="Fluolingo Logo" className="logo" />
+            <h1 className="heading">Fluolingo</h1>
+          </div>
+
+        
         <button onClick={() => handleStartActivity('Easy')}>Start Activity</button>
       ) : (
         <>
           <ImageDisplay imageUrl={image} size="800px" />
+
           <MultipleChoiceAnswers answers={answers} handleAnswerClick={handleAnswerClick} />
           <div className="score-container">Score: {score}</div>
           <div className="timer-container">Time Left: {timeLeft}</div>

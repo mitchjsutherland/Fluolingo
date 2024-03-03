@@ -1,6 +1,121 @@
 /* MultiChoice.css */
 
+.nova-mono-regular {
+  font-family: "Nova Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.startActivity-button {
+    margin-right: 10px;
+    padding: 20px 30px;
+    background-color: #ffffff; /* Default background color */
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #333; /* Default text color */
+    font-size: 20px ;
+}
+
+.startActivity-button:hover {
+    background-color: hotpink;
+    border: 1px solid black;
+    color: white;
+}
+
 .language-selector {
+
+    margin-bottom: 20px;
+  }
+  
+  .language-button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    background-color: #ffffff; /* Default background color */
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #333; /* Default text color */
+  }
+  
+  .language-button:hover {
+    background-color: hotpink;
+    border: 1px solid black;
+    color: white;
+  }
+
+  .language-button.selected {
+    background-color: hotpink; /* Hot pink background color */
+    color: white; 
+  }
+
+  :root {
+    --background-color: pink;
+  }
+
+  .heading {
+    padding: 30px 40px;
+    font-size: 50px;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color)!important;
+    font-family: 'Nova Mono', monospace!important;
+  }
+
+  .answer-button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: #ffffff; /* Default background color */
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #333; /* Default text color */
+  }
+  
+  .answer-button:hover {
+    background-color: hotpink;
+    border: 1px solid black;
+    color: white;
+  }
+
+  .score-container {
+    padding: 5px 10px;
+  }
+  .timer-container {
+    padding: 5px 10px;
+  }
+  .message-container {
+    /* background-color: white; */
+    color: lightcoral;
+    font-size: 30px;
+    border-radius: 5px;
+    padding: 5px 10px;
+    animation: popIn 0.5s ease-out;
+  }
+
+  .logo {
+    width: 100px;
+    height: 100px;
+  }
+=======
   margin-bottom: 20px;
 }
 
@@ -22,3 +137,4 @@
 .flag-display {
   font-size: 32px; /* Adjust font size as needed */
 }
+
