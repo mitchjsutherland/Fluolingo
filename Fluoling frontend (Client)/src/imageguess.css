@@ -22,3 +22,11 @@
     margin: 0 3px;
     text-align: center;
 }
+
+.active {
+    color: black;
+}
+
+.inactive {
+    color: lightgrey;
+}

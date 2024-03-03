@@ -40,6 +40,8 @@ function ImageGuess2p() {
     const [scoreBoardPlayer1, setScoreBoardPlayer1] = useState(0);
     const [scoreBoardPlayer2, setScoreBoardPlayer2] = useState(0);
     const [currentPlayer, setCurrentPlayer] = useState(1);
+    const [scoreStyle1, setScoreStyle1] = useState('active');
+    const [scoreStyle2, setScoreStyle2] = useState('inactive');
 
 
 
@@ -169,6 +171,30 @@ function ImageGuess2p() {
     const switchTurn = () => {
 
         setCurrentPlayer(prevPlayer => (prevPlayer === 1 ? 2 : 1));
+        playerIndicator();
+        
+        setGameCommentText(() => {
+            if (currentPlayer === 1) {
+                return "Player 2"
+            } else {
+                return "Player 1"
+            }
+        })
+
+    };
+
+    const playerIndicator = () => {
+
+        if (currentPlayer === 2) {
+            setScoreStyle1('active')
+            setScoreStyle2('inactive')
+        } else if (currentPlayer === 1) {
+            setScoreStyle2('active')
+            setScoreStyle1('inactive')
+        } else {
+            setScoreStyle1('inactive')
+            setScoreStyle2('inactive')
+        }
     };
 
 
@@ -243,12 +269,12 @@ function ImageGuess2p() {
                     <div className="gameFeedback my-3">
 
                         {gameFeedback}
+                        <br />
 
                         <div className={scoreBoardBox}>
 
-                            Player 1 Score: {scoreBoardPlayer1}
-                            <br />
-                            Player 2 Score: {scoreBoardPlayer2}
+                            <div className={scoreStyle1}>Player 1 Score: {scoreBoardPlayer1}</div>
+                            <div className={scoreStyle2}>Player 2 Score: {scoreBoardPlayer2}</div>
 
                         </div>
 
