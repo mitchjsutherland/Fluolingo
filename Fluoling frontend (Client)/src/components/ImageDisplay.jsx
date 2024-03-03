@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const ImageDisplay = ({ imageUrl }) => {
+const ImageDisplay = ({ imageUrl, size }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -31,7 +31,7 @@ const ImageDisplay = ({ imageUrl }) => {
     return <p>Error: Failed to load image</p>;
   }
 
-  return <img src={imageUrl} alt="GIF" />;
+  return <img src={imageUrl} alt="GIF" style={{ width: size, height: 'auto' }} />;
 };
 
 export default ImageDisplay;

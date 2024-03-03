@@ -18,6 +18,11 @@ const passport = require("passport");
 
 const initialisePassport = require("./passportConfig");
 
+app.use(cors({
+  origin: 'http://localhost:5173', // Allow requests from your frontend origin
+  credentials: true // Allow credentials (cookies, authorization headers, etc.)
+}));
+
 //necessary to maintain authentication across multiple requests
 
 initialisePassport(passport);
@@ -28,7 +33,9 @@ const PORT = 4000;
 
 //middleware
 
-app.use(cors());
+
+
+//app.use(express.json());
 
 //necessary to render ejs files
 
@@ -82,43 +89,37 @@ app.get("/", (req, res) => {
 
                           //they are already authenticated/logged in
 
-app.get("/users/register", checkAuthenticated, (req, res) => {
-
-  res.render("register");
-
+app.get("/api/users/register", checkNotAuthenticated, (req, res) => {
+  // User is not authenticated, send JSON response with error message
+  res.status(401).json({ message: "Unauthorized" });
 });
 
 //do I have to pass req argument if not used?
 
-app.get("/users/login", checkAuthenticated, (req, res) => {
+app.get("/api/users/login", checkAuthenticated, (req, res) => {
+  // User is not authenticated, send JSON response with error message
+  res.status(401).json({ message: "Unauthorized" });
+});
 
-  res.render("login");
+app.get("/api/users/dashboard", checkAuthenticated, (req, res) => {
+  // User is authenticated, send JSON response with success message and user data
+  //res.status(200).json({ success: true, user: req.user });
+
+  const userEmail = req.body.email; // Extract email from request body
+  const redirectUrl = `http://localhost:5173/users/dashboard/${encodeURIComponent(userEmail)}`;
+  //const redirectUrl = "http://localhost:5173/users/dashboard/"
+
+  res.status(200).json({ success: true, redirect: redirectUrl });
+
 
 });
 
-app.get("/users/dashboard", checkNotAuthenticated, (req, res) => {
-
-  res.render("dashboard", { user: req.user.name });
-
-});
-
-app.get("/users/logout", (req, res) => {
-
-  req.logout((err) => {
-
-    if (err) {
-
-      return next(err);
-
-    }
-
+app.post("/api/users/logout", (req, res) => {
+  req.logout(() => {
+    res.json({ success: true, redirect: "http://localhost:5173/" });
   });
-
-  req.flash("success_msg", "You have logged out");
-
-  res.redirect("/users/login");
-
 });
+
 
 app.get("/api/words/english", (req,res) => {
 
@@ -147,11 +148,11 @@ app.get("/api/words/english", (req,res) => {
 
 //define register route
 
-app.post("/users/register", async (req,res) => {
+app.post("/api/users/register", async (req,res) => {
 
   console.log(req.body);
 
-  let { name, email, password, password2 } = req.body;
+  let { name, email, password, confirmPassword } = req.body;
 
 
   //any registration errors are gonna be pushed to this initially empty array
@@ -166,11 +167,11 @@ app.post("/users/register", async (req,res) => {
 
     password,
 
-    password2
+    confirmPassword
 
   });
 
-  if (!name || !email || !password || !password2) {
+  if (!name || !email || !password || !confirmPassword) {
 
     errors.push({ message: "Please enter all fields" });
 
@@ -178,7 +179,7 @@ app.post("/users/register", async (req,res) => {
 
   
 
-  if (password !== password2) {
+  if (password !== confirmPassword) {
 
     errors.push({ message: "Passwords do not match" });
 
@@ -197,8 +198,12 @@ app.post("/users/register", async (req,res) => {
   if (errors.length > 0) {
 
     // re-render the register page with error messages
+
+    //bad request due to inocrrect or missing information submitted in the form
+
+    return res.status(400).json({errors});
     
-    res.render("register", { errors });
+    //res.render("register", { errors });
 
   } 
 
@@ -206,7 +211,7 @@ app.post("/users/register", async (req,res) => {
   
   else {
     
-    console.log("Registration successful!");
+    //console.log("Registration successful!");
 
     let hashedPassword = await bcrypt.hash(password, 10);
 
@@ -232,7 +237,7 @@ app.post("/users/register", async (req,res) => {
 
           errors.push({message: "Email already registered"});
 
-          res.render("register", {errors});
+          return res.status(400).json({errors});
 
         }
 
@@ -258,9 +263,11 @@ app.post("/users/register", async (req,res) => {
 
               //pass a flash message to redirect page
 
-              req.flash("success_msg", "You are now registered. Please log in.");
+              return res.status(200).json({message: "Registration successful"});
 
-              res.redirect("/users/login");
+              //req.flash("success_msg", "You are now registered. Please log in.");
+
+              //res.redirect("/users/login");
 
              }
 
@@ -277,47 +284,48 @@ app.post("/users/register", async (req,res) => {
 });
 
 app.post(
+  "/api/users/login",
+  passport.authenticate("local", { session: true }),
+  (req, res) => {
+    // Successful authentication, send JSON response with success message
 
-  "/users/login",
+    const userEmail = req.body.email; // Extract email from request body
+    const redirectUrl = `http://localhost:5173/users/dashboard/${encodeURIComponent(userEmail)}`;
+    //const redirectUrl = "http://localhost:5173/users/dashboard/"
 
-  passport.authenticate("local", {
-
-    successRedirect: "/users/dashboard",
-
-    failureRedirect: "/users/login",
-
-    failureFlash: true
-
-  })
-
+    res.json({ success: true, redirect: redirectUrl });
+  },
+  (err, req, res, next) => {
+    // Failed authentication, send JSON response with error message
+    res.status(401).json({ success: false, message: err.message });
+  }
 );
 
-//checking if user is authenticated to redirect him to the dashboard
+//checking if user is authenticated to redirect them to the dashboard
 
-function checkAuthenticated( req, res, next){
+function checkAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    const userEmail = req.user.email;
+    const url = `http://localhost:5173/users/dashboard/${userEmail}`;
+    const redirectUrl = `http://localhost:5173/users/dashboard/${encodeURIComponent(userEmail)}`;
 
-  if(req.isAuthenticated()){
+    return res.status(200).json({ message: "Authorised", url: url, userEmail: userEmail, redirect: redirectUrl });
 
-    return res.redirect("/users/dashboard");
-
+    return next(); // User is authenticated, proceed to the next middleware
   }
-
-  //otherwise go to the next middleware function
-
-  next();
-
+  // User is not authenticated, send JSON response with error message
+  return res.status(401).json({ message: "Unauthorized" });
 }
 
-function checkNotAuthenticated(req, res, next){
-
-  if(req.isAuthenticated()){
-
-    return next();
-
+function checkNotAuthenticated(req, res, next) {
+  if (!req.isAuthenticated()) {
+    return next(); // User is not authenticated, proceed to the next middleware
   }
+  // User is authenticated, send JSON response with  message
+  const userEmail = req.user.email;
+  const redirectUrl = `http://localhost:5173/users/dashboard/${encodeURIComponent(userEmail)}`;
 
-  res.redirect("/users/login")
-
+  return res.status(200).json({ message: "Authorised", redirect: redirectUrl });
 }
 
 

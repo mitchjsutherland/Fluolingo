@@ -10,7 +10,7 @@ function Home() {
 
     <div>
 
-      <h1>Home Page</h1>
+      <h1>Fluolingo</h1>
 
       <p>Welcome to Fluolingo!</p>
 
