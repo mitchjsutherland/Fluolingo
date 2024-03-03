@@ -7,7 +7,6 @@ import fetchQuestions from './fetchAnswers';
 import fetchImage from './fetchImage';
 import './MultiChoice.css';
 
-// Map of language codes to flag emoji
 const languageFlags = {
   French: '🇫🇷',
   Czech: '🇨🇿',
@@ -25,7 +24,7 @@ const App = () => {
   const [activityStarted, setActivityStarted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(60);
   const [message, setMessage] = useState('');
-  const [difficulty, setDifficulty] = useState('Easy'); // New state for difficulty mode
+  const [difficulty, setDifficulty] = useState('Easy');
 
   useEffect(() => {
     if (activityStarted) {
@@ -33,15 +32,14 @@ const App = () => {
         setTimeLeft(prevTimeLeft => {
           if (prevTimeLeft === 0 || (difficulty === 'Easy' && score >= 30) || (difficulty === 'Normal' && score >= 65) || (difficulty === 'Expert' && score >= 100)) {
             clearInterval(timer);
-            // Handle end of activity (e.g., show results)
             if (difficulty === 'Easy' && score >= 30) {
-              setMessage('You won!'); // Display message for winning the Easy mode
+              setMessage('You won!');
             } else if (difficulty === 'Normal' && score >= 65) {
-              setMessage('You won!'); // Display message for winning the Normal mode
+              setMessage('You won!');
             } else if (difficulty === 'Expert' && score >= 100) {
-              setMessage('You won!'); // Display message for winning the Expert mode
+              setMessage('You won!');
             } else {
-              setMessage('Time\'s up!'); // Display message for running out of time
+              setMessage('Time\'s up!');
             }
           } else {
             return prevTimeLeft - 1;
@@ -68,7 +66,7 @@ const App = () => {
         setImage(imageUrl);
 
         const allAnswers = [...selectedQuestion.incorrect_answers[selectedLanguage.toLowerCase()], selectedQuestion.correct_answer[selectedLanguage.toLowerCase()]];
-        setAnswers(shuffleArray(allAnswers)); // Shuffle the answers array
+        setAnswers(shuffleArray(allAnswers));
         setCorrectAnswer(selectedQuestion.correct_answer[selectedLanguage.toLowerCase()]);
       } else {
         console.error('No questions found');
@@ -86,7 +84,7 @@ const App = () => {
       setScore(Math.max(0, score - 1));
       setMessage('INCORRECT!');
     }
-    fetchData(); // Fetch new question
+    fetchData();
   };
 
   const handleLanguageChange = (language) => {
@@ -95,10 +93,16 @@ const App = () => {
 
   const handleStartActivity = (difficulty) => {
     setActivityStarted(true);
-    setDifficulty(difficulty); // Set difficulty mode when activity starts
+    setDifficulty(difficulty);
   };
 
-  const handleRestartActivity = () => {
+  const handleRestartGame = () => {
+    setScore(0);
+    setTimeLeft(60);
+    setMessage('');
+  };
+
+  const handleExitGame = () => {
     setActivityStarted(false);
     setScore(0);
     setTimeLeft(60);
@@ -133,12 +137,13 @@ const App = () => {
         <button onClick={() => handleStartActivity('Easy')}>Start Activity</button>
       ) : (
         <>
-          <ImageDisplay imageUrl={image} size="800px" /> {/* Added image display with size prop */}
+          <ImageDisplay imageUrl={image} size="800px" />
           <MultipleChoiceAnswers answers={answers} handleAnswerClick={handleAnswerClick} />
           <div className="score-container">Score: {score}</div>
           <div className="timer-container">Time Left: {timeLeft}</div>
           <div className="message-container">{message}</div>
-          <button onClick={handleRestartActivity}>Restart</button>
+          <button onClick={handleRestartGame}>Restart Game</button>
+          <button onClick={handleExitGame}>Exit Game</button>
         </>
       )}
     </div>
