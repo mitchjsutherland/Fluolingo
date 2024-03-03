@@ -4,7 +4,7 @@ import ImageDisplay from './ImageDisplay';
 import MultipleChoiceAnswers from './MultipleChoiceAnswers';
 import fetchQuestions from './fetchAnswers';
 import fetchImage from './fetchImage';
-import './MultiChoice.css'; // Import your CSS file
+import './MultiChoice.css';
 
 // Map of language codes to flag emoji
 const languageFlags = {
@@ -22,7 +22,7 @@ const App = () => {
   const [score, setScore] = useState(0);
   const [selectedLanguage, setSelectedLanguage] = useState('French');
   const [activityStarted, setActivityStarted] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(90); // Change countdown time to 90 seconds
+  const [timeLeft, setTimeLeft] = useState(60);
   const [message, setMessage] = useState('');
   const [difficulty, setDifficulty] = useState('Easy'); // New state for difficulty mode
 
@@ -100,7 +100,7 @@ const App = () => {
   const handleRestartActivity = () => {
     setActivityStarted(false);
     setScore(0);
-    setTimeLeft(90); // Reset countdown time to 90 seconds
+    setTimeLeft(60);
     setMessage('');
   };
 
