@@ -1,4 +1,4 @@
-// App.jsx
+// MultiChoice.jsx
 import React, { useState, useEffect } from 'react';
 import ImageDisplay from './ImageDisplay';
 import MultipleChoiceAnswers from './MultipleChoiceAnswers';
@@ -22,16 +22,26 @@ const App = () => {
   const [score, setScore] = useState(0);
   const [selectedLanguage, setSelectedLanguage] = useState('French');
   const [activityStarted, setActivityStarted] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(60); // 60 seconds countdown
+  const [timeLeft, setTimeLeft] = useState(90); // Change countdown time to 90 seconds
   const [message, setMessage] = useState('');
+  const [difficulty, setDifficulty] = useState('Easy'); // New state for difficulty mode
 
   useEffect(() => {
     if (activityStarted) {
       const timer = setInterval(() => {
         setTimeLeft(prevTimeLeft => {
-          if (prevTimeLeft === 0) {
+          if (prevTimeLeft === 0 || (difficulty === 'Easy' && score >= 30) || (difficulty === 'Normal' && score >= 65) || (difficulty === 'Expert' && score >= 100)) {
             clearInterval(timer);
             // Handle end of activity (e.g., show results)
+            if (difficulty === 'Easy' && score >= 30) {
+              setMessage('You won!'); // Display message for winning the Easy mode
+            } else if (difficulty === 'Normal' && score >= 65) {
+              setMessage('You won!'); // Display message for winning the Normal mode
+            } else if (difficulty === 'Expert' && score >= 100) {
+              setMessage('You won!'); // Display message for winning the Expert mode
+            } else {
+              setMessage('Time\'s up!'); // Display message for running out of time
+            }
           } else {
             return prevTimeLeft - 1;
           }
@@ -40,7 +50,7 @@ const App = () => {
 
       return () => clearInterval(timer);
     }
-  }, [activityStarted]);
+  }, [activityStarted, score, difficulty]);
 
   useEffect(() => {
     if (activityStarted) {
@@ -73,7 +83,6 @@ const App = () => {
       setMessage('CORRECT!');
     } else {
       setScore(Math.max(0, score - 1));
-      setTimeLeft(timeLeft - 5);
       setMessage('INCORRECT!');
     }
     fetchData(); // Fetch new question
@@ -83,14 +92,15 @@ const App = () => {
     setSelectedLanguage(language);
   };
 
-  const handleStartActivity = () => {
+  const handleStartActivity = (difficulty) => {
     setActivityStarted(true);
+    setDifficulty(difficulty); // Set difficulty mode when activity starts
   };
 
   const handleRestartActivity = () => {
     setActivityStarted(false);
     setScore(0);
-    setTimeLeft(60);
+    setTimeLeft(90); // Reset countdown time to 90 seconds
     setMessage('');
   };
 
@@ -110,11 +120,16 @@ const App = () => {
         <button className={`language-button ${selectedLanguage === 'Czech' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Czech')}>Czech</button>
         <button className={`language-button ${selectedLanguage === 'Turkish' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Turkish')}>Turkish</button>
       </div>
+      <div className="difficulty-selector">
+        <button className={`difficulty-button ${difficulty === 'Easy' ? 'selected' : ''}`} onClick={() => handleStartActivity('Easy')}>Easy</button>
+        <button className={`difficulty-button ${difficulty === 'Normal' ? 'selected' : ''}`} onClick={() => handleStartActivity('Normal')}>Normal</button>
+        <button className={`difficulty-button ${difficulty === 'Expert' ? 'selected' : ''}`} onClick={() => handleStartActivity('Expert')}>Expert</button>
+      </div>
       {activityStarted && (
         <div className="flag-display">{languageFlags[selectedLanguage]}</div>
       )}
       {!activityStarted ? (
-        <button onClick={handleStartActivity}>Start Activity</button>
+        <button onClick={() => handleStartActivity('Easy')}>Start Activity</button>
       ) : (
         <>
           <ImageDisplay imageUrl={image} />

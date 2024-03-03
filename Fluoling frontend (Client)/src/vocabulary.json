@@ -23,6 +23,71 @@
           "czech": "Pláž",
           "turkish": "Plaj"
         }
+      },
+      {
+        "english_search_term": "beach",
+        "incorrect_answers": {
+          "french": ["Answer1", "Answer3", "Answer4"],
+          "czech": ["Answer2", "Answer3", "Answer4"],
+          "turkish": ["Answer1", "Answer3", "Answer4"]
+        },
+        "correct_answer": {
+          "french": "Plage",
+          "czech": "Pláž",
+          "turkish": "Plaj"
+        }
+      },
+      {
+        "english_search_term": "beach",
+        "incorrect_answers": {
+          "french": ["Answer1", "Answer3", "Answer4"],
+          "czech": ["Answer2", "Answer3", "Answer4"],
+          "turkish": ["Answer1", "Answer3", "Answer4"]
+        },
+        "correct_answer": {
+          "french": "Plage",
+          "czech": "Pláž",
+          "turkish": "Plaj"
+        }
+      },
+      {
+        "english_search_term": "beach",
+        "incorrect_answers": {
+          "french": ["Answer1", "Answer3", "Answer4"],
+          "czech": ["Answer2", "Answer3", "Answer4"],
+          "turkish": ["Answer1", "Answer3", "Answer4"]
+        },
+        "correct_answer": {
+          "french": "Plage",
+          "czech": "Pláž",
+          "turkish": "Plaj"
+        }
+      },
+      {
+        "english_search_term": "beach",
+        "incorrect_answers": {
+          "french": ["Answer1", "Answer3", "Answer4"],
+          "czech": ["Answer2", "Answer3", "Answer4"],
+          "turkish": ["Answer1", "Answer3", "Answer4"]
+        },
+        "correct_answer": {
+          "french": "Plage",
+          "czech": "Pláž",
+          "turkish": "Plaj"
+        }
+      },
+      {
+        "english_search_term": "beach",
+        "incorrect_answers": {
+          "french": ["Answer1", "Answer3", "Answer4"],
+          "czech": ["Answer2", "Answer3", "Answer4"],
+          "turkish": ["Answer1", "Answer3", "Answer4"]
+        },
+        "correct_answer": {
+          "french": "Plage",
+          "czech": "Pláž",
+          "turkish": "Plaj"
+        }
       }
      
     ]
