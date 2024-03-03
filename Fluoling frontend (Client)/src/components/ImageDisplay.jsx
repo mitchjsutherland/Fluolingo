@@ -31,7 +31,7 @@ const ImageDisplay = ({ imageUrl, size }) => {
     return <p>Error: Failed to load image</p>;
   }
 
-  return <img src={imageUrl} alt="GIF" style={{ width: size, height: size }} />;
+  return <img src={imageUrl} alt="GIF" style={{ width: size, height: 'auto' }} />;
 };
 
 export default ImageDisplay;
