@@ -48,7 +48,8 @@ const App = () => {
       const fetchedAnswers = await fetchQuestions();
       if (fetchedAnswers.length > 0) {
         const selectedQuestion = fetchedAnswers[Math.floor(Math.random() * fetchedAnswers.length)];
-        setAnswers([...selectedQuestion.incorrect_answers[selectedLanguage.toLowerCase()], selectedQuestion.correct_answer[selectedLanguage.toLowerCase()]]);
+        const allAnswers = [...selectedQuestion.incorrect_answers[selectedLanguage.toLowerCase()], selectedQuestion.correct_answer[selectedLanguage.toLowerCase()]];
+        setAnswers(shuffleArray(allAnswers)); // Shuffle the answers array
         setCorrectAnswer(selectedQuestion.correct_answer[selectedLanguage.toLowerCase()]);
       } else {
         console.error('No answers found for the selected language:', selectedLanguage.toLowerCase());
@@ -78,22 +79,39 @@ const App = () => {
     setActivityStarted(true);
   };
 
+  const handleRestartActivity = () => {
+    setActivityStarted(false);
+    setScore(0);
+    setTimeLeft(60);
+    setMessage('');
+  };
+
+  const shuffleArray = (array) => {
+    const shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    return shuffledArray;
+  };
+
   return (
     <div className="app-container">
+      <div className="language-selector">
+        <button className={`language-button ${selectedLanguage === 'French' ? 'selected' : ''}`} onClick={() => handleLanguageChange('French')}>French</button>
+        <button className={`language-button ${selectedLanguage === 'Czech' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Czech')}>Czech</button>
+        <button className={`language-button ${selectedLanguage === 'Turkish' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Turkish')}>Turkish</button>
+      </div>
       {!activityStarted ? (
         <button onClick={handleStartActivity}>Start Activity</button>
       ) : (
         <>
-          <div className="language-selector">
-            <button className={`language-button ${selectedLanguage === 'French' ? 'selected' : ''}`} onClick={() => handleLanguageChange('French')}>French</button>
-            <button className={`language-button ${selectedLanguage === 'Czech' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Czech')}>Czech</button>
-            <button className={`language-button ${selectedLanguage === 'Turkish' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Turkish')}>Turkish</button>
-          </div>
           <ImageDisplay imageUrl={image} />
           <MultipleChoiceAnswers answers={answers} handleAnswerClick={handleAnswerClick} />
           <div className="score-container">Score: {score}</div>
           <div className="timer-container">Time Left: {timeLeft}</div>
           <div className="message-container">{message}</div>
+          <button onClick={handleRestartActivity}>Restart</button>
         </>
       )}
     </div>
