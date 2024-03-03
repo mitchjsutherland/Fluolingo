@@ -29,12 +29,17 @@ function ImageGuess2p() {
     const [gameClock, setGameClock] = useState('hidden');
     const [timer, setTimer] = useState(20); 
     const [letterTiles, setLetterTiles] = useState([]);
+    const [gameComment, setGameComment] = useState('');
+    const [gameCommentText, setGameCommentText] = useState('Are you both ready?');
 
     const randomIndex = Math.floor(Math.random() * words.length);
     const randomWord = words[randomIndex];
     // let tiles = [];
     const [scoreBoard, setScoreBoard] = useState(0);
     const [scoreBoardBox, setScoreBoardBox] = useState('hidden');
+    const [scoreBoardPlayer1, setScoreBoardPlayer1] = useState(0);
+    const [scoreBoardPlayer2, setScoreBoardPlayer2] = useState(0);
+    const [currentPlayer, setCurrentPlayer] = useState(1);
 
 
 
@@ -59,10 +64,12 @@ function ImageGuess2p() {
         
         setPlayerControl('visible');
         setGameClock('visible');
+        setGameCommentText("Let's Lingo")
         setStartButton('Restart');
         setTimer(20);
         setScoreBoard(0);
-        setScoreBoardBox('hidden');
+        setScoreBoardBox('visible');
+        setCurrentPlayer(1);
 
         showImage();
         startTimer();
@@ -105,6 +112,7 @@ function ImageGuess2p() {
                 } else {
                     clearInterval(intervalId);
                     setPlayerControl('hidden');
+                    setGameCommentText("Game Over")
                     // gameOver();
                 }       
             });
@@ -127,7 +135,7 @@ function ImageGuess2p() {
 
             setGameFeedback(currentWord + ' is correct!');
             setScoreBoardBox('visible');
-            setScoreBoard(score => score + 1);
+            updateScore();
 
             const updatedTiles = letterTiles.map(tile => ({...tile, isGuessed: true }));
             setLetterTiles(updatedTiles);
@@ -140,10 +148,27 @@ function ImageGuess2p() {
 
         }   else {
 
-            setGameFeedback('Try again!')
+            setGameFeedback("That's not lingo!")
             updateLetterTiles(newUserAnswer);
+            switchTurn();
         };
 
+    };
+
+
+    const updateScore = () => {
+
+        if (currentPlayer === 1) {
+            setScoreBoardPlayer1(score => score + 1);
+        }   else {
+            setScoreBoardPlayer2(score => score + 1);
+        }
+
+    };
+
+    const switchTurn = () => {
+
+        setCurrentPlayer(prevPlayer => (prevPlayer === 1 ? 2 : 1));
     };
 
 
@@ -190,9 +215,9 @@ function ImageGuess2p() {
 
         <div className="gameMain">
 
-            <h1 className="mb-5">Let the games begin...</h1>
+            <h1 className={gameComment}>{gameCommentText}</h1>
 
-            <div id="gameBox">
+            <div id="gameBox" className="mt-5">
 
                 <div id="gameClock" className={gameClock}>
                     {/* <Countdown date={Date.now() + 10000} renderer={countDown} /> */}
@@ -220,7 +245,11 @@ function ImageGuess2p() {
                         {gameFeedback}
 
                         <div className={scoreBoardBox}>
-                            Lingo Score: {scoreBoard}
+
+                            Player 1 Score: {scoreBoardPlayer1}
+                            <br />
+                            Player 2 Score: {scoreBoardPlayer2}
+
                         </div>
 
 

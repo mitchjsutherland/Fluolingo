@@ -29,6 +29,8 @@ function ImageGuess() {
     const [gameClock, setGameClock] = useState('hidden');
     const [timer, setTimer] = useState(20); 
     const [letterTiles, setLetterTiles] = useState([]);
+    const [gameComment, setGameComment] = useState('');
+    const [gameCommentText, setGameCommentText] = useState('Are you ready?');
 
     const randomIndex = Math.floor(Math.random() * words.length);
     const randomWord = words[randomIndex];
@@ -59,6 +61,7 @@ function ImageGuess() {
         
         setPlayerControl('visible');
         setGameClock('visible');
+        setGameCommentText("Let's Lingo")
         setStartButton('Restart');
         setTimer(20);
         setScoreBoard(0);
@@ -105,6 +108,7 @@ function ImageGuess() {
                 } else {
                     clearInterval(intervalId);
                     setPlayerControl('hidden');
+                    setGameCommentText("Game Over")
                     // gameOver();
                 }       
             });
@@ -190,9 +194,9 @@ function ImageGuess() {
 
         <div className="gameMain">
 
-            <h1 className="mb-5">Let the games begin...</h1>
+            <h1 className={gameComment}>{gameCommentText}</h1>
 
-            <div id="gameBox">
+            <div id="gameBox" className="mt-5">
 
                 <div id="gameClock" className={gameClock}>
                     {/* <Countdown date={Date.now() + 10000} renderer={countDown} /> */}
