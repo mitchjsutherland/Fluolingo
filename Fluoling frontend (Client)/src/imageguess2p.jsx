@@ -18,7 +18,7 @@ const APIkey = 'caailYVBDQ7hpb4Ls9S49MSR0NrCdykg';
 // 'Beer' as a query term has shown a picture of a deer 
 
 
-function ImageGuess() {
+function ImageGuess2p() {
 
     const [currentWord, setCurrentWord] = useState('');
     const [imageURL, setImageURL] = useState('');
@@ -30,13 +30,18 @@ function ImageGuess() {
     const [timer, setTimer] = useState(20); 
     const [letterTiles, setLetterTiles] = useState([]);
     const [gameComment, setGameComment] = useState('');
-    const [gameCommentText, setGameCommentText] = useState('Are you ready?');
+    const [gameCommentText, setGameCommentText] = useState('Are you both ready?');
 
     const randomIndex = Math.floor(Math.random() * words.length);
     const randomWord = words[randomIndex];
     // let tiles = [];
     const [scoreBoard, setScoreBoard] = useState(0);
     const [scoreBoardBox, setScoreBoardBox] = useState('hidden');
+    const [scoreBoardPlayer1, setScoreBoardPlayer1] = useState(0);
+    const [scoreBoardPlayer2, setScoreBoardPlayer2] = useState(0);
+    const [currentPlayer, setCurrentPlayer] = useState(1);
+    const [scoreStyle1, setScoreStyle1] = useState('active');
+    const [scoreStyle2, setScoreStyle2] = useState('inactive');
 
 
 
@@ -65,7 +70,8 @@ function ImageGuess() {
         setStartButton('Restart');
         setTimer(20);
         setScoreBoard(0);
-        setScoreBoardBox('hidden');
+        setScoreBoardBox('visible');
+        setCurrentPlayer(1);
 
         showImage();
         startTimer();
@@ -131,7 +137,7 @@ function ImageGuess() {
 
             setGameFeedback(currentWord + ' is correct!');
             setScoreBoardBox('visible');
-            setScoreBoard(score => score + 1);
+            updateScore();
 
             const updatedTiles = letterTiles.map(tile => ({...tile, isGuessed: true }));
             setLetterTiles(updatedTiles);
@@ -144,10 +150,51 @@ function ImageGuess() {
 
         }   else {
 
-            setGameFeedback('Try again!')
+            setGameFeedback("That's not lingo!")
             updateLetterTiles(newUserAnswer);
+            switchTurn();
         };
 
+    };
+
+
+    const updateScore = () => {
+
+        if (currentPlayer === 1) {
+            setScoreBoardPlayer1(score => score + 1);
+        }   else {
+            setScoreBoardPlayer2(score => score + 1);
+        }
+
+    };
+
+    const switchTurn = () => {
+
+        setCurrentPlayer(prevPlayer => (prevPlayer === 1 ? 2 : 1));
+        playerIndicator();
+        
+        setGameCommentText(() => {
+            if (currentPlayer === 1) {
+                return "Player 2"
+            } else {
+                return "Player 1"
+            }
+        })
+
+    };
+
+    const playerIndicator = () => {
+
+        if (currentPlayer === 2) {
+            setScoreStyle1('active')
+            setScoreStyle2('inactive')
+        } else if (currentPlayer === 1) {
+            setScoreStyle2('active')
+            setScoreStyle1('inactive')
+        } else {
+            setScoreStyle1('inactive')
+            setScoreStyle2('inactive')
+        }
     };
 
 
@@ -222,9 +269,13 @@ function ImageGuess() {
                     <div className="gameFeedback my-3">
 
                         {gameFeedback}
+                        <br />
 
                         <div className={scoreBoardBox}>
-                            Lingo Score: {scoreBoard}
+
+                            <div className={scoreStyle1}>Player 1 Score: {scoreBoardPlayer1}</div>
+                            <div className={scoreStyle2}>Player 2 Score: {scoreBoardPlayer2}</div>
+
                         </div>
 
 
@@ -247,4 +298,4 @@ function ImageGuess() {
     );
 }
 
-export default ImageGuess;
+export default ImageGuess2p;
