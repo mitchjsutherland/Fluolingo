@@ -24,10 +24,10 @@ function Login() {
 
   return (
     <div>
-      <div className="logo-placeholder">
-        <img src="logo-placeholder.png" alt="Logo Placeholder" />
+      <div className="logo">
+        <img src="../public/flamingologo.svg" alt="logo" />
       </div>
-      <br /> {/* Add a break here */}
+      <h1 className="heading">Fluolingo</h1>
       <Card className="rounded p-3">
         <h2>Welcome!</h2>
         <Form onSubmit={handleSubmit}>
@@ -52,7 +52,7 @@ function Login() {
           <div>
             <br />
           </div>
-          <Button variant="primary" type="submit" className="custom-submit-button">
+          <Button variant="primary" type="submit" className="login-button">
             Login
           </Button>
         </Form>

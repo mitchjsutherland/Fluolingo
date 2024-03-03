@@ -1,25 +1,21 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
-
+import { Button } from 'react-bootstrap'; 
 import "./Home.css";
 
 function Home() {
-
   return (
-
     <div>
-
-      <h1>Fluolingo</h1>
-
+      <div className="logo">
+        <img src="../public/flamingologo.svg" alt="Logo" />
+      </div>
+      <h1 className="heading">Fluolingo</h1>
       <p>Welcome to Fluolingo!</p>
-
-      <Link to="/users/login">Login</Link>
-
+      <Link to="/users/login">
+        <Button variant="primary" className="login-button">Login</Button>  
+      </Link>
     </div>
-
   );
-
 }
 
 export default Home;

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Form, Button } from 'react-bootstrap'; // Import the necessary Bootstrap components
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import "./Register.css";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -24,7 +25,12 @@ function Register() {
   };
 
   return (
-    <Card className="p-4"> {/* Use the Card component from Bootstrap */}
+    <div>
+      <div className="logo">
+        <img src="../public/flamingologo.svg" alt="Logo" />
+      </div>
+      <h1 className="heading">Fluolingo</h1>
+    <Card className="p-4"> 
       <Card.Title as="h2">Register</Card.Title> {/* Use Card.Title for the heading */}
       <Form onSubmit={handleSubmit}>
         <Form.Group>
@@ -64,10 +70,12 @@ function Register() {
           />
           <br />
         </Form.Group>
-        <Button variant="primary" type="submit">Register</Button> 
+        <Button variant="primary" className="register-button" type="submit">Register</Button> 
       </Form>
+      <br />
       <p>Already registered? <Link to="/users/login">Login here</Link></p>
     </Card>
+    </div>
   );
 }
 

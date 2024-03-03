@@ -15,6 +15,9 @@ function Dashboard({ user }) {
 
   return (
     <div>
+      <div className="logo">
+        <img src="../public/flamingologo.svg" alt="Logo" />
+      </div>
       {showMessage && (
         <div>
           <h1>Hello {user}.</h1>
