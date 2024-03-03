@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import "./Register.css";
 
@@ -12,6 +12,39 @@ function Register() {
     confirmPassword: ''
   });
 
+  const navigate = useNavigate();
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/api/users/register', {
+        method: 'GET',
+        credentials: 'include' // Include cookies in the request
+      });
+
+      
+
+      if (response.ok) {
+        // User is authenticated, redirect to dashboard
+        const responseData = await response.json(); // Parse the response body as JSON
+        const redirectUrl = responseData.redirect; // Access the redirect property
+
+        window.location.href = redirectUrl;
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []); // Call the fetchData function only once when the component mounts
+
+
+
+  const [errors, setErrors] = useState([]);
+
+  
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -19,13 +52,46 @@ function Register() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your registration logic here
+  
+    try {
+      const response = await fetch('http://localhost:4000/api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        setErrors(errorData.errors);
+      }
+      
+      else{
+
+        navigate("/users/login", {state: {successMessage: true}});
+
+      }
+  
+      // Registration successful, redirect or perform any other action as needed
+    } catch (error) {
+      console.error('Error during registration:', error);
+      // Handle error, such as displaying an error message to the user
+    }
   };
 
   return (
     <div>
+        {errors.length > 0 && (
+        <div className="error-messages">
+          <h2>Error(s) occurred during registration:</h2>
+          {errors.map((error, index) => (
+            <p key={index}>{error.message}</p>
+          ))}
+        </div>
+      )}
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <div>
