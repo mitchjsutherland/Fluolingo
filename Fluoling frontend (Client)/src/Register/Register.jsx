@@ -91,18 +91,22 @@ function Register() {
 
   return (
 
-    
+    <div>
         {errors.length > 0 && (
         <div className="error-messages">
           <h2>Error(s) occurred during registration:</h2>
           {errors.map((error, index) => (
             <p key={index}>{error.message}</p>
           ))}
+        </div>)}
         
-      )}
+     
     
 
     <Card className="p-4"> {/* Use the Card component from Bootstrap */}
+
+
+    
       <Card.Title as="h2">Register</Card.Title> {/* Use Card.Title for the heading */}
       <Form onSubmit={handleSubmit}>
         <Form.Group>
@@ -147,6 +151,7 @@ function Register() {
       </Form>
       <p>Already registered? <Link to="/users/login">Login here</Link></p>
     </Card>
+    </div>
   );
 }
 
