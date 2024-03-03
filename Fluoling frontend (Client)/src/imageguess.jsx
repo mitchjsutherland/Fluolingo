@@ -1,13 +1,22 @@
+// External import
 import React, { useState, useEffect } from 'react';
-
 import { Link } from 'react-router-dom';
+// import Countdown from 'react-countdown';
 
+// Local import
 import './imageguess.css'
+import LetterTile from './lettertiles'; 
+
 //import enWordArr from '../words(en)';
 
+
+// GIPHY API Key
 const APIkey = 'caailYVBDQ7hpb4Ls9S49MSR0NrCdykg';
 
-//const wordArr = ['bear', 'fox', 'turtle', 'flamingo'];
+
+// Bug notes:
+// 'Beer' as a query term has shown a picture of a deer 
+
 
 function ImageGuess() {
 
@@ -17,8 +26,17 @@ function ImageGuess() {
     const [startButton, setStartButton] = useState('Start');
     const [gameFeedback, setGameFeedback] = useState('');
     const [words, setWords] = useState([]);
+    const [gameClock, setGameClock] = useState('hidden');
+    const [timer, setTimer] = useState(20); 
+    const [letterTiles, setLetterTiles] = useState([]);
+
+    const randomIndex = Math.floor(Math.random() * words.length);
+    const randomWord = words[randomIndex];
+    // let tiles = [];
+
 
     useEffect(() => {
+        
         fetch('http://localhost:4000/api/words/english')
           .then(response => response.json())
           .then(data => {
@@ -27,23 +45,27 @@ function ImageGuess() {
           .catch(error => {
             console.error('Error fetching words:', error);
           });
-      }, []);
+    }, []);
+
 
     const startGame = () => {
-
-        console.log(words);
-
-
-        const randomIndex = Math.floor(Math.random() * words.length);
-        const randomWord = words[randomIndex];
-
-        console.log(randomWord);
-
-        setCurrentWord(randomWord);
-        setPlayerControl('visible');
-        setStartButton('Restart');
         
-    
+        setPlayerControl('visible');
+        setGameClock('visible');
+        setStartButton('Restart');
+        setTimer(20);
+
+        showImage();
+        startTimer();
+        
+    };
+
+
+    const showImage = () => {
+
+        // console.log(words);
+        console.log(randomWord);
+        setCurrentWord(randomWord);
 
         const queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${APIkey}&q=${randomWord}&limit=1&offset=0&rating=g&lang=en&bundle=messaging_non_clips`;
 
@@ -57,25 +79,95 @@ function ImageGuess() {
         setImageURL(data.data[0]['images']['original']['url']);
         });
 
+        createLetterTiles();
+        
+    }
+
+
+    const startTimer = () => {
+        
+        const intervalId = setInterval(() => {
+
+            setTimer(prevTimer => {
+
+                if (prevTimer > 0) {
+                    return prevTimer - 1
+
+                } else {
+                    clearInterval(intervalId);
+                    setPlayerControl('hidden');
+                    // gameOver();
+                }       
+            });
+        }, 1000);
+
     };
 
-    const checkWord = () => {
+
+    const checkWord = (event) => {
+
+        // event.preventDefault();
 
         const userAnswer = document.getElementById('playerInput').value;
+        const newUserAnswer = userAnswer.charAt(0).toUpperCase() + userAnswer.slice(1);
 
         // console.log(userAnswer);
+        // console.log(newUserAnswer);
 
-        if (userAnswer === currentWord) {
+        if (newUserAnswer === currentWord) {
+
             setGameFeedback(currentWord + ' is correct!');
+
+            const updatedTiles = letterTiles.map(tile => ({...tile, isGuessed: true }));
+            setLetterTiles(updatedTiles);
+
             setTimeout(() => {
                 // nextQuestion();
-                startGame();
-                setGameFeedback('');
-              }, "2000");
+            showImage();
+            setGameFeedback('');
+            }, "2000");
+
         }   else {
-                setGameFeedback('Try again!')
-            };
+
+            setGameFeedback('Try again!')
+            updateLetterTiles(newUserAnswer);
+        };
+
     };
+
+
+    const createLetterTiles = () => {
+
+        // console.log(randomWord);
+
+        const newTiles = randomWord.split('').map((letter, index) => ({
+
+            id: index,
+            letter,
+            isGuessed: false,
+
+        }));
+
+        console.log(newTiles);
+        setLetterTiles(newTiles);
+
+        // tiles.forEach(tile => {
+        //     console.log(tile.letter)
+        // });
+
+        // setLetterTiles(tiles);
+ 
+    };
+
+
+    const updateLetterTiles = (userAnswer) => {
+
+        const updatedTiles = letterTiles.map(tile => ({...tile, isGuessed: userAnswer.charAt(tile.id) === tile.letter}));
+
+        setLetterTiles(updatedTiles);
+
+    };
+
 
     const handleExit = () => {
         // Refresh the page
@@ -91,11 +183,24 @@ function ImageGuess() {
 
             <div id="gameBox">
 
-                <div id="imageBox">
+                <div id="gameClock" className={gameClock}>
+                    {/* <Countdown date={Date.now() + 10000} renderer={countDown} /> */}
+                    {timer} 
+                </div>
+
+                <div id="imageBox" className="mt-5">
                     {imageURL && <img src={imageURL} alt="Giphy" />}
                 </div>
 
                 {/* <div id="wordBox">{currentWord}</div> */}
+
+                <div id="letterTiles" className="letterTiles">
+
+                    {letterTiles.map(({ id, letter, isGuessed }) => (
+                        <LetterTile key={id} letter={isGuessed ? letter : ' '} isGuessed={isGuessed} />
+                    ))}
+                    
+                </div>
 
                 <div id="guessBox" className="mt-5">
 

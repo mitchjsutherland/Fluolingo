@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './Login/Login';
 import Dashboard from './Dashboard/Dashboard';
 import Home from './Home/Home';
+import MultiChoice from './components/MultiChoice';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <div>
         <Routes>
           <Route exact path="/" element={<Home />} />
+          <Route path="/multichoice" element={<MultiChoice />} />
           <Route path="/users/register" element={<Register />} />
           <Route path="/users/login" element={<Login />} />
           <Route path="/users/dashboard/:email?" element={<Dashboard />} />

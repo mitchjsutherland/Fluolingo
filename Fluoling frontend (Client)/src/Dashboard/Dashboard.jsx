@@ -1,12 +1,18 @@
+
 import React, {useState, useEffect} from 'react';
 
 import { useLocation } from 'react-router';
 
 import { useParams } from 'react-router-dom';
 
-import "./Dashboard.css";
 
-import ImageGuess from "../imageguess";
+import { Link } from 'react-router-dom';
+import { Card, Form, Button } from 'react-bootstrap'; // Import the necessary Bootstrap components
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import './Dashboard.css'; // Import the custom CSS file
+
+
+
 
 function Dashboard({user}) {
     const [selectedGame, setSelectedGame] = useState(null);
@@ -124,9 +130,14 @@ function Dashboard({user}) {
           {selectedGame === 'Image Guess' && <ImageGuess />}
           {selectedGame === 'Game2' && <LanguageGame2 />}
           {/* Add more game components as needed */}
+
+ 
+
         </div>
-      </div>
-    );
-  }
-  
-  export default Dashboard;
+      )}
+      
+    </div>
+  );
+}
+
+export default Dashboard;
