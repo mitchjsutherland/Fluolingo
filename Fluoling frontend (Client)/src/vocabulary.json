@@ -25,68 +25,68 @@
         }
       },
       {
-        "english_search_term": "beach",
+        "english_search_term": "apple",
         "incorrect_answers": {
           "french": ["Answer1", "Answer3", "Answer4"],
           "czech": ["Answer2", "Answer3", "Answer4"],
           "turkish": ["Answer1", "Answer3", "Answer4"]
         },
         "correct_answer": {
-          "french": "Plage",
-          "czech": "Pláž",
-          "turkish": "Plaj"
+          "french": "Pomme",
+          "czech": "Jablko",
+          "turkish": "Elma"
         }
       },
       {
-        "english_search_term": "beach",
+        "english_search_term": "Postcard",
         "incorrect_answers": {
           "french": ["Answer1", "Answer3", "Answer4"],
           "czech": ["Answer2", "Answer3", "Answer4"],
           "turkish": ["Answer1", "Answer3", "Answer4"]
         },
         "correct_answer": {
-          "french": "Plage",
-          "czech": "Pláž",
-          "turkish": "Plaj"
+          "french": "Carte postale",
+          "czech": "Pohled",
+          "turkish": "Pohled"
         }
       },
       {
-        "english_search_term": "beach",
+        "english_search_term": "Box",
         "incorrect_answers": {
           "french": ["Answer1", "Answer3", "Answer4"],
           "czech": ["Answer2", "Answer3", "Answer4"],
           "turkish": ["Answer1", "Answer3", "Answer4"]
         },
         "correct_answer": {
-          "french": "Plage",
-          "czech": "Pláž",
-          "turkish": "Plaj"
+          "french": "Boîte",
+          "czech": "Krabice",
+          "turkish": "Kutu"
         }
       },
       {
-        "english_search_term": "beach",
+        "english_search_term": "Receipt",
         "incorrect_answers": {
           "french": ["Answer1", "Answer3", "Answer4"],
           "czech": ["Answer2", "Answer3", "Answer4"],
           "turkish": ["Answer1", "Answer3", "Answer4"]
         },
         "correct_answer": {
-          "french": "Plage",
-          "czech": "Pláž",
-          "turkish": "Plaj"
+          "french": "Reçu",
+          "czech": "Doklad",
+          "turkish": "Fiş"
         }
       },
       {
-        "english_search_term": "beach",
+        "english_search_term": "Computer",
         "incorrect_answers": {
           "french": ["Answer1", "Answer3", "Answer4"],
           "czech": ["Answer2", "Answer3", "Answer4"],
           "turkish": ["Answer1", "Answer3", "Answer4"]
         },
         "correct_answer": {
-          "french": "Plage",
-          "czech": "Pláž",
-          "turkish": "Plaj"
+          "french": "Ordinateur",
+          "czech": "Počítač",
+          "turkish": "Bilgisayar"
         }
       }
      

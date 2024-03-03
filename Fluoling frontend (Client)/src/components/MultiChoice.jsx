@@ -1,4 +1,5 @@
 // MultiChoice.jsx
+
 import React, { useState, useEffect } from 'react';
 import ImageDisplay from './ImageDisplay';
 import MultipleChoiceAnswers from './MultipleChoiceAnswers';
@@ -13,7 +14,7 @@ const languageFlags = {
   Turkish: '🇹🇷'
 };
 
-const APIkey = 'caailYVBDQ7hpb4Ls9S49MSR0NrCdykg';
+const APIkey = 'g6UXY6FAX2jvOSVhDEvO4HSHmZCyZ3XQ';
 
 const App = () => {
   const [image, setImage] = useState('');
@@ -60,17 +61,17 @@ const App = () => {
 
   const fetchData = async () => {
     try {
-      const imageUrl = await fetchImage();
-      setImage(imageUrl);
+      const fetchedQuestions = await fetchQuestions();
+      if (fetchedQuestions.length > 0) {
+        const selectedQuestion = fetchedQuestions[Math.floor(Math.random() * fetchedQuestions.length)];
+        const imageUrl = await fetchImage(selectedQuestion.english_search_term);
+        setImage(imageUrl);
 
-      const fetchedAnswers = await fetchQuestions();
-      if (fetchedAnswers.length > 0) {
-        const selectedQuestion = fetchedAnswers[Math.floor(Math.random() * fetchedAnswers.length)];
         const allAnswers = [...selectedQuestion.incorrect_answers[selectedLanguage.toLowerCase()], selectedQuestion.correct_answer[selectedLanguage.toLowerCase()]];
         setAnswers(shuffleArray(allAnswers)); // Shuffle the answers array
         setCorrectAnswer(selectedQuestion.correct_answer[selectedLanguage.toLowerCase()]);
       } else {
-        console.error('No answers found for the selected language:', selectedLanguage.toLowerCase());
+        console.error('No questions found');
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -132,7 +133,7 @@ const App = () => {
         <button onClick={() => handleStartActivity('Easy')}>Start Activity</button>
       ) : (
         <>
-          <ImageDisplay imageUrl={image} />
+          <ImageDisplay imageUrl={image} size="800px" /> {/* Added image display with size prop */}
           <MultipleChoiceAnswers answers={answers} handleAnswerClick={handleAnswerClick} />
           <div className="score-container">Score: {score}</div>
           <div className="timer-container">Time Left: {timeLeft}</div>
