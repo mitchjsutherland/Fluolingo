@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 
 import "./Dashboard.css";
 
-import ImageGuess from "../imageguess";
+import ImageGuessMode from '../imageguessmode';
+
 
 function Dashboard({ user }) {
     const [selectedGame, setSelectedGame] = useState(null);
@@ -23,7 +24,7 @@ function Dashboard({ user }) {
           {/* Add more game selection buttons as needed */}
         </div></div>}
         <div>
-          {selectedGame === 'Image Guess' && <ImageGuess />}
+          {selectedGame === 'Image Guess' && <ImageGuessMode />}
           {selectedGame === 'Game2' && <LanguageGame2 />}
           {/* Add more game components as needed */}
         </div>

@@ -18,7 +18,7 @@ const APIkey = 'caailYVBDQ7hpb4Ls9S49MSR0NrCdykg';
 // 'Beer' as a query term has shown a picture of a deer 
 
 
-function ImageGuess() {
+function ImageGuess2p() {
 
     const [currentWord, setCurrentWord] = useState('');
     const [imageURL, setImageURL] = useState('');
@@ -243,4 +243,4 @@ function ImageGuess() {
     );
 }
 
-export default ImageGuess;
+export default ImageGuess2p;
