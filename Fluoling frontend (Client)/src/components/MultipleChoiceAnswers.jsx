@@ -3,9 +3,11 @@ import React from 'react';
 
 const MultipleChoiceAnswers = ({ answers, handleAnswerClick }) => {
   return (
-    <div>
+    <div className="answer-container">
       {answers.map((answer, index) => (
-        <button key={index} onClick={() => handleAnswerClick(answer)}>{answer}</button>
+        <button key={index} className="answer-button" onClick={() => handleAnswerClick(answer)}>
+          {answer}
+        </button>
       ))}
     </div>
   );

@@ -67,6 +67,12 @@ const App = () => {
       setTimeLeft(timeLeft - 5);
       setMessage('INCORRECT!');
     }
+
+    // Clear the message after a delay
+    setTimeout(() => {
+      setMessage('');
+    }, 1000);
+
     fetchData(); // Fetch new question
   };
 
@@ -81,9 +87,17 @@ const App = () => {
   return (
     <div className="app-container">
       {!activityStarted ? (
-        <button onClick={handleStartActivity}>Start Activity</button>
+        <div className="startActivity-container">
+          <img src="../public/flamingo-logo.svg" alt="Fluolingo Logo" className="logo" />
+          <h1 className="heading">Fluolingo</h1>
+          <button className="startActivity-button" onClick={handleStartActivity}>Start Activity</button>
+        </div>
       ) : (
         <>
+          <div>
+          <img src="../public/flamingo-logo.svg" alt="Fluolingo Logo" className="logo" />
+            <h1 className="heading">Fluolingo</h1>
+          </div>
           <div className="language-selector">
             <button className={`language-button ${selectedLanguage === 'French' ? 'selected' : ''}`} onClick={() => handleLanguageChange('French')}>French</button>
             <button className={`language-button ${selectedLanguage === 'Czech' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Czech')}>Czech</button>
