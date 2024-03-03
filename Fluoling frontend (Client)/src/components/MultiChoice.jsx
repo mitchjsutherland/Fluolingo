@@ -1,9 +1,17 @@
+// App.jsx
 import React, { useState, useEffect } from 'react';
 import ImageDisplay from './ImageDisplay';
 import MultipleChoiceAnswers from './MultipleChoiceAnswers';
 import fetchQuestions from './fetchAnswers';
 import fetchImage from './fetchImage';
 import './MultiChoice.css'; // Import your CSS file
+
+// Map of language codes to flag emoji
+const languageFlags = {
+  French: '🇫🇷',
+  Czech: '🇨🇿',
+  Turkish: '🇹🇷'
+};
 
 const APIkey = 'caailYVBDQ7hpb4Ls9S49MSR0NrCdykg';
 
@@ -102,6 +110,9 @@ const App = () => {
         <button className={`language-button ${selectedLanguage === 'Czech' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Czech')}>Czech</button>
         <button className={`language-button ${selectedLanguage === 'Turkish' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Turkish')}>Turkish</button>
       </div>
+      {activityStarted && (
+        <div className="flag-display">{languageFlags[selectedLanguage]}</div>
+      )}
       {!activityStarted ? (
         <button onClick={handleStartActivity}>Start Activity</button>
       ) : (
