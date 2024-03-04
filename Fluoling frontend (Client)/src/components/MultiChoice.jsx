@@ -179,7 +179,7 @@ const App = () => {
               <div className="score-container">
               Score: {score} / {difficulty === 'Easy' ? 30 : difficulty === 'Normal' ? 65 : 100}
               </div>
-              <div className="timer-container">Time Left: {timeLeft}</div>
+              <div className="timer-container">Time Left: {timeLeft <= 10 ? <span className="hot-pink">{timeLeft}</span> : timeLeft}</div>
               <div className="message-container">{message}</div>
               <button onClick={handleRestartGame}>Restart Game</button>
               <button onClick={handleExitGame}>Exit Game</button>

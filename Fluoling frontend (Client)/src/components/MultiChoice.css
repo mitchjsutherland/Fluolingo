@@ -166,3 +166,7 @@
 .difficulty-button.expert:hover:after {
   content: "Score 100 in 90 seconds.";
 }
+
+.hot-pink {
+  color: hotpink;
+}
