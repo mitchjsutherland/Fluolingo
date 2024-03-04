@@ -153,8 +153,11 @@ const App = () => {
         <button className={`difficulty-button expert ${difficulty === 'Expert' ? 'selected' : ''}`} onClick={() => handleStartActivity('Expert')} title="Score 100 in 90 seconds.">Expert</button>
       </div>
       {activityStarted && (
-        <div className="flag-display">{languageFlags[selectedLanguage]}</div>
-      )}
+  <div className="flag-display">
+    {languageFlags[selectedLanguage]} 
+    <span>{difficulty === 'Easy' ? '🐥' : difficulty === 'Normal' ? '🦜' : '🦩'}</span> {/* Display difficulty symbol */}
+  </div>
+)}
       {!activityStarted ? null : (
         <>
           {message === 'You won!' || message.startsWith('You lose!') ? (
@@ -173,7 +176,8 @@ const App = () => {
             <>
               <ImageDisplay imageUrl={image} size="800px" />
               <MultipleChoiceAnswers answers={answers} handleAnswerClick={handleAnswerClick} />
-              <div className="score-container">Score: {score}</div>
+              <div className="score-container">
+                Score: {score}</div>
               <div className="timer-container">Time Left: {timeLeft}</div>
               <div className="message-container">{message}</div>
               <button onClick={handleRestartGame}>Restart Game</button>
