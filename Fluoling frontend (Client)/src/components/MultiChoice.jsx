@@ -39,10 +39,17 @@ const App = () => {
               setMessage('You won!');
             } else {
               setMessage('Time\'s up!');
+              if (score < 30 && difficulty === 'Easy') {
+                setMessage('You lose! Your final score: ' + score);
+              } else if (score < 65 && difficulty === 'Normal') {
+                setMessage('You lose! Your final score: ' + score);
+              } else if (score < 100 && difficulty === 'Expert') {
+                setMessage('You lose! Your final score: ' + score);
+              }
             }
           } else {
             if (prevTimeLeft === 45) { // Adjusted condition to trigger at 45 seconds
-              setMessage('Hurry up! Time is halfway done.');
+              setMessage('Hurry! Time is halfway done.');
               setTimeout(() => {
                 setMessage('');
               }, 2000); // Clear the message after 2 seconds
@@ -51,11 +58,11 @@ const App = () => {
           }
         });
       }, 1000);
-
+  
       return () => clearInterval(timer);
     }
   }, [activityStarted, score, difficulty]);
-
+  
   useEffect(() => {
     if (activityStarted) {
       fetchData();
@@ -141,9 +148,9 @@ const App = () => {
         <button className={`language-button ${selectedLanguage === 'Turkish' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Turkish')}>Turkish</button>
       </div>
       <div className="difficulty-selector">
-      <button className={`difficulty-button easy ${difficulty === 'Easy' ? 'selected' : ''}`} onClick={() => handleStartActivity('Easy')} title="Score 30 in 90 seconds.">Easy</button>
-      <button className={`difficulty-button normal ${difficulty === 'Normal' ? 'selected' : ''}`} onClick={() => handleStartActivity('Normal')} title="Score 65 in 90 seconds.">Normal</button>
-      <button className={`difficulty-button expert ${difficulty === 'Expert' ? 'selected' : ''}`} onClick={() => handleStartActivity('Expert')} title="Score 100 in 90 seconds.">Expert</button>
+        <button className={`difficulty-button easy ${difficulty === 'Easy' ? 'selected' : ''}`} onClick={() => handleStartActivity('Easy')} title="Score 30 in 90 seconds.">Easy</button>
+        <button className={`difficulty-button normal ${difficulty === 'Normal' ? 'selected' : ''}`} onClick={() => handleStartActivity('Normal')} title="Score 65 in 90 seconds.">Normal</button>
+        <button className={`difficulty-button expert ${difficulty === 'Expert' ? 'selected' : ''}`} onClick={() => handleStartActivity('Expert')} title="Score 100 in 90 seconds.">Expert</button>
       </div>
       {activityStarted && (
         <div className="flag-display">{languageFlags[selectedLanguage]}</div>
@@ -154,10 +161,12 @@ const App = () => {
         </>
       ) : (
         <>
-          {message === 'You won!' ? (
+          {message === 'You won!' || message.startsWith('You lose!') ? (
             <>
               <h2>{message}</h2>
-              <p>Your final score: {score}</p>
+              {message.startsWith('You lose!') && (
+                <p>Your final score: {score}/{difficulty === 'Easy' ? 30 : difficulty === 'Normal' ? 65 : 100}</p>
+              )}
               <button onClick={handleRestartGame}>Restart Game</button>
               <button onClick={handleExitGame}>Exit Game</button>
             </>
@@ -175,7 +184,7 @@ const App = () => {
         </>
       )}
     </div>
-  );
+  );  
 };
 
 export default App;
