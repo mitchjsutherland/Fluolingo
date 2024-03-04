@@ -26,37 +26,37 @@ const App = () => {
   const [message, setMessage] = useState('');
   const [difficulty, setDifficulty] = useState('Easy');
 
-  useEffect(() => {
-    if (activityStarted) {
-      const timer = setInterval(() => {
-        setTimeLeft(prevTimeLeft => {
-          if (prevTimeLeft === 0 || (difficulty === 'Easy' && score >= 30) || (difficulty === 'Normal' && score >= 65) || (difficulty === 'Expert' && score >= 100)) {
-            clearInterval(timer);
-            if (difficulty === 'Easy' && score >= 30) {
-              setMessage('You won!');
-            } else if (difficulty === 'Normal' && score >= 65) {
-              setMessage('You won!');
-            } else if (difficulty === 'Expert' && score >= 100) {
-              setMessage('You won!');
-            } else {
-              setMessage('Time\'s up!');
-            }
+useEffect(() => {
+  if (activityStarted) {
+    const timer = setInterval(() => {
+      setTimeLeft(prevTimeLeft => {
+        if (prevTimeLeft === 0 || (difficulty === 'Easy' && score >= 30) || (difficulty === 'Normal' && score >= 65) || (difficulty === 'Expert' && score >= 100)) {
+          clearInterval(timer);
+          if (difficulty === 'Easy' && score >= 30) {
+            setMessage('You won!');
+          } else if (difficulty === 'Normal' && score >= 65) {
+            setMessage('You won!');
+          } else if (difficulty === 'Expert' && score >= 100) {
+            setMessage('You won!');
           } else {
-            if (prevTimeLeft === 45) { // Adjusted condition to trigger at 45 seconds
-              setMessage('Hurry up! Time is halfway done.');
-              setTimeout(() => {
-                setMessage('');
-              }, 2000); // Clear the message after 2 seconds
-            }
-            return prevTimeLeft - 1;
+            setMessage('Time\'s up!');
           }
-        });
-      }, 1000);
-    
-      return () => clearInterval(timer);
-    }
-  }, [activityStarted, score, difficulty]);
+        } else {
+          if (prevTimeLeft === 45) { // Adjusted condition to trigger at 45 seconds
+            setMessage('Hurry up! Time is halfway done.');
+            setTimeout(() => {
+              setMessage('');
+            }, 2000); // Clear the message after 2 seconds
+          }
+          return prevTimeLeft - 1;
+        }
+      });
+    }, 1000);
   
+    return () => clearInterval(timer);
+  }
+}, [activityStarted, score, difficulty]);
+
   
   
   
@@ -89,10 +89,10 @@ const App = () => {
   const handleAnswerClick = async (selectedAnswer) => {
     if (selectedAnswer === correctAnswer) {
       setScore(score + 1);
-      setMessage('CORRECT!');
+      setMessage('CORRECT! +1 POINT');
     } else {
       setScore(Math.max(0, score - 1));
-      setMessage('INCORRECT!');
+      setMessage('INCORRECT! -1 POINT');
     }
 
 
@@ -144,9 +144,9 @@ const App = () => {
         <button className={`language-button ${selectedLanguage === 'Turkish' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Turkish')}>Turkish</button>
       </div>
       <div className="difficulty-selector">
-        <button className={`difficulty-button ${difficulty === 'Easy' ? 'selected' : ''}`} onClick={() => handleStartActivity('Easy')} title="Easy: Score 30 in 90 seconds.">Easy</button>
-        <button className={`difficulty-button ${difficulty === 'Normal' ? 'selected' : ''}`} onClick={() => handleStartActivity('Normal')} title="Normal: Score 65 in 90 seconds.">Normal</button>
-        <button className={`difficulty-button ${difficulty === 'Expert' ? 'selected' : ''}`} onClick={() => handleStartActivity('Expert')} title="Expert: Score 100 in 90 seconds..">Expert</button>
+        <button className={`difficulty-button ${difficulty === 'Easy' ? 'selected' : ''}`} onClick={() => handleStartActivity('Easy')} title="Score 30 in 90 seconds.">Easy</button>
+        <button className={`difficulty-button ${difficulty === 'Normal' ? 'selected' : ''}`} onClick={() => handleStartActivity('Normal')} title="Score 65 in 90 seconds.">Normal</button>
+        <button className={`difficulty-button ${difficulty === 'Expert' ? 'selected' : ''}`} onClick={() => handleStartActivity('Expert')} title="Score 100 in 90 seconds..">Expert</button>
       </div>
       {activityStarted && (
         <div className="flag-display">{languageFlags[selectedLanguage]}</div>
