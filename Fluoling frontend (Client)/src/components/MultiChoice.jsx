@@ -12,7 +12,8 @@ const languageFlags = {
   Turkish: '🇹🇷'
 };
 
-const APIkey = 'g6UXY6FAX2jvOSVhDEvO4HSHmZCyZ3XQ';
+const imageAPIKey = 'g6UXY6FAX2jvOSVhDEvO4HSHmZCyZ3XQ';
+const textToSpeechAPIKey = 'ccf851b8ae8a422c8c780fcce21b6f66';
 
 const App = () => {
   const [image, setImage] = useState('');
@@ -58,11 +59,11 @@ const App = () => {
           }
         });
       }, 1000);
-  
+
       return () => clearInterval(timer);
     }
   }, [activityStarted, score, difficulty]);
-  
+
   useEffect(() => {
     if (activityStarted) {
       fetchData();
@@ -74,7 +75,7 @@ const App = () => {
       const fetchedQuestions = await fetchQuestions();
       if (fetchedQuestions.length > 0) {
         const selectedQuestion = fetchedQuestions[Math.floor(Math.random() * fetchedQuestions.length)];
-        const imageUrl = await fetchImage(selectedQuestion.english_search_term);
+        const imageUrl = await fetchImage(selectedQuestion.english_search_term, imageAPIKey);
         setImage(imageUrl);
 
         const allAnswers = [...selectedQuestion.incorrect_answers[selectedLanguage.toLowerCase()], selectedQuestion.correct_answer[selectedLanguage.toLowerCase()]];
@@ -92,6 +93,9 @@ const App = () => {
     if (selectedAnswer === correctAnswer) {
       setScore(score + 1);
       setMessage('CORRECT! +1 POINT');
+
+      // Text-to-speech integration
+      speakAnswer(selectedLanguage, correctAnswer);
     } else {
       setScore(Math.max(0, score - 1));
       setMessage('INCORRECT! -1 POINT');
@@ -103,6 +107,57 @@ const App = () => {
     }, 1000);
 
     fetchData(); // Fetch new question
+  };
+
+  const speakAnswer = (language, answer) => {
+    const languageCode = getLanguageCode(language);
+    const voiceName = getVoiceForLanguage(language);
+
+    if (!languageCode || !voiceName) {
+      console.error('Unsupported language:', language);
+      return;
+    }
+
+    const utterance = new SpeechSynthesisUtterance(answer.toLowerCase());
+    utterance.lang = languageCode;
+    utterance.voice = getVoiceByName(voiceName);
+
+    try {
+      window.speechSynthesis.speak(utterance);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const getLanguageCode = (language) => {
+    switch (language) {
+      case 'Czech':
+        return 'cs-CZ';
+      case 'French':
+        return 'fr-FR';
+      case 'Turkish':
+        return 'tr-TR';
+      default:
+        return null;
+    }
+  };
+
+  const getVoiceForLanguage = (language) => {
+    switch (language) {
+      case 'Czech':
+        return 'Josef';
+      case 'French':
+        return 'Bette';
+      case 'Turkish':
+        return 'Omer';
+      default:
+        return null;
+    }
+  };
+
+  const getVoiceByName = (name) => {
+    const voices = window.speechSynthesis.getVoices();
+    return voices.find(voice => voice.name === name);
   };
 
   const handleLanguageChange = (language) => {
@@ -153,11 +208,11 @@ const App = () => {
         <button className={`difficulty-button expert ${difficulty === 'Expert' ? 'selected' : ''}`} onClick={() => handleStartActivity('Expert')} title="Score 100 in 90 seconds.">Expert</button>
       </div>
       {activityStarted && (
-  <div className="flag-display">
-    {languageFlags[selectedLanguage]} 
-    <span>{difficulty === 'Beginner' ? '🐥' : difficulty === 'Learner' ? '🦜' : '🦩'}</span> {/* Display difficulty symbol */}
-  </div>
-)}
+        <div className="flag-display">
+          {languageFlags[selectedLanguage]} 
+          <span>{difficulty === 'Beginner' ? '🐥' : difficulty === 'Learner' ? '🦜' : '🦩'}</span> {/* Display difficulty symbol */}
+        </div>
+      )}
       {!activityStarted ? null : (
         <>
           {message === 'You won!' || message.startsWith('You lose!') ? (
@@ -177,7 +232,7 @@ const App = () => {
               <ImageDisplay imageUrl={image} size="800px" />
               <MultipleChoiceAnswers answers={answers} handleAnswerClick={handleAnswerClick} />
               <div className="score-container">
-              Score: {score} / {difficulty === 'Beginner' ? 30 : difficulty === 'Learner' ? 65 : 100}
+                Score: {score} / {difficulty === 'Beginner' ? 30 : difficulty === 'Learner' ? 65 : 100}
               </div>
               <div className="timer-container">Time Left: {timeLeft <= 10 ? <span className="hot-pink">{timeLeft}</span> : timeLeft}</div>
               <div className="message-container">{message}</div>
@@ -189,7 +244,6 @@ const App = () => {
       )}
     </div>
   );
-  
 };
 
 export default App;
