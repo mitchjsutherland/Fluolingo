@@ -137,7 +137,7 @@ function Dashboard({user}) {
         </div>}
         <div>
 
-          {selectedGame === 'Image Guess' && <ImageGuess />}
+          {selectedGame === 'Image Guess' && <ImageGuessMode />}
           {selectedGame === 'Game2' && <App />}
 
           {/* Add more game components as needed */}
