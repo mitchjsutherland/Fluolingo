@@ -49,7 +49,7 @@ const App = () => {
             }
           } else {
             if (prevTimeLeft === 45) { // Adjusted condition to trigger at 45 seconds
-              setMessage('Hurry! Time is halfway done.');
+              setMessage('Halfway, hurry!');
               setTimeout(() => {
                 setMessage('');
               }, 2000); // Clear the message after 2 seconds
@@ -177,7 +177,8 @@ const App = () => {
               <ImageDisplay imageUrl={image} size="800px" />
               <MultipleChoiceAnswers answers={answers} handleAnswerClick={handleAnswerClick} />
               <div className="score-container">
-                Score: {score}</div>
+              Score: {score} / {difficulty === 'Easy' ? 30 : difficulty === 'Normal' ? 65 : 100}
+              </div>
               <div className="timer-container">Time Left: {timeLeft}</div>
               <div className="message-container">{message}</div>
               <button onClick={handleRestartGame}>Restart Game</button>
