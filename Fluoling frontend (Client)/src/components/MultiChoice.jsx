@@ -161,7 +161,10 @@ const App = () => {
             <>
               <h2>{message}</h2>
               {message.startsWith('You lose!') && (
-                <p>Better luck next time!: {score}/{difficulty === 'Easy' ? 30 : difficulty === 'Normal' ? 65 : 100}</p>
+                <p>Better luck next time: {score}/{difficulty === 'Easy' ? 30 : difficulty === 'Normal' ? 65 : 100}</p>
+              )}
+              {message === 'You won!' && (
+                <p>Congratulations! You scored: {score}/{difficulty === 'Easy' ? 30 : difficulty === 'Normal' ? 65 : 100}</p>
               )}
               <button onClick={handleRestartGame}>Restart Game</button>
               <button onClick={handleExitGame}>Exit Game</button>
