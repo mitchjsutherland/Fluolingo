@@ -42,14 +42,24 @@ const App = () => {
               setMessage('Time\'s up!');
             }
           } else {
+            if (prevTimeLeft === 45) { // Adjusted condition to trigger at 45 seconds
+              setMessage('Hurry up! Time is halfway done.');
+              setTimeout(() => {
+                setMessage('');
+              }, 2000); // Clear the message after 2 seconds
+            }
             return prevTimeLeft - 1;
           }
         });
       }, 1000);
-
+    
       return () => clearInterval(timer);
     }
   }, [activityStarted, score, difficulty]);
+  
+  
+  
+  
 
   useEffect(() => {
     if (activityStarted) {
