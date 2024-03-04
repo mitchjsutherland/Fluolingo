@@ -121,6 +121,40 @@ app.post("/api/users/logout", (req, res) => {
 });
 
 
+app.get("/api/words", (req,res) => {
+
+  pool.query(
+
+    `SELECT * FROM questions`,
+
+    (err, results) => {
+
+      if(err){
+
+        throw err;
+
+      }
+
+      const words = results.rows.map(row => ({
+        english_search_term: row.vocabulary_word_en,
+        correct_answer: {
+          french: row.french_correct,
+          czech: row.czech_correct,
+          turkish: row.turkish_correct
+        },
+        incorrect_answers: {
+          french: [row.french_false_1, row.french_false_2, row.french_false_3],
+          czech: [row.czech_false_1, row.czech_false_2, row.czech_false_3],
+          turkish: [row.turkish_false_1, row.turkish_false_2, row.turkish_false_3]
+        }
+      }));
+
+      res.json(words); // Send the words data as JSON response
+    }
+  );
+});
+
+
 app.get("/api/words/english", (req,res) => {
 
   pool.query(
