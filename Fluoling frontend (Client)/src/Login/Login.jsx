@@ -101,7 +101,7 @@ function Login() {
   return (
     <div>
       <div className="logo">
-        <img src="../public/flamingologo.svg" alt="logo" />
+        <img src="../public/flamingo-logo.svg" alt="logo" />
 
       {state && state.successMessage && (
         <div className="success-message">

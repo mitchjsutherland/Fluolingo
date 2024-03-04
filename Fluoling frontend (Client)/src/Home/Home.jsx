@@ -7,7 +7,7 @@ function Home() {
   return (
     <div>
       <div className="logo">
-        <img src="../public/flamingologo.svg" alt="Logo" />
+        <img src="../public/flamingo-logo.svg" alt="Logo" />
       </div>
       <h1 className="heading">Fluolingo</h1>
       <p>Welcome to Fluolingo!</p>

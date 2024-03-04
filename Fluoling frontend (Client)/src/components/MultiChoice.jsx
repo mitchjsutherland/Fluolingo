@@ -1,5 +1,3 @@
-// MultiChoice.jsx
-
 import React, { useState, useEffect } from 'react';
 import ImageDisplay from './ImageDisplay';
 import MultipleChoiceAnswers from './MultipleChoiceAnswers';
@@ -15,7 +13,7 @@ const languageFlags = {
 
 const APIkey = 'g6UXY6FAX2jvOSVhDEvO4HSHmZCyZ3XQ';
 
-const App = () => {
+const MultiChoice = () => {
   const [image, setImage] = useState('');
   const [answers, setAnswers] = useState([]);
   const [correctAnswer, setCorrectAnswer] = useState('');
@@ -142,19 +140,13 @@ const App = () => {
         <div className="flag-display">{languageFlags[selectedLanguage]}</div>
       )}
       {!activityStarted ? (
-
-        
-          <div>
+        <div>
           <img src="../public/flamingo-logo.svg" alt="Fluolingo Logo" className="logo" />
-            <h1 className="heading">Fluolingo</h1>
-          </div>
-
-        
-        <button onClick={() => handleStartActivity('Easy')}>Start Activity</button>
+          <h1 className="heading">Fluolingo</h1>
+        </div>
       ) : (
         <>
           <ImageDisplay imageUrl={image} size="800px" />
-
           <MultipleChoiceAnswers answers={answers} handleAnswerClick={handleAnswerClick} />
           <div className="score-container">Score: {score}</div>
           <div className="timer-container">Time Left: {timeLeft}</div>
@@ -167,4 +159,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default MultiChoice;
