@@ -23,25 +23,25 @@ const App = () => {
   const [activityStarted, setActivityStarted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(90);
   const [message, setMessage] = useState('');
-  const [difficulty, setDifficulty] = useState('Easy');
+  const [difficulty, setDifficulty] = useState('Beginner');
 
   useEffect(() => {
     if (activityStarted) {
       const timer = setInterval(() => {
         setTimeLeft(prevTimeLeft => {
-          if (prevTimeLeft === 0 || (difficulty === 'Easy' && score >= 30) || (difficulty === 'Normal' && score >= 65) || (difficulty === 'Expert' && score >= 100)) {
+          if (prevTimeLeft === 0 || (difficulty === 'Beginner' && score >= 30) || (difficulty === 'Learner' && score >= 65) || (difficulty === 'Expert' && score >= 100)) {
             clearInterval(timer);
-            if (difficulty === 'Easy' && score >= 30) {
+            if (difficulty === 'Beginner' && score >= 30) {
               setMessage('You won!');
-            } else if (difficulty === 'Normal' && score >= 65) {
+            } else if (difficulty === 'Learner' && score >= 65) {
               setMessage('You won!');
             } else if (difficulty === 'Expert' && score >= 100) {
               setMessage('You won!');
             } else {
               setMessage('Time\'s up!');
-              if (score < 30 && difficulty === 'Easy') {
+              if (score < 30 && difficulty === 'Beginner') {
                 setMessage('You lose! Your final score: ' + score);
-              } else if (score < 65 && difficulty === 'Normal') {
+              } else if (score < 65 && difficulty === 'Learner') {
                 setMessage('You lose! Your final score: ' + score);
               } else if (score < 100 && difficulty === 'Expert') {
                 setMessage('You lose! Your final score: ' + score);
@@ -148,14 +148,14 @@ const App = () => {
         <button className={`language-button ${selectedLanguage === 'Turkish' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Turkish')}>Turkish</button>
       </div>
       <div className="difficulty-selector">
-        <button className={`difficulty-button easy ${difficulty === 'Easy' ? 'selected' : ''}`} onClick={() => handleStartActivity('Easy')} title="Score 30 in 90 seconds.">Easy</button>
-        <button className={`difficulty-button normal ${difficulty === 'Normal' ? 'selected' : ''}`} onClick={() => handleStartActivity('Normal')} title="Score 65 in 90 seconds.">Normal</button>
+        <button className={`difficulty-button Beginner ${difficulty === 'Beginner' ? 'selected' : ''}`} onClick={() => handleStartActivity('Beginner')} title="Score 30 in 90 seconds.">Beginner</button>
+        <button className={`difficulty-button Learner ${difficulty === 'Learner' ? 'selected' : ''}`} onClick={() => handleStartActivity('Learner')} title="Score 65 in 90 seconds.">Learner</button>
         <button className={`difficulty-button expert ${difficulty === 'Expert' ? 'selected' : ''}`} onClick={() => handleStartActivity('Expert')} title="Score 100 in 90 seconds.">Expert</button>
       </div>
       {activityStarted && (
   <div className="flag-display">
     {languageFlags[selectedLanguage]} 
-    <span>{difficulty === 'Easy' ? '🐥' : difficulty === 'Normal' ? '🦜' : '🦩'}</span> {/* Display difficulty symbol */}
+    <span>{difficulty === 'Beginner' ? '🐥' : difficulty === 'Learner' ? '🦜' : '🦩'}</span> {/* Display difficulty symbol */}
   </div>
 )}
       {!activityStarted ? null : (
@@ -164,10 +164,10 @@ const App = () => {
             <>
               <h2>{message}</h2>
               {message.startsWith('You lose!') && (
-                <p>Better luck next time: {score}/{difficulty === 'Easy' ? 30 : difficulty === 'Normal' ? 65 : 100}</p>
+                <p>Better luck next time: {score}/{difficulty === 'Beginner' ? 30 : difficulty === 'Learner' ? 65 : 100}</p>
               )}
               {message === 'You won!' && (
-                <p>Congratulations! You scored: {score}/{difficulty === 'Easy' ? 30 : difficulty === 'Normal' ? 65 : 100}</p>
+                <p>Congratulations! You scored: {score}/{difficulty === 'Beginner' ? 30 : difficulty === 'Learner' ? 65 : 100}</p>
               )}
               <button onClick={handleRestartGame}>Restart Game</button>
               <button onClick={handleExitGame}>Exit Game</button>
@@ -177,7 +177,7 @@ const App = () => {
               <ImageDisplay imageUrl={image} size="800px" />
               <MultipleChoiceAnswers answers={answers} handleAnswerClick={handleAnswerClick} />
               <div className="score-container">
-              Score: {score} / {difficulty === 'Easy' ? 30 : difficulty === 'Normal' ? 65 : 100}
+              Score: {score} / {difficulty === 'Beginner' ? 30 : difficulty === 'Learner' ? 65 : 100}
               </div>
               <div className="timer-container">Time Left: {timeLeft <= 10 ? <span className="hot-pink">{timeLeft}</span> : timeLeft}</div>
               <div className="message-container">{message}</div>
