@@ -22,7 +22,7 @@ const App = () => {
   const [score, setScore] = useState(0);
   const [selectedLanguage, setSelectedLanguage] = useState('French');
   const [activityStarted, setActivityStarted] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [timeLeft, setTimeLeft] = useState(90);
   const [message, setMessage] = useState('');
   const [difficulty, setDifficulty] = useState('Easy');
 
@@ -106,14 +106,14 @@ const App = () => {
 
   const handleRestartGame = () => {
     setScore(0);
-    setTimeLeft(60);
+    setTimeLeft(90);
     setMessage('');
   };
 
   const handleExitGame = () => {
     setActivityStarted(false);
     setScore(0);
-    setTimeLeft(60);
+    setTimeLeft(90);
     setMessage('');
   };
 
@@ -134,25 +134,24 @@ const App = () => {
         <button className={`language-button ${selectedLanguage === 'Turkish' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Turkish')}>Turkish</button>
       </div>
       <div className="difficulty-selector">
-        <button className={`difficulty-button ${difficulty === 'Easy' ? 'selected' : ''}`} onClick={() => handleStartActivity('Easy')}>Easy</button>
-        <button className={`difficulty-button ${difficulty === 'Normal' ? 'selected' : ''}`} onClick={() => handleStartActivity('Normal')}>Normal</button>
-        <button className={`difficulty-button ${difficulty === 'Expert' ? 'selected' : ''}`} onClick={() => handleStartActivity('Expert')}>Expert</button>
+        <button className={`difficulty-button ${difficulty === 'Easy' ? 'selected' : ''}`} onClick={() => handleStartActivity('Easy')} title="Easy: Score 30 in 90 seconds.">Easy</button>
+        <button className={`difficulty-button ${difficulty === 'Normal' ? 'selected' : ''}`} onClick={() => handleStartActivity('Normal')} title="Normal: Score 65 in 90 seconds.">Normal</button>
+        <button className={`difficulty-button ${difficulty === 'Expert' ? 'selected' : ''}`} onClick={() => handleStartActivity('Expert')} title="Expert: Score 100 in 90 seconds..">Expert</button>
       </div>
       {activityStarted && (
         <div className="flag-display">{languageFlags[selectedLanguage]}</div>
       )}
-{!activityStarted ? (
-  <>
-    <div>
-      <img src="../public/flamingo-logo.svg" alt="Fluolingo Logo" className="logo" />
-      <h1 className="heading">Fluolingo</h1>
-    </div>
-    <button onClick={() => handleStartActivity('Easy')}>Start Activity</button>
-  </>
-) : (
-  <>
+      {!activityStarted ? (
+        <>
+          <div>
+            <img src="../public/flamingo-logo.svg" alt="Fluolingo Logo" className="logo" />
+            <h1 className="heading">Fluolingo</h1>
+          </div>
+          <button onClick={() => handleStartActivity('Easy')}>Start Activity</button>
+        </>
+      ) : (
+        <>
           <ImageDisplay imageUrl={image} size="800px" />
-
           <MultipleChoiceAnswers answers={answers} handleAnswerClick={handleAnswerClick} />
           <div className="score-container">Score: {score}</div>
           <div className="timer-container">Time Left: {timeLeft}</div>
