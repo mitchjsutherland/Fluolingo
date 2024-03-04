@@ -1,5 +1,4 @@
-// MultiChoice.jsx
-
+/* MultiChoice.jsx */
 import React, { useState, useEffect } from 'react';
 import ImageDisplay from './ImageDisplay';
 import MultipleChoiceAnswers from './MultipleChoiceAnswers';
@@ -26,40 +25,36 @@ const App = () => {
   const [message, setMessage] = useState('');
   const [difficulty, setDifficulty] = useState('Easy');
 
-useEffect(() => {
-  if (activityStarted) {
-    const timer = setInterval(() => {
-      setTimeLeft(prevTimeLeft => {
-        if (prevTimeLeft === 0 || (difficulty === 'Easy' && score >= 30) || (difficulty === 'Normal' && score >= 65) || (difficulty === 'Expert' && score >= 100)) {
-          clearInterval(timer);
-          if (difficulty === 'Easy' && score >= 30) {
-            setMessage('You won!');
-          } else if (difficulty === 'Normal' && score >= 65) {
-            setMessage('You won!');
-          } else if (difficulty === 'Expert' && score >= 100) {
-            setMessage('You won!');
+  useEffect(() => {
+    if (activityStarted) {
+      const timer = setInterval(() => {
+        setTimeLeft(prevTimeLeft => {
+          if (prevTimeLeft === 0 || (difficulty === 'Easy' && score >= 30) || (difficulty === 'Normal' && score >= 65) || (difficulty === 'Expert' && score >= 100)) {
+            clearInterval(timer);
+            if (difficulty === 'Easy' && score >= 30) {
+              setMessage('You won!');
+            } else if (difficulty === 'Normal' && score >= 65) {
+              setMessage('You won!');
+            } else if (difficulty === 'Expert' && score >= 100) {
+              setMessage('You won!');
+            } else {
+              setMessage('Time\'s up!');
+            }
           } else {
-            setMessage('Time\'s up!');
+            if (prevTimeLeft === 45) { // Adjusted condition to trigger at 45 seconds
+              setMessage('Hurry up! Time is halfway done.');
+              setTimeout(() => {
+                setMessage('');
+              }, 2000); // Clear the message after 2 seconds
+            }
+            return prevTimeLeft - 1;
           }
-        } else {
-          if (prevTimeLeft === 45) { // Adjusted condition to trigger at 45 seconds
-            setMessage('Hurry up! Time is halfway done.');
-            setTimeout(() => {
-              setMessage('');
-            }, 2000); // Clear the message after 2 seconds
-          }
-          return prevTimeLeft - 1;
-        }
-      });
-    }, 1000);
-  
-    return () => clearInterval(timer);
-  }
-}, [activityStarted, score, difficulty]);
+        });
+      }, 1000);
 
-  
-  
-  
+      return () => clearInterval(timer);
+    }
+  }, [activityStarted, score, difficulty]);
 
   useEffect(() => {
     if (activityStarted) {
@@ -95,14 +90,12 @@ useEffect(() => {
       setMessage('INCORRECT! -1 POINT');
     }
 
-
     // Clear the message after a delay
     setTimeout(() => {
       setMessage('');
     }, 1000);
 
     fetchData(); // Fetch new question
-
   };
 
   const handleLanguageChange = (language) => {
@@ -138,36 +131,47 @@ useEffect(() => {
 
   return (
     <div className="app-container">
+      <div>
+        <img src="../public/flamingo-logo.svg" alt="Fluolingo Logo" className="logo" />
+        <h1 className="heading">Fluolingo</h1>
+      </div>
       <div className="language-selector">
         <button className={`language-button ${selectedLanguage === 'French' ? 'selected' : ''}`} onClick={() => handleLanguageChange('French')}>French</button>
         <button className={`language-button ${selectedLanguage === 'Czech' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Czech')}>Czech</button>
         <button className={`language-button ${selectedLanguage === 'Turkish' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Turkish')}>Turkish</button>
       </div>
       <div className="difficulty-selector">
-        <button className={`difficulty-button ${difficulty === 'Easy' ? 'selected' : ''}`} onClick={() => handleStartActivity('Easy')} title="Score 30 in 90 seconds.">Easy</button>
-        <button className={`difficulty-button ${difficulty === 'Normal' ? 'selected' : ''}`} onClick={() => handleStartActivity('Normal')} title="Score 65 in 90 seconds.">Normal</button>
-        <button className={`difficulty-button ${difficulty === 'Expert' ? 'selected' : ''}`} onClick={() => handleStartActivity('Expert')} title="Score 100 in 90 seconds..">Expert</button>
+      <button className={`difficulty-button easy ${difficulty === 'Easy' ? 'selected' : ''}`} onClick={() => handleStartActivity('Easy')} title="Score 30 in 90 seconds.">Easy</button>
+      <button className={`difficulty-button normal ${difficulty === 'Normal' ? 'selected' : ''}`} onClick={() => handleStartActivity('Normal')} title="Score 65 in 90 seconds.">Normal</button>
+      <button className={`difficulty-button expert ${difficulty === 'Expert' ? 'selected' : ''}`} onClick={() => handleStartActivity('Expert')} title="Score 100 in 90 seconds.">Expert</button>
       </div>
       {activityStarted && (
         <div className="flag-display">{languageFlags[selectedLanguage]}</div>
       )}
       {!activityStarted ? (
         <>
-          <div>
-            <img src="../public/flamingo-logo.svg" alt="Fluolingo Logo" className="logo" />
-            <h1 className="heading">Fluolingo</h1>
-          </div>
           <button onClick={() => handleStartActivity('Easy')}>Start Activity</button>
         </>
       ) : (
         <>
-          <ImageDisplay imageUrl={image} size="800px" />
-          <MultipleChoiceAnswers answers={answers} handleAnswerClick={handleAnswerClick} />
-          <div className="score-container">Score: {score}</div>
-          <div className="timer-container">Time Left: {timeLeft}</div>
-          <div className="message-container">{message}</div>
-          <button onClick={handleRestartGame}>Restart Game</button>
-          <button onClick={handleExitGame}>Exit Game</button>
+          {message === 'You won!' ? (
+            <>
+              <h2>{message}</h2>
+              <p>Your final score: {score}</p>
+              <button onClick={handleRestartGame}>Restart Game</button>
+              <button onClick={handleExitGame}>Exit Game</button>
+            </>
+          ) : (
+            <>
+              <ImageDisplay imageUrl={image} size="800px" />
+              <MultipleChoiceAnswers answers={answers} handleAnswerClick={handleAnswerClick} />
+              <div className="score-container">Score: {score}</div>
+              <div className="timer-container">Time Left: {timeLeft}</div>
+              <div className="message-container">{message}</div>
+              <button onClick={handleRestartGame}>Restart Game</button>
+              <button onClick={handleExitGame}>Exit Game</button>
+            </>
+          )}
         </>
       )}
     </div>
