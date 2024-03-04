@@ -155,17 +155,13 @@ const App = () => {
       {activityStarted && (
         <div className="flag-display">{languageFlags[selectedLanguage]}</div>
       )}
-      {!activityStarted ? (
-        <>
-          <button onClick={() => handleStartActivity('Easy')}>Start Activity</button>
-        </>
-      ) : (
+      {!activityStarted ? null : (
         <>
           {message === 'You won!' || message.startsWith('You lose!') ? (
             <>
               <h2>{message}</h2>
               {message.startsWith('You lose!') && (
-                <p>Your final score: {score}/{difficulty === 'Easy' ? 30 : difficulty === 'Normal' ? 65 : 100}</p>
+                <p>Better luck next time!: {score}/{difficulty === 'Easy' ? 30 : difficulty === 'Normal' ? 65 : 100}</p>
               )}
               <button onClick={handleRestartGame}>Restart Game</button>
               <button onClick={handleExitGame}>Exit Game</button>
@@ -184,7 +180,8 @@ const App = () => {
         </>
       )}
     </div>
-  );  
+  );
+  
 };
 
 export default App;
