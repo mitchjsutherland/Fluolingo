@@ -141,18 +141,16 @@ const App = () => {
       {activityStarted && (
         <div className="flag-display">{languageFlags[selectedLanguage]}</div>
       )}
-      {!activityStarted ? (
-
-        
-          <div>
-          <img src="../public/flamingo-logo.svg" alt="Fluolingo Logo" className="logo" />
-            <h1 className="heading">Fluolingo</h1>
-          </div>
-
-        
-        <button onClick={() => handleStartActivity('Easy')}>Start Activity</button>
-      ) : (
-        <>
+{!activityStarted ? (
+  <>
+    <div>
+      <img src="../public/flamingo-logo.svg" alt="Fluolingo Logo" className="logo" />
+      <h1 className="heading">Fluolingo</h1>
+    </div>
+    <button onClick={() => handleStartActivity('Easy')}>Start Activity</button>
+  </>
+) : (
+  <>
           <ImageDisplay imageUrl={image} size="800px" />
 
           <MultipleChoiceAnswers answers={answers} handleAnswerClick={handleAnswerClick} />
