@@ -91,23 +91,28 @@ const App = () => {
 
   const handleAnswerClick = async (selectedAnswer) => {
     if (selectedAnswer === correctAnswer) {
-      setScore(score + 1);
-      setMessage('CORRECT! +1 POINT');
-
+      if (score === null) {
+        setScore(1); // Update score to 1 if it's the first correct answer
+      } else {
+        setScore(score + 1); // Increment score for subsequent correct answers
+      }
+      setMessage('CORRECT! +1');
+  
       // Text-to-speech integration
       speakAnswer(selectedLanguage, correctAnswer);
     } else {
       setScore(Math.max(0, score - 1));
-      setMessage('INCORRECT! -1 POINT');
+      setMessage('INCORRECT! -1');
     }
-
+  
     // Clear the message after a delay
     setTimeout(() => {
       setMessage('');
     }, 1000);
-
+  
     fetchData(); // Fetch new question
   };
+  
 
   const speakAnswer = (language, answer) => {
     const languageCode = getLanguageCode(language);
@@ -167,7 +172,47 @@ const App = () => {
   const handleStartActivity = (difficulty) => {
     setActivityStarted(true);
     setDifficulty(difficulty);
+  
+    // Say "Congratulations" when the user wins
+    if ((difficulty === 'Beginner' && score >= 30) || (difficulty === 'Learner' && score >= 65) || (difficulty === 'Expert' && score >= 100)) {
+      speakCongratulations(selectedLanguage);
+    }
   };
+  
+  const speakCongratulations = (language) => {
+    const languageCode = getLanguageCode(language);
+    const voiceName = getVoiceForLanguage(language);
+  
+    if (!languageCode || !voiceName) {
+      console.error('Unsupported language:', language);
+      return;
+    }
+  
+    const congratulationsMessage = getCongratulationsMessage(language);
+  
+    const utterance = new SpeechSynthesisUtterance(congratulationsMessage);
+    utterance.lang = languageCode;
+    utterance.voice = getVoiceByName(voiceName);
+  
+    try {
+      window.speechSynthesis.speak(utterance);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
+  const getCongratulationsMessage = (language) => {
+    switch (language) {
+      case 'Czech':
+        return 'Gratulujeme!';
+      case 'French':
+        return 'Félicitations!';
+      case 'Turkish':
+        return 'Tebrikler!';
+      default:
+        return 'Congratulations!';
+    }
+  };  
 
   const handleRestartGame = () => {
     setScore(0);
@@ -193,28 +238,35 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <div>
-        <img src="../public/flamingo-logo.svg" alt="Fluolingo Logo" className="logo" />
-        <h1 className="heading">Fluolingo</h1>
-      </div>
-      <div className="language-selector">
-        <button className={`language-button ${selectedLanguage === 'French' ? 'selected' : ''}`} onClick={() => handleLanguageChange('French')}>French</button>
-        <button className={`language-button ${selectedLanguage === 'Czech' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Czech')}>Czech</button>
-        <button className={`language-button ${selectedLanguage === 'Turkish' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Turkish')}>Turkish</button>
-      </div>
-      <div className="difficulty-selector">
-        <button className={`difficulty-button Beginner ${difficulty === 'Beginner' ? 'selected' : ''}`} onClick={() => handleStartActivity('Beginner')} title="Score 30 in 90 seconds.">Beginner</button>
-        <button className={`difficulty-button Learner ${difficulty === 'Learner' ? 'selected' : ''}`} onClick={() => handleStartActivity('Learner')} title="Score 65 in 90 seconds.">Learner</button>
-        <button className={`difficulty-button expert ${difficulty === 'Expert' ? 'selected' : ''}`} onClick={() => handleStartActivity('Expert')} title="Score 100 in 90 seconds.">Expert</button>
-      </div>
-      {activityStarted && (
-        <div className="flag-display">
-          {languageFlags[selectedLanguage]} 
-          <span>{difficulty === 'Beginner' ? '🐥' : difficulty === 'Learner' ? '🦜' : '🦩'}</span> {/* Display difficulty symbol */}
+      {!activityStarted ? (
+        <div>
+          <img src="../public/flamingo-logo.svg" alt="Fluolingo Logo" className="logo" />
+          <h1 className="heading">Fluolingo</h1>
+          <h2 className="tagline">Fly through the MultiChoice quiz</h2>
+          <button className="start-button" onClick={() => handleStartActivity('Beginner')}>Get Ready to Soar!</button>
         </div>
-      )}
-      {!activityStarted ? null : (
+      ) : (
         <>
+          <div className="language-selector">
+            <button className={`language-button ${selectedLanguage === 'French' ? 'selected' : ''}`} onClick={() => handleLanguageChange('French')}>French</button>
+            <button className={`language-button ${selectedLanguage === 'Czech' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Czech')}>Czech</button>
+            <button className={`language-button ${selectedLanguage === 'Turkish' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Turkish')}>Turkish</button>
+          </div>
+                  <div className="difficulty-selector">
+          <button className={`difficulty-button Beginner ${difficulty === 'Beginner' ? 'selected' : ''}`} onClick={() => handleStartActivity('Beginner')}>
+            🐥 Beginner
+          </button>
+          <button className={`difficulty-button Learner ${difficulty === 'Learner' ? 'selected' : ''}`} onClick={() => handleStartActivity('Learner')}>
+            🦜 Learner
+          </button>
+          <button className={`difficulty-button expert ${difficulty === 'Expert' ? 'selected' : ''}`} onClick={() => handleStartActivity('Expert')}>
+            🦩 Expert
+          </button>
+        </div>
+          <div className="flag-display">
+            {languageFlags[selectedLanguage]} 
+            <span>{difficulty === 'Beginner' ? '🐥' : difficulty === 'Learner' ? '🦜' : '🦩'}</span> {/* Display difficulty symbol */}
+          </div>
           {message === 'You won!' || message.startsWith('You lose!') ? (
             <>
               <h2>{message}</h2>
