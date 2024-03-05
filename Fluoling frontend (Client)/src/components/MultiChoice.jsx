@@ -1,4 +1,3 @@
-/* MultiChoice.jsx */
 import React, { useState, useEffect } from 'react';
 import ImageDisplay from './ImageDisplay';
 import MultipleChoiceAnswers from './MultipleChoiceAnswers';
@@ -15,7 +14,7 @@ const languageFlags = {
 const imageAPIKey = 'g6UXY6FAX2jvOSVhDEvO4HSHmZCyZ3XQ';
 const textToSpeechAPIKey = 'ccf851b8ae8a422c8c780fcce21b6f66';
 
-const App = () => {
+const MultiChoice = () => {
   const [image, setImage] = useState('');
   const [answers, setAnswers] = useState([]);
   const [correctAnswer, setCorrectAnswer] = useState('');
@@ -27,28 +26,22 @@ const App = () => {
   const [difficulty, setDifficulty] = useState('Beginner');
   const [words, setWords] = useState([]);
 
-   
-    
-  
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await fetch(`http://localhost:4000/api/words/`);
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          const data = await response.json();
-          setWords(data);
-        } catch (error) {
-          console.error('Error fetching words:', error);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:4000/api/words/`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
         }
-      };
-  
-      fetchData();
-    }, []);
-  
-    
-  
+        const data = await response.json();
+        setWords(data);
+      } catch (error) {
+        console.error('Error fetching words:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (activityStarted) {
@@ -73,11 +66,11 @@ const App = () => {
               }
             }
           } else {
-            if (prevTimeLeft === 45) { // Adjusted condition to trigger at 45 seconds
+            if (prevTimeLeft === 45) {
               setMessage('Halfway, hurry!');
               setTimeout(() => {
                 setMessage('');
-              }, 2000); // Clear the message after 2 seconds
+              }, 2000);
             }
             return prevTimeLeft - 1;
           }
@@ -93,8 +86,6 @@ const App = () => {
       fetchData();
     }
   }, [selectedLanguage, activityStarted]);
-
- 
 
   const fetchData = async () => {
     try {
@@ -118,27 +109,27 @@ const App = () => {
   const handleAnswerClick = async (selectedAnswer) => {
     if (selectedAnswer === correctAnswer) {
       if (score === null) {
-        setScore(1); // Update score to 1 if it's the first correct answer
+        setScore(1);
       } else {
-        setScore(score + 1); // Increment score for subsequent correct answers
+        setScore(score + 1);
       }
       setMessage('CORRECT! +1');
-  
+
       // Text-to-speech integration
       speakAnswer(selectedLanguage, correctAnswer);
     } else {
       setScore(Math.max(0, score - 1));
       setMessage('INCORRECT! -1');
     }
-  
+
     // Clear the message after a delay
     setTimeout(() => {
       setMessage('');
     }, 1000);
-  
+
     fetchData(); // Fetch new question
   };
-  
+
 
   const speakAnswer = (language, answer) => {
     const languageCode = getLanguageCode(language);
@@ -198,35 +189,35 @@ const App = () => {
   const handleStartActivity = (difficulty) => {
     setActivityStarted(true);
     setDifficulty(difficulty);
-  
+
     // Say "Congratulations" when the user wins
     if ((difficulty === 'Beginner' && score >= 30) || (difficulty === 'Learner' && score >= 65) || (difficulty === 'Expert' && score >= 100)) {
       speakCongratulations(selectedLanguage);
     }
   };
-  
+
   const speakCongratulations = (language) => {
     const languageCode = getLanguageCode(language);
     const voiceName = getVoiceForLanguage(language);
-  
+
     if (!languageCode || !voiceName) {
       console.error('Unsupported language:', language);
       return;
     }
-  
+
     const congratulationsMessage = getCongratulationsMessage(language);
-  
+
     const utterance = new SpeechSynthesisUtterance(congratulationsMessage);
     utterance.lang = languageCode;
     utterance.voice = getVoiceByName(voiceName);
-  
+
     try {
       window.speechSynthesis.speak(utterance);
     } catch (error) {
       console.error('Error:', error);
     }
   };
-  
+
   const getCongratulationsMessage = (language) => {
     switch (language) {
       case 'Czech':
@@ -278,20 +269,20 @@ const App = () => {
             <button className={`language-button ${selectedLanguage === 'Czech' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Czech')}>Czech</button>
             <button className={`language-button ${selectedLanguage === 'Turkish' ? 'selected' : ''}`} onClick={() => handleLanguageChange('Turkish')}>Turkish</button>
           </div>
-                  <div className="difficulty-selector">
-          <button className={`difficulty-button Beginner ${difficulty === 'Beginner' ? 'selected' : ''}`} onClick={() => handleStartActivity('Beginner')}>
-            🐥 Beginner
-          </button>
-          <button className={`difficulty-button Learner ${difficulty === 'Learner' ? 'selected' : ''}`} onClick={() => handleStartActivity('Learner')}>
-            🦜 Learner
-          </button>
-          <button className={`difficulty-button expert ${difficulty === 'Expert' ? 'selected' : ''}`} onClick={() => handleStartActivity('Expert')}>
-            🦩 Expert
-          </button>
-        </div>
+          <div className="difficulty-selector">
+            <button className={`difficulty-button Beginner ${difficulty === 'Beginner' ? 'selected' : ''}`} onClick={() => handleStartActivity('Beginner')}>
+              🐥 Beginner
+            </button>
+            <button className={`difficulty-button Learner ${difficulty === 'Learner' ? 'selected' : ''}`} onClick={() => handleStartActivity('Learner')}>
+              🦜 Learner
+            </button>
+            <button className={`difficulty-button expert ${difficulty === 'Expert' ? 'selected' : ''}`} onClick={() => handleStartActivity('Expert')}>
+              🦩 Expert
+            </button>
+          </div>
           <div className="flag-display">
             {languageFlags[selectedLanguage]} 
-            <span>{difficulty === 'Beginner' ? '🐥' : difficulty === 'Learner' ? '🦜' : '🦩'}</span> {/* Display difficulty symbol */}
+            <span>{difficulty === 'Beginner' ? '🐥' : difficulty === 'Learner' ? '🦜' : '🦩'}</span>
           </div>
           {message === 'You won!' || message.startsWith('You lose!') ? (
             <>
@@ -324,4 +315,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default MultiChoice;

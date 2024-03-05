@@ -1,5 +1,12 @@
+.logo {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto; /* Center align the logo horizontally */
+  display: block; /* Ensure the logo is displayed as a block element */
+  text-align: center; /* Center align the logo within its container */
+}
+
 body {
-  font-family: "Nunito", sans-serif;
   background-color: #f7c1bb;
 }
 
@@ -9,18 +16,4 @@ body {
   transition: 0.3s;
   padding: 20px;
   font-family: "Nunito", sans-serif;
-}
-
-.custom-submit-button {
-  background-color: #e42c8f; /* Set the background color to #e42c8f */
-  border-color: #e42c8f;
-  color: white; /* Set the text color to white for better contrast */
-  padding: 10px 20px; /* Adjust padding for better button size */
-  font-size: 16px; /* Adjust font size for better readability */
-  border-radius: 5px; /* Add some border radius for a slightly rounded look */
-}
-
-.custom-submit-button:hover {
-  background-color: #c0247f; /* Change the background color on hover */
-  border-color: #c0247f;
 }
