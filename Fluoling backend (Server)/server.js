@@ -217,6 +217,69 @@ app.get("/api/words/french", (req,res) => {
 
 });
 
+app.get("/api/words/turkish", (req,res) => {
+
+  pool.query(
+
+    //`SELECT vocabulary_word_en, czech_correct, french_correct, turkish_correct  FROM questions`,
+
+    `SELECT turkish_correct FROM questions`,
+
+    (err, results) => {
+
+      if(err){
+
+        throw err;
+
+      }
+
+      //const words = results.rows.map(row => [row.vocabulary_word_en, row.french_correct, row.czech_correct,row.turkish_correct]);
+
+      const words = results.rows.map(row => row.turkish_correct);
+
+
+      console.log(words)
+
+      res.json(words);
+
+    }
+
+  );
+
+});
+
+app.get("/api/words/czech", (req,res) => {
+
+  pool.query(
+
+    //`SELECT vocabulary_word_en, czech_correct, french_correct, turkish_correct  FROM questions`,
+
+    `SELECT czech_correct FROM questions`,
+
+    (err, results) => {
+
+      if(err){
+
+        throw err;
+
+      }
+
+      //const words = results.rows.map(row => [row.vocabulary_word_en, row.french_correct, row.czech_correct,row.turkish_correct]);
+
+      const words = results.rows.map(row => row.czech_correct);
+
+
+      console.log(words)
+
+      res.json(words);
+
+    }
+
+  );
+
+});
+
+
 
 //define register route
 
