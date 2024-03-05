@@ -75,7 +75,7 @@ function ImageGuess() {
 
     const showImage = () => {
 
-        // console.log(words);
+        console.log(words);
         console.log(randomWord);
         setCurrentWord(randomWord);
 

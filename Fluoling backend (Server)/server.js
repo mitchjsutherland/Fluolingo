@@ -159,6 +159,8 @@ app.get("/api/words/english", (req,res) => {
 
   pool.query(
 
+    //`SELECT vocabulary_word_en, czech_correct, french_correct, turkish_correct  FROM questions`,
+
     `SELECT vocabulary_word_en FROM questions`,
 
     (err, results) => {
@@ -169,7 +171,43 @@ app.get("/api/words/english", (req,res) => {
 
       }
 
+      //const words = results.rows.map(row => [row.vocabulary_word_en, row.french_correct, row.czech_correct,row.turkish_correct]);
+
       const words = results.rows.map(row => row.vocabulary_word_en);
+
+
+      console.log(words)
+
+      res.json(words);
+
+    }
+
+  );
+
+});
+
+app.get("/api/words/french", (req,res) => {
+
+  pool.query(
+
+    //`SELECT vocabulary_word_en, czech_correct, french_correct, turkish_correct  FROM questions`,
+
+    `SELECT french_correct FROM questions`,
+
+    (err, results) => {
+
+      if(err){
+
+        throw err;
+
+      }
+
+      //const words = results.rows.map(row => [row.vocabulary_word_en, row.french_correct, row.czech_correct,row.turkish_correct]);
+
+      const words = results.rows.map(row => row.french_correct);
+
+
+      console.log(words)
 
       res.json(words);
 
