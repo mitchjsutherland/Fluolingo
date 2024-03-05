@@ -26,6 +26,7 @@ function ImageGuess() {
     const [startButton, setStartButton] = useState('Start');
     const [gameFeedback, setGameFeedback] = useState('');
     const [words, setWords] = useState([]);
+    const [czechWords, setCzechWords] = useState([]);
     const [gameClock, setGameClock] = useState('hidden');
     const [timer, setTimer] = useState(20); 
     const [letterTiles, setLetterTiles] = useState([]);
@@ -46,6 +47,42 @@ function ImageGuess() {
           .then(response => response.json())
           .then(data => {
             setWords(data);
+          })
+          .catch(error => {
+            console.error('Error fetching words:', error);
+          });
+    }, []);
+
+    useEffect(() => {
+        
+        fetch('http://localhost:4000/api/words/czech')
+          .then(response => response.json())
+          .then(data => {
+            setCzechWords(data); //czechWords
+          })
+          .catch(error => {
+            console.error('Error fetching words:', error);
+          });
+    }, []);
+
+    useEffect(() => {
+        
+        fetch('http://localhost:4000/api/words/french')
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+          })
+          .catch(error => {
+            console.error('Error fetching words:', error);
+          });
+    }, []);
+
+    useEffect(() => {
+        
+        fetch('http://localhost:4000/api/words/turkish')
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
           })
           .catch(error => {
             console.error('Error fetching words:', error);
