@@ -115,9 +115,10 @@
     width: 100px;
     height: 100px;
   }
-=======
-  margin-bottom: 20px;
-}
+  .language-selector {
+
+    margin-bottom: 20px;
+  }
 
 .language-button {
   margin-right: 10px;
@@ -155,11 +156,12 @@
   text-align: center;
 }
 
-.difficulty-button.easy:hover:after {
+/* Corrected class names for difficulty buttons */
+.difficulty-button.Beginner:hover:after {
   content: "Score 30 in 90 seconds.";
 }
 
-.difficulty-button.normal:hover:after {
+.difficulty-button.Learner:hover:after {
   content: "Score 65 in 90 seconds.";
 }
 
