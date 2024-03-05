@@ -41,11 +41,11 @@ const App = () => {
             } else {
               setMessage('Time\'s up!');
               if (score < 30 && difficulty === 'Beginner') {
-                setMessage('You lose! Your final score: ' + score);
+                setMessage('You lose! Your lingo score: ' + score);
               } else if (score < 65 && difficulty === 'Learner') {
-                setMessage('You lose! Your final score: ' + score);
+                setMessage('You lose! Your lingo score: ' + score);
               } else if (score < 100 && difficulty === 'Expert') {
-                setMessage('You lose! Your final score: ' + score);
+                setMessage('You lose! Your lingo score: ' + score);
               }
             }
           } else {
