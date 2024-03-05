@@ -115,9 +115,10 @@
     width: 100px;
     height: 100px;
   }
-=======
-  margin-bottom: 20px;
-}
+  .language-selector {
+
+    margin-bottom: 20px;
+  }
 
 .language-button {
   margin-right: 10px;
@@ -135,6 +136,39 @@
 }
 
 .flag-display {
-  font-size: 32px; /* Adjust font size as needed */
+  font-size: 32px;
 }
 
+.difficulty-button {
+  position: relative;
+}
+
+.difficulty-button:hover:after {
+  position: absolute;
+  bottom: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  width: 200px;
+  text-align: center;
+}
+
+/* Corrected class names for difficulty buttons */
+.difficulty-button.Beginner:hover:after {
+  content: "Score 30 in 90 seconds.";
+}
+
+.difficulty-button.Learner:hover:after {
+  content: "Score 65 in 90 seconds.";
+}
+
+.difficulty-button.expert:hover:after {
+  content: "Score 100 in 90 seconds.";
+}
+
+.hot-pink {
+  color: hotpink;
+}

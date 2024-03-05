@@ -121,9 +121,45 @@ app.post("/api/users/logout", (req, res) => {
 });
 
 
+app.get("/api/words", (req,res) => {
+
+  pool.query(
+
+    `SELECT * FROM questions`,
+
+    (err, results) => {
+
+      if(err){
+
+        throw err;
+
+      }
+
+      const words = results.rows.map(row => ({
+        english_search_term: row.vocabulary_word_en,
+        correct_answer: {
+          french: row.french_correct,
+          czech: row.czech_correct,
+          turkish: row.turkish_correct
+        },
+        incorrect_answers: {
+          french: [row.french_false_1, row.french_false_2, row.french_false_3],
+          czech: [row.czech_false_1, row.czech_false_2, row.czech_false_3],
+          turkish: [row.turkish_false_1, row.turkish_false_2, row.turkish_false_3]
+        }
+      }));
+
+      res.json(words); // Send the words data as JSON response
+    }
+  );
+});
+
+
 app.get("/api/words/english", (req,res) => {
 
   pool.query(
+
+    //`SELECT vocabulary_word_en, czech_correct, french_correct, turkish_correct  FROM questions`,
 
     `SELECT vocabulary_word_en FROM questions`,
 
@@ -135,7 +171,12 @@ app.get("/api/words/english", (req,res) => {
 
       }
 
+      //const words = results.rows.map(row => [row.vocabulary_word_en, row.french_correct, row.czech_correct,row.turkish_correct]);
+
       const words = results.rows.map(row => row.vocabulary_word_en);
+
+
+      console.log(words)
 
       res.json(words);
 
@@ -144,6 +185,100 @@ app.get("/api/words/english", (req,res) => {
   );
 
 });
+
+app.get("/api/words/french", (req,res) => {
+
+  pool.query(
+
+    //`SELECT vocabulary_word_en, czech_correct, french_correct, turkish_correct  FROM questions`,
+
+    `SELECT french_correct FROM questions`,
+
+    (err, results) => {
+
+      if(err){
+
+        throw err;
+
+      }
+
+      //const words = results.rows.map(row => [row.vocabulary_word_en, row.french_correct, row.czech_correct,row.turkish_correct]);
+
+      const words = results.rows.map(row => row.french_correct);
+
+
+      console.log(words)
+
+      res.json(words);
+
+    }
+
+  );
+
+});
+
+app.get("/api/words/turkish", (req,res) => {
+
+  pool.query(
+
+    //`SELECT vocabulary_word_en, czech_correct, french_correct, turkish_correct  FROM questions`,
+
+    `SELECT turkish_correct FROM questions`,
+
+    (err, results) => {
+
+      if(err){
+
+        throw err;
+
+      }
+
+      //const words = results.rows.map(row => [row.vocabulary_word_en, row.french_correct, row.czech_correct,row.turkish_correct]);
+
+      const words = results.rows.map(row => row.turkish_correct);
+
+
+      console.log(words)
+
+      res.json(words);
+
+    }
+
+  );
+
+});
+
+app.get("/api/words/czech", (req,res) => {
+
+  pool.query(
+
+    //`SELECT vocabulary_word_en, czech_correct, french_correct, turkish_correct  FROM questions`,
+
+    `SELECT czech_correct FROM questions`,
+
+    (err, results) => {
+
+      if(err){
+
+        throw err;
+
+      }
+
+      //const words = results.rows.map(row => [row.vocabulary_word_en, row.french_correct, row.czech_correct,row.turkish_correct]);
+
+      const words = results.rows.map(row => row.czech_correct);
+
+
+      console.log(words)
+
+      res.json(words);
+
+    }
+
+  );
+
+});
+
 
 
 //define register route
