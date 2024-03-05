@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import ImageDisplay from './ImageDisplay';
 import MultipleChoiceAnswers from './MultipleChoiceAnswers';
-import fetchQuestions from './fetchAnswers';
+//import fetchQuestions from './fetchAnswers';
 import fetchImage from './fetchImage';
 import './MultiChoice.css';
 
@@ -24,6 +24,30 @@ const App = () => {
   const [timeLeft, setTimeLeft] = useState(90);
   const [message, setMessage] = useState('');
   const [difficulty, setDifficulty] = useState('Beginner');
+  const [words, setWords] = useState([]);
+
+   
+    
+  
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(`http://localhost:4000/api/words/`);
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          setWords(data);
+        } catch (error) {
+          console.error('Error fetching words:', error);
+        }
+      };
+  
+      fetchData();
+    }, []);
+  
+    
+  
 
   useEffect(() => {
     if (activityStarted) {
@@ -69,9 +93,11 @@ const App = () => {
     }
   }, [selectedLanguage, activityStarted]);
 
+ 
+
   const fetchData = async () => {
     try {
-      const fetchedQuestions = await fetchQuestions();
+      const fetchedQuestions = words;
       if (fetchedQuestions.length > 0) {
         const selectedQuestion = fetchedQuestions[Math.floor(Math.random() * fetchedQuestions.length)];
         const imageUrl = await fetchImage(selectedQuestion.english_search_term);
