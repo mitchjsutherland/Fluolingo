@@ -136,7 +136,7 @@ function Login() {
           <div>
             <br />
           </div>
-          <Button variant="primary" type="submit" className="login-button">
+          <Button variant="primary" type="submit" className="g-button">
             Login
           </Button>
         </Form>

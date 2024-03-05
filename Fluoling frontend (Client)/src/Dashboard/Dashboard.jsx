@@ -94,8 +94,8 @@ function Dashboard({ user }) {
             {showMessage && <div><h1>Hello {email}. Welcome to Fluolingo!</h1>
                 <p>Select a language game:</p>
                 <div>
-                    <button onClick={() => handleGameSelection('Image Guess')}>Image Guess</button>
-                    <button onClick={() => handleGameSelection('Game2')}>MultiChoice Quiz</button>
+                <button className="g-button" onClick={() => handleGameSelection('Image Guess')}>Image Guess</button>
+                    <button className="g-button" onClick={() => handleGameSelection('Game2')}>MultiChoice Quiz</button>
                 </div>
                 <a href="#" onClick={handleLogout}>Logout</a>
             </div>}

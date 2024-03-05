@@ -121,7 +121,7 @@ function Register() {
                         />
                         <br />
                     </Form.Group>
-                    <Button variant="primary" className="register-button" type="submit">Register</Button> {/* Added className "register-button" */}
+                    <Button variant="primary" className="g-button" type="submit">Register</Button> {/* Added className "register-button" */}
                 </Form>
                 <br />
                 <p>Already registered? <Link to="/users/login">Login here</Link></p>

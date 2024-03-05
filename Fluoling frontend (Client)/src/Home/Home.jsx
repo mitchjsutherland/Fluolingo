@@ -12,7 +12,7 @@ function Home() {
       <h1 className="heading">Fluolingo</h1>
       <p>Welcome to Fluolingo!</p>
       <Link to="/users/login">
-        <Button variant="primary" className="login-button">Login</Button>  
+        <Button variant="primary" className="g-button">Login</Button>  
       </Link>
     </div>
   );
