@@ -28,6 +28,18 @@ const MultiChoice = () => {
   const [words, setWords] = useState([]);
   const navigate = useNavigate();
 
+  const isAuthenticated = sessionStorage.getItem("isAuthenticated");
+    console.log(isAuthenticated);
+
+    useEffect(() => {
+      // Checking if user is not loggedIn
+      if (!isAuthenticated) {
+        navigate("/users/login");
+      } else {
+        navigate("/multi-choice");
+      }
+    }, [navigate, isAuthenticated]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
