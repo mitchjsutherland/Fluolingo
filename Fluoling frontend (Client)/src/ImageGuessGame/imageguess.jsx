@@ -34,6 +34,7 @@ function ImageGuess() {
     const [letterTiles, setLetterTiles] = useState([]);
     const [gameComment, setGameComment] = useState('');
     const [gameCommentText, setGameCommentText] = useState('Are you ready?');
+    const [selectedLanguage, setSelectedLanguage] = useState('');
 
     const randomIndex = Math.floor(Math.random() * words.length);
     const randomWord = words[randomIndex];
@@ -55,45 +56,50 @@ function ImageGuess() {
           });
     }, []);
 
-    useEffect(() => {
+    // useEffect(() => {
         
-        fetch('http://localhost:4000/api/words/czech')
-          .then(response => response.json())
-          .then(data => {
-            setCzechWords(data); //czechWords
-          })
-          .catch(error => {
-            console.error('Error fetching words:', error);
-          });
-    }, []);
+    //     fetch('http://localhost:4000/api/words/czech')
+    //       .then(response => response.json())
+    //       .then(data => {
+    //         setCzechWords(data); //czechWords
+    //       })
+    //       .catch(error => {
+    //         console.error('Error fetching words:', error);
+    //       });
+    // }, []);
 
-    useEffect(() => {
+    // useEffect(() => {
         
-        fetch('http://localhost:4000/api/words/french')
-          .then(response => response.json())
-          .then(data => {
-            console.log(data);
-          })
-          .catch(error => {
-            console.error('Error fetching words:', error);
-          });
-    }, []);
+    //     fetch('http://localhost:4000/api/words/french')
+    //       .then(response => response.json())
+    //       .then(data => {
+    //         console.log(data);
+    //       })
+    //       .catch(error => {
+    //         console.error('Error fetching words:', error);
+    //       });
+    // }, []);
 
-    useEffect(() => {
+    // useEffect(() => {
         
-        fetch('http://localhost:4000/api/words/turkish')
-          .then(response => response.json())
-          .then(data => {
-            console.log(data);
-          })
-          .catch(error => {
-            console.error('Error fetching words:', error);
-          });
-    }, []);
+    //     fetch('http://localhost:4000/api/words/turkish')
+    //       .then(response => response.json())
+    //       .then(data => {
+    //         console.log(data);
+    //       })
+    //       .catch(error => {
+    //         console.error('Error fetching words:', error);
+    //       });
+    // }, []);
 
 
 
     // Game functions ---------------------------------------------*
+
+    const handleLanguageChange = (language) => {
+      
+        setSelectedLanguage(language);
+    };
 
 
     const startGame = () => {
@@ -114,7 +120,7 @@ function ImageGuess() {
 
     const showImage = () => {
 
-        console.log(words);
+        // console.log(words);
         console.log(randomWord);
         setCurrentWord(randomWord);
 
@@ -233,9 +239,17 @@ function ImageGuess() {
 
         <div className="gameMain">
 
-            <img src="../public/flamingo-logo.svg" alt="Fluolingo Logo" className="logo" />
-            <h1 className="heading">Fluolingo</h1>
-            <h3 className="mb-5">Let the games begin...</h3>
+            <img src="../public/flamingo-logo.svg" alt="Fluolingo Logo" className="logo mb-5" />
+            {/* <h1 className="heading">Fluolingo</h1> */}
+
+            <div className="mb-5">
+                <h3>Choose your language:</h3>
+                <button className={`language-button ${selectedLanguage === 'english' ? 'selected' : ''}`} onClick={() => handleLanguageChange('english')}>English</button>
+                <button className={`language-button ${selectedLanguage === 'french' ? 'selected' : ''}`} onClick={() => handleLanguageChange('french')}>French</button>
+                <button className={`language-button ${selectedLanguage === 'czech' ? 'selected' : ''}`} onClick={() => handleLanguageChange('czech')}>Czech</button>
+                <button className={`language-button ${selectedLanguage === 'turkish' ? 'selected' : ''}`} onClick={() => handleLanguageChange('turkish')}>Turkish</button>
+            </div>
+
 
             <h1 className={gameComment}>{gameCommentText}</h1>
 
