@@ -8,8 +8,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import './imageguess.css'
 import LetterTile from './lettertiles'; 
 
-//import enWordArr from '../words(en)';
-
 
 // GIPHY API Key
 const APIkey = 'caailYVBDQ7hpb4Ls9S49MSR0NrCdykg';
@@ -28,13 +26,16 @@ function ImageGuess() {
     const [startButton, setStartButton] = useState('Start');
     const [gameFeedback, setGameFeedback] = useState('');
     const [words, setWords] = useState([]);
+    const [frenchWords, setFrenchWords] = useState([]);
     const [czechWords, setCzechWords] = useState([]);
+    const [turkishWords, setTurkishWords] = useState([]);
     const [gameClock, setGameClock] = useState('hidden');
     const [timer, setTimer] = useState(20); 
     const [letterTiles, setLetterTiles] = useState([]);
     const [gameComment, setGameComment] = useState('');
     const [gameCommentText, setGameCommentText] = useState('Are you ready?');
     const [selectedLanguage, setSelectedLanguage] = useState('');
+    const [gameWords, setGameWords] = useState([]);
 
     const randomIndex = Math.floor(Math.random() * words.length);
     const randomWord = words[randomIndex];
@@ -58,21 +59,10 @@ function ImageGuess() {
 
     // useEffect(() => {
         
-    //     fetch('http://localhost:4000/api/words/czech')
+    //     fetch(`http://localhost:4000/api/words/${selectedLanguage}`)
     //       .then(response => response.json())
     //       .then(data => {
-    //         setCzechWords(data); //czechWords
-    //       })
-    //       .catch(error => {
-    //         console.error('Error fetching words:', error);
-    //       });
-    // }, []);
-
-    // useEffect(() => {
-        
-    //     fetch('http://localhost:4000/api/words/french')
-    //       .then(response => response.json())
-    //       .then(data => {
+    //         // setGameWords(data); //
     //         console.log(data);
     //       })
     //       .catch(error => {
@@ -80,17 +70,42 @@ function ImageGuess() {
     //       });
     // }, []);
 
-    // useEffect(() => {
+    useEffect(() => {
         
-    //     fetch('http://localhost:4000/api/words/turkish')
-    //       .then(response => response.json())
-    //       .then(data => {
-    //         console.log(data);
-    //       })
-    //       .catch(error => {
-    //         console.error('Error fetching words:', error);
-    //       });
-    // }, []);
+        fetch('http://localhost:4000/api/words/french')
+          .then(response => response.json())
+          .then(data => {
+            // console.log(data);
+            setFrenchWords(data);
+          })
+          .catch(error => {
+            console.error('Error fetching words:', error);
+          });
+    }, []);
+
+    useEffect(() => {
+        
+        fetch('http://localhost:4000/api/words/czech')
+          .then(response => response.json())
+          .then(data => {
+            setCzechWords(data);
+          })
+          .catch(error => {
+            console.error('Error fetching words:', error);
+          });
+    }, []);
+
+    useEffect(() => {
+        
+        fetch('http://localhost:4000/api/words/turkish')
+          .then(response => response.json())
+          .then(data => {
+            setTurkishWords(data);
+          })
+          .catch(error => {
+            console.error('Error fetching words:', error);
+          });
+    }, []);
 
 
 
@@ -99,6 +114,15 @@ function ImageGuess() {
     const handleLanguageChange = (language) => {
       
         setSelectedLanguage(language);
+
+        if (language === 'french') {
+            setGameWords(frenchWords)
+        } else if (language === 'czech') {
+            setGameWords(czechWords)
+        } else if (language === 'turkish') {
+            setGameWords(turkishWords)
+        }
+
     };
 
 
@@ -121,7 +145,10 @@ function ImageGuess() {
     const showImage = () => {
 
         // console.log(words);
-        console.log(randomWord);
+        // console.log(selectedLanguage);
+        console.log(gameWords[randomIndex]);
+        // console.log(frenchWords)
+        console.log(randomWord + ' ' + randomIndex);
         setCurrentWord(randomWord);
 
         const queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${APIkey}&q=${randomWord}&limit=1&offset=0&rating=g&lang=en&bundle=messaging_non_clips`;
@@ -244,7 +271,6 @@ function ImageGuess() {
 
             <div className="mb-5">
                 <h3>Choose your language:</h3>
-                <button className={`language-button ${selectedLanguage === 'english' ? 'selected' : ''}`} onClick={() => handleLanguageChange('english')}>English</button>
                 <button className={`language-button ${selectedLanguage === 'french' ? 'selected' : ''}`} onClick={() => handleLanguageChange('french')}>French</button>
                 <button className={`language-button ${selectedLanguage === 'czech' ? 'selected' : ''}`} onClick={() => handleLanguageChange('czech')}>Czech</button>
                 <button className={`language-button ${selectedLanguage === 'turkish' ? 'selected' : ''}`} onClick={() => handleLanguageChange('turkish')}>Turkish</button>
