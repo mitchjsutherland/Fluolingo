@@ -8,6 +8,7 @@ import Login from '../Login/Login';
 import Dashboard from '../Dashboard/Dashboard';
 import Home from '../Home/Home';
 import MultiChoice from '../MultiChoiceGame/MultiChoice';
+import { AuthenticationProvider } from '../Authentication/AuthenticationContext';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -27,7 +28,8 @@ function App() {
           >
             {darkMode ? 'Light Mode' : 'Dark Mode'}
           </button>
-        </div> 
+        </div>
+        <AuthenticationProvider> 
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/multichoice" element={<MultiChoice />} />
@@ -38,6 +40,7 @@ function App() {
           <Route path="/image-guess" element={<ImageGuessMode />} /> {/* Route for ImageGuessMode */}
           <Route path="/multi-choice" element={<MultiChoice />} /> {/* Route for MultiChoice */}
         </Routes>
+        </AuthenticationProvider>
       </div>
     </Router>
   );

@@ -7,8 +7,9 @@ import { Card, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Dashboard.css';
 import ImageGuessMode from '../ImageGuessGame/imageguessmode';
+import { useAuthentication } from '../Authentication/AuthenticationContext';
 
-function Dashboard({ user }) {
+function Dashboard() {
     const [selectedGame, setSelectedGame] = useState(null);
     const [showMessage, setShowMessage] = useState(true);
     const location = useLocation();
@@ -16,51 +17,17 @@ function Dashboard({ user }) {
     const userName = state?.userName;
     const [count, setCount] = useState(0);
     const { email } = useParams();
+    const { logout, isAuthenticated } = useAuthentication();
     const navigate = useNavigate();
 
-    const fetchData = async () => {
-        try {
-            const response = await fetch('http://localhost:4000/api/users/dashboard', {
-                method: 'GET',
-                credentials: 'include'
-            });
+    // console.log(user);
+    // console.log(isAuthenticated);
 
-            if (!response.ok) {
-                if (response.status === 401) {
-                    window.location.href = '/users/login';
-                } else {
-                    throw new Error('Failed to fetch user data');
-                }
-            } else {
-                const responseData = await response.json();
-                // const redirectUrl = responseData.redirect;
-                // const userEmail = responseData.userEmail;
-                // const url = responseData.url;
+    if(!isAuthenticated){
 
-                // console.log(url);
-                // console.log(userEmail);
-                // console.log(email);
+      navigate("/login")
 
-                // const urlSegments = redirectUrl.split('/');
-
-                // console.log(urlSegments.length)
-
-                // if (email !== userEmail) {
-                //     setCount(count + 1);
-                //     window.location.href = redirectUrl;
-                // }
-
-              navigate("/users/dashboard");
-
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, []);
+    }
 
     // const handleGameSelection = (game) => {
     //     setSelectedGame(game);
@@ -78,28 +45,11 @@ function Dashboard({ user }) {
 
 
 
-    const handleLogout = async () => {
-        try {
-            const response = await fetch('http://localhost:4000/api/users/logout', {
-                method: 'POST',
-                credentials: 'include'
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to logout');
-            }
-
-            const responseData = await response.json();
-
-            if (responseData.success) {
-                window.location.href = responseData.redirect;
-            } else {
-                console.error('Failed to logout');
-            }
-        } catch (error) {
-            console.error('Error during logout:', error);
-        }
-    };
+  const handleLogout = async () => {
+    await logout();
+    // Redirect to the login page or any other page after logout
+    navigate('/users/login');
+  };
 
     return (
         <div>
