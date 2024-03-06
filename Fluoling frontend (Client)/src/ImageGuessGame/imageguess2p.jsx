@@ -29,14 +29,13 @@ function ImageGuess2p() {
     const [gameFeedback, setGameFeedback] = useState('');
     const [words, setWords] = useState([]);
     const [gameClock, setGameClock] = useState('hidden');
-    const [timer, setTimer] = useState(20); 
+    const [timer, setTimer] = useState(60); 
     const [letterTiles, setLetterTiles] = useState([]);
     const [gameComment, setGameComment] = useState('');
     const [gameCommentText, setGameCommentText] = useState('Are you both ready?');
 
     const randomIndex = Math.floor(Math.random() * words.length);
     const randomWord = words[randomIndex];
-    // let tiles = [];
     const [scoreBoard, setScoreBoard] = useState(0);
     const [scoreBoardBox, setScoreBoardBox] = useState('hidden');
     const [scoreBoardPlayer1, setScoreBoardPlayer1] = useState(0);
@@ -70,7 +69,7 @@ function ImageGuess2p() {
         setGameClock('visible');
         setGameCommentText("Let's Lingo")
         setStartButton('Restart');
-        setTimer(20);
+        setTimer(60);
         setScoreBoard(0);
         setScoreBoardBox('visible');
         setCurrentPlayer(1);
