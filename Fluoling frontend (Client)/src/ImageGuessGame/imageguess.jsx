@@ -1,6 +1,7 @@
 // External import
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 // import Countdown from 'react-countdown';
 
 // Local import
@@ -32,6 +33,7 @@ function ImageGuess() {
     const [letterTiles, setLetterTiles] = useState([]);
     const [gameComment, setGameComment] = useState('');
     const [gameCommentText, setGameCommentText] = useState('Are you ready?');
+    const navigate = useNavigate();
 
     const randomIndex = Math.floor(Math.random() * words.length);
     const randomWord = words[randomIndex];
@@ -223,7 +225,7 @@ function ImageGuess() {
 
     const handleExit = () => {
         // Refresh the page
-        window.location.reload();
+        navigate("/users/dashboard");
     };
 
 
