@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ImageDisplay from './ImageDisplay';
 import MultipleChoiceAnswers from './MultipleChoiceAnswers';
 //import fetchQuestions from './fetchAnswers';
@@ -25,6 +26,7 @@ const MultiChoice = () => {
   const [message, setMessage] = useState('');
   const [difficulty, setDifficulty] = useState('Beginner');
   const [words, setWords] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -253,6 +255,12 @@ const MultiChoice = () => {
     return shuffledArray;
   };
 
+  const handleExit = () => {
+
+    navigate("/users/dashboard");
+
+  };
+
   return (
     <div className="app-container">
       {!activityStarted ? (
@@ -261,6 +269,8 @@ const MultiChoice = () => {
           <h1 className="heading">Fluolingo</h1>
           <h2 className="tagline">Fly through the MultiChoice quiz</h2>
           <button className="start-button" onClick={() => handleStartActivity('Beginner')}>Get Ready to Soar!</button>
+          <button className="start-button" onClick={() => handleExit()}>Exit</button>
+
         </div>
       ) : (
         <>

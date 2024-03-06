@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
-import App from "../components/MultiChoice";
-import { useParams } from 'react-router-dom';
+import App from "../MultiChoiceGame/MultiChoice";
+import { useParams,useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Card, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Dashboard.css';
-import ImageGuessMode from '../imageguessmode';
+import ImageGuessMode from '../ImageGuessGame/imageguessmode';
 
 function Dashboard({ user }) {
     const [selectedGame, setSelectedGame] = useState(null);
@@ -16,6 +16,7 @@ function Dashboard({ user }) {
     const userName = state?.userName;
     const [count, setCount] = useState(0);
     const { email } = useParams();
+    const navigate = useNavigate();
 
     const fetchData = async () => {
         try {
@@ -32,22 +33,25 @@ function Dashboard({ user }) {
                 }
             } else {
                 const responseData = await response.json();
-                const redirectUrl = responseData.redirect;
-                const userEmail = responseData.userEmail;
-                const url = responseData.url;
+                // const redirectUrl = responseData.redirect;
+                // const userEmail = responseData.userEmail;
+                // const url = responseData.url;
 
-                console.log(url);
-                console.log(userEmail);
-                console.log(email);
+                // console.log(url);
+                // console.log(userEmail);
+                // console.log(email);
 
-                const urlSegments = redirectUrl.split('/');
+                // const urlSegments = redirectUrl.split('/');
 
-                console.log(urlSegments.length)
+                // console.log(urlSegments.length)
 
-                if (email !== userEmail) {
-                    setCount(count + 1);
-                    window.location.href = redirectUrl;
-                }
+                // if (email !== userEmail) {
+                //     setCount(count + 1);
+                //     window.location.href = redirectUrl;
+                // }
+
+              navigate("/users/dashboard");
+
             }
         } catch (error) {
             console.error('Error:', error);
@@ -58,10 +62,21 @@ function Dashboard({ user }) {
         fetchData();
     }, []);
 
+    // const handleGameSelection = (game) => {
+    //     setSelectedGame(game);
+    //     setShowMessage(false);
+    // };
+
     const handleGameSelection = (game) => {
-        setSelectedGame(game);
-        setShowMessage(false);
-    };
+      setShowMessage(false);
+      if (game === 'Image Guess') {
+          navigate('/image-guess'); // Use navigate function to redirect
+      } else if (game === 'MultiChoice Quiz') {
+          navigate('/multi-choice'); // Use navigate function to redirect
+      }
+  };
+
+
 
     const handleLogout = async () => {
         try {
@@ -89,20 +104,20 @@ function Dashboard({ user }) {
     return (
         <div>
             <div className="logo">
-                <img src="../public/flamingo-logo.svg" alt="Logo" />
+                <img src="/flamingo-logo.svg" alt="Logo" />
             </div>
             {showMessage && <div><h1>Hello {email}. Welcome to Fluolingo!</h1>
                 <p>Select a language game:</p>
                 <div>
                     <button className="g-button" onClick={() => handleGameSelection('Image Guess')}>Image Guess</button>
-                    <button className="g-button" onClick={() => handleGameSelection('Game2')}>MultiChoice Quiz</button>
+                    <button className="g-button" onClick={() => handleGameSelection('MultiChoice Quiz')}>MultiChoice Quiz</button>
                 </div>
                 <a href="#" onClick={handleLogout}>Logout</a>
             </div>}
-            <div>
+            {/* <div>
                 {selectedGame === 'Image Guess' && <ImageGuessMode />}
-                {selectedGame === 'Game2' && <App />}
-            </div>
+                {selectedGame === 'MultiChoice Quiz' && <App />}
+            </div> */}
         </div>
     );
 }
