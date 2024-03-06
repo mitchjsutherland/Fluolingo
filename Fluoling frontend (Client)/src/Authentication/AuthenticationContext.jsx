@@ -13,12 +13,12 @@ export const AuthenticationProvider = ({ children }) => {
   const [errorMessage, setErrorMessage] = useState('');
 
    // Check for authentication status on component mount
-  useEffect(() => {
-    const storedIsAuthenticated = localStorage.getItem('isAuthenticated');
-    if (storedIsAuthenticated === 'true') {
-      setIsAuthenticated(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedIsAuthenticated = localStorage.getItem('isAuthenticated');
+  //   if (storedIsAuthenticated === 'true') {
+  //     setIsAuthenticated(true);
+  //   }
+  // }, []);
 
 
   const login = async (formData) => {
@@ -43,8 +43,8 @@ export const AuthenticationProvider = ({ children }) => {
         // Successful authentication, parse response body
         const responseData = await response.json();
         if (responseData.success) {
-          setUser(responseData.user); // Set the authenticated user
-          setIsAuthenticated(true); // Set authentication status to true
+          //setUser(responseData.user); // Set the authenticated user
+          //setIsAuthenticated(true); // Set authentication status to true
           sessionStorage.setItem("isAuthenticated", "true");
           setErrorMessage(''); // Clear any previous error message
         } else {
@@ -71,7 +71,7 @@ export const AuthenticationProvider = ({ children }) => {
       const responseData = await response.json();
 
       if (responseData.success) {
-        setUser(null);
+        //setUser(null);
         setIsAuthenticated(false);
         sessionStorage.setItem("isAuthenticated", "false");
         sessionStorage.removeItem("isAuthenticated");
@@ -85,7 +85,7 @@ export const AuthenticationProvider = ({ children }) => {
   };
 
   return (
-    <AuthenticationContext.Provider value={{ user, isAuthenticated, errorMessage, login, logout }}>
+    <AuthenticationContext.Provider value={{ isAuthenticated, errorMessage, login, logout }}>
       {children}
     </AuthenticationContext.Provider>
   );

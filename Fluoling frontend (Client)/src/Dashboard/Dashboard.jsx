@@ -17,17 +17,22 @@ function Dashboard() {
     const userName = state?.userName;
     const [count, setCount] = useState(0);
     const { email } = useParams();
-    const { logout, isAuthenticated } = useAuthentication();
+    const { logout } = useAuthentication();
     const navigate = useNavigate();
 
     // console.log(user);
-    // console.log(isAuthenticated);
+    
+    const isAuthenticated = sessionStorage.getItem("isAuthenticated");
+    console.log(isAuthenticated);
 
-    if(!isAuthenticated){
-
-      navigate("/login")
-
-    }
+    useEffect(() => {
+      // Checking if user is not loggedIn
+      if (!isAuthenticated) {
+        navigate("/users/login");
+      } else {
+        navigate("/users/dashboard");
+      }
+    }, [navigate, isAuthenticated]);
 
     // const handleGameSelection = (game) => {
     //     setSelectedGame(game);

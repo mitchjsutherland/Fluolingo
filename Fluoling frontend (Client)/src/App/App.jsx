@@ -32,7 +32,7 @@ function App() {
         <AuthenticationProvider> 
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route path="/multichoice" element={<MultiChoice />} />
+          {/* <Route path="/multichoice" element={<MultiChoice />} /> */}
 
           <Route path="/users/register" element={<Register />} />
           <Route path="/users/login" element={<Login />} />

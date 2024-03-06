@@ -11,12 +11,28 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Login.css";
 
 function Login() {
+
+  const navigate = useNavigate();
+  const isAuthenticated = sessionStorage.getItem("isAuthenticated");
+    console.log(isAuthenticated);
+
+    useEffect(() => {
+      // Checking if user is not loggedIn
+      if (!isAuthenticated) {
+        navigate("/users/login");
+      } else {
+        navigate("/users/dashboard");
+      }
+    }, [navigate, isAuthenticated]);
+
+
+
   const { login, errorMessage } = useAuthentication();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
-  const navigate = useNavigate();
+  
   const location = useLocation();
   const { state } = location;
 
