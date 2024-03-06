@@ -14,11 +14,25 @@ function ImageGuessMode() {
     // const [selectedMode, setSelectedMode] = useState(null);
     const [showMessage, setShowMessage] = useState(true);
     const navigate = useNavigate();
+
+    const isAuthenticated = sessionStorage.getItem("isAuthenticated");
+    console.log(isAuthenticated);
+
+    useEffect(() => {
+      // Checking if user is not loggedIn
+      if (!isAuthenticated) {
+        navigate("/users/login");
+      } else {
+        navigate("/image-guess-mode");
+      }
+    }, [navigate, isAuthenticated]);
   
     // const handleGameMode = (mode) => {
     //   setSelectedMode(mode);
     //   setShowMessage(false); // Hide the message after game selection
     // };
+
+
 
     const handleGameMode = (mode) => {
         // setSelectedMode(mode);

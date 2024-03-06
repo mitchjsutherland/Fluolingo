@@ -8,7 +8,7 @@ const AuthenticationContext = createContext();
 export const useAuthentication = () => useContext(AuthenticationContext);
 
 export const AuthenticationProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [email, setEmail] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -43,8 +43,9 @@ export const AuthenticationProvider = ({ children }) => {
         // Successful authentication, parse response body
         const responseData = await response.json();
         if (responseData.success) {
-          //setUser(responseData.user); // Set the authenticated user
+          setEmail(responseData.email); // Set the authenticated user
           //setIsAuthenticated(true); // Set authentication status to true
+          sessionStorage.setItem("email",email);
           sessionStorage.setItem("isAuthenticated", "true");
           setErrorMessage(''); // Clear any previous error message
         } else {
@@ -56,6 +57,59 @@ export const AuthenticationProvider = ({ children }) => {
       setErrorMessage('Failed to login');
     }
   };
+
+  const getUserData = async () => {
+
+    try{
+          const email = sessionStorage.getItem('email');
+
+          console.log(email);
+
+          const body = JSON.stringify({ email: email });
+
+
+          const response = await fetch('http://localhost:4000/api/users/userData',
+          
+          {
+
+            method: 'POST',
+
+            credentials: 'include',
+
+            headers: {
+
+              'Content-Type': 'application/json'
+
+            },
+
+            body: body
+
+          }
+          
+          );
+
+          if (!response.ok) {
+
+            throw new Error('Failed to fetch user data');
+
+          }
+
+          const responseData = await response.json();
+
+          console.log(responseData.user.name);
+          //sessionStorage.setItem("user",JSON.stringify(responseData.user));
+          return responseData.user.name;
+
+      }
+
+      catch (error) {
+
+        console.error('Error when fetching user data:', error);
+
+      }
+
+
+  }
 
   const logout = async () => {
     try {
@@ -75,6 +129,8 @@ export const AuthenticationProvider = ({ children }) => {
         setIsAuthenticated(false);
         sessionStorage.setItem("isAuthenticated", "false");
         sessionStorage.removeItem("isAuthenticated");
+        sessionStorage.removeItem("email");
+
         
       } else {
         console.error('Failed to logout');
@@ -85,7 +141,7 @@ export const AuthenticationProvider = ({ children }) => {
   };
 
   return (
-    <AuthenticationContext.Provider value={{ isAuthenticated, errorMessage, login, logout }}>
+    <AuthenticationContext.Provider value={{ isAuthenticated, errorMessage, login, logout, getUserData }}>
       {children}
     </AuthenticationContext.Provider>
   );

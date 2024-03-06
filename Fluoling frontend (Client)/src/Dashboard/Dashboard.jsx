@@ -17,8 +17,9 @@ function Dashboard() {
     const userName = state?.userName;
     const [count, setCount] = useState(0);
     const { email } = useParams();
-    const { logout } = useAuthentication();
+    const { logout, getUserData } = useAuthentication();
     const navigate = useNavigate();
+    const [name, setName] = useState(null);
 
     // console.log(user);
     
@@ -26,12 +27,23 @@ function Dashboard() {
     console.log(isAuthenticated);
 
     useEffect(() => {
-      // Checking if user is not loggedIn
-      if (!isAuthenticated) {
-        navigate("/users/login");
-      } else {
-        navigate("/users/dashboard");
-      }
+      // Define an async function inside useEffect
+      const fetchData = async () => {
+        // Checking if user is not loggedIn
+        if (!isAuthenticated) {
+          navigate("/users/login");
+        } else {
+          navigate("/users/dashboard");
+          
+          const name = await getUserData();
+
+          setName(name);
+
+        }
+      };
+    
+      // Call the async function
+      fetchData();
     }, [navigate, isAuthenticated]);
 
     // const handleGameSelection = (game) => {
@@ -56,12 +68,18 @@ function Dashboard() {
     navigate('/users/login');
   };
 
+  
+
+    
+
+  
+
     return (
         <div>
             <div className="logo">
                 <img src="/flamingo-logo.svg" alt="Logo" />
             </div>
-            {showMessage && <div><h1>Hello {email}. Welcome to Fluolingo!</h1>
+            {showMessage && <div><h1>Hello {name}. Welcome to Fluolingo!</h1>
                 <p>Select a language game:</p>
                 <div>
                     <button className="g-button" onClick={() => handleGameSelection('Image Guess')}>Image Guess</button>

@@ -22,6 +22,21 @@ const APIkey = 'caailYVBDQ7hpb4Ls9S49MSR0NrCdykg';
 function ImageGuess() {
 
     const navigate = useNavigate();
+
+    const isAuthenticated = sessionStorage.getItem("isAuthenticated");
+    console.log(isAuthenticated);
+
+    useEffect(() => {
+      // Checking if user is not loggedIn
+      if (!isAuthenticated) {
+        navigate("/users/login");
+      } else {
+        navigate("/image-guess-1p");
+      }
+    }, [navigate, isAuthenticated]);
+
+
+
     const [currentWord, setCurrentWord] = useState('');
     const [imageURL, setImageURL] = useState('');
     const [playerControl, setPlayerControl] = useState('hidden');
