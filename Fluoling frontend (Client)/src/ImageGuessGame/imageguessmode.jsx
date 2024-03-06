@@ -1,41 +1,37 @@
 // External import
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import Countdown from 'react-countdown';
 
 // Local import
 import './imageguess.css'
 import ImageGuess from './imageguess';
 import ImageGuess2p from './imageguess2p';
-import { useNavigate } from 'react-router-dom';
 
 
 function ImageGuessMode() {
 
-    // const navigate = useNavigate();
-    // const isAuthenticated = sessionStorage.getItem("isAuthenticated");
-    
-
-    // useEffect(() => {
-
-    //     console.log(isAuthenticated);
-    //   // Checking if user is not loggedIn
-    //   if (!isAuthenticated) {
-        
-    //     navigate("/users/login");
-    //   } 
-    // }, [navigate, isAuthenticated]);
-
-    const [selectedMode, setSelectedMode] = useState(null);
+    // const [selectedMode, setSelectedMode] = useState(null);
     const [showMessage, setShowMessage] = useState(true);
+    const navigate = useNavigate();
   
+    // const handleGameMode = (mode) => {
+    //   setSelectedMode(mode);
+    //   setShowMessage(false); // Hide the message after game selection
+    // };
+
     const handleGameMode = (mode) => {
-      setSelectedMode(mode);
-      setShowMessage(false); // Hide the message after game selection
+        // setSelectedMode(mode);
+        if (mode === 'Single Player') {
+            navigate ("/image-guess-1p")
+        } else if (mode = 'Two Player') {
+            navigate ("/image-guess-2p")
+        }
+        setShowMessage(false); // Hide the message after game selection
     };
 
     const handleExit = () => {
-        // Refresh the page
+       
         navigate("/users/dashboard");
     };
 
