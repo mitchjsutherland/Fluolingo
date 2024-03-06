@@ -1,6 +1,6 @@
 // External import
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import Countdown from 'react-countdown';
 
 // Local import
@@ -11,17 +11,28 @@ import ImageGuess2p from './imageguess2p';
 
 function ImageGuessMode() {
 
-    const [selectedMode, setSelectedMode] = useState(null);
+    // const [selectedMode, setSelectedMode] = useState(null);
     const [showMessage, setShowMessage] = useState(true);
+    const navigate = useNavigate();
   
+    // const handleGameMode = (mode) => {
+    //   setSelectedMode(mode);
+    //   setShowMessage(false); // Hide the message after game selection
+    // };
+
     const handleGameMode = (mode) => {
-      setSelectedMode(mode);
-      setShowMessage(false); // Hide the message after game selection
+        // setSelectedMode(mode);
+        if (mode === 'Single Player') {
+            navigate ("/image-guess-1p")
+        } else if (mode = 'Two Player') {
+            navigate ("/image-guess-2p")
+        }
+        setShowMessage(false); // Hide the message after game selection
     };
 
     const handleExit = () => {
-        // Refresh the page
-        window.location.reload();
+       
+        navigate("/users/dashboard");
     };
 
 
@@ -42,8 +53,8 @@ function ImageGuessMode() {
                 </div>
             </div>}
 
-            {selectedMode === 'Single Player' && <ImageGuess />}
-            {selectedMode === 'Two Player' && <ImageGuess2p />}
+            {/* {selectedMode === 'Single Player' && <ImageGuess />}
+            {selectedMode === 'Two Player' && <ImageGuess2p />} */}
 
         </div>
     );

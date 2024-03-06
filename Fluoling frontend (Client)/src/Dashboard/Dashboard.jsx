@@ -70,7 +70,7 @@ function Dashboard({ user }) {
     const handleGameSelection = (game) => {
       setShowMessage(false);
       if (game === 'Image Guess') {
-          navigate('/image-guess'); // Use navigate function to redirect
+          navigate('/image-guess-mode'); // Use navigate function to redirect
       } else if (game === 'MultiChoice Quiz') {
           navigate('/multi-choice'); // Use navigate function to redirect
       }
