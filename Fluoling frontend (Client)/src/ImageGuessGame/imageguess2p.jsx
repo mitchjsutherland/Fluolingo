@@ -1,6 +1,6 @@
 // External import
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate } from 'react-router-dom';
 // import Countdown from 'react-countdown';
 
 // Local import
@@ -20,6 +20,8 @@ const APIkey = 'caailYVBDQ7hpb4Ls9S49MSR0NrCdykg';
 
 function ImageGuess2p() {
 
+
+    const navigate = useNavigate();
     const [currentWord, setCurrentWord] = useState('');
     const [imageURL, setImageURL] = useState('');
     const [playerControl, setPlayerControl] = useState('hidden');
@@ -233,7 +235,7 @@ function ImageGuess2p() {
 
     const handleExit = () => {
         // Refresh the page
-        window.location.reload();
+        navigate("/image-guess-mode");
     };
 
 

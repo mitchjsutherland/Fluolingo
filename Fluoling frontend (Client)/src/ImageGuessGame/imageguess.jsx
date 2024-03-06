@@ -21,6 +21,7 @@ const APIkey = 'caailYVBDQ7hpb4Ls9S49MSR0NrCdykg';
 
 function ImageGuess() {
 
+    const navigate = useNavigate();
     const [currentWord, setCurrentWord] = useState('');
     const [imageURL, setImageURL] = useState('');
     const [playerControl, setPlayerControl] = useState('hidden');
@@ -33,7 +34,6 @@ function ImageGuess() {
     const [letterTiles, setLetterTiles] = useState([]);
     const [gameComment, setGameComment] = useState('');
     const [gameCommentText, setGameCommentText] = useState('Are you ready?');
-    const navigate = useNavigate();
 
     const randomIndex = Math.floor(Math.random() * words.length);
     const randomWord = words[randomIndex];
@@ -224,8 +224,8 @@ function ImageGuess() {
 
 
     const handleExit = () => {
-        // Refresh the page
-        navigate("/users/dashboard");
+        
+        navigate("/image-guess-mode");
     };
 
 

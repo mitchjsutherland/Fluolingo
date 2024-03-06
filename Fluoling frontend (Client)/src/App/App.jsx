@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 //import reactLogo from './assets/react.svg';
 import './App.css';
-import ImageGuessMode from '../ImageGuessGame/imageguess';
+import ImageGuessMode from '../ImageGuessGame/imageguessmode';
 import Register from '../Register/Register';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from '../Login/Login';
 import Dashboard from '../Dashboard/Dashboard';
 import Home from '../Home/Home';
 import MultiChoice from '../MultiChoiceGame/MultiChoice';
+import ImageGuess from '../ImageGuessGame/imageguess';
+import ImageGuess2p from '../ImageGuessGame/imageguess2p';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -35,7 +37,10 @@ function App() {
           <Route path="/users/register" element={<Register />} />
           <Route path="/users/login" element={<Login />} />
           <Route path="/users/dashboard/:email?" element={<Dashboard />} />
-          <Route path="/image-guess" element={<ImageGuessMode />} /> {/* Route for ImageGuessMode */}
+          <Route path="/image-guess-mode" element={<ImageGuessMode />} /> {/* Route for ImageGuessMode */}
+          <Route path="/image-guess-1p" element={<ImageGuess />} /> {/* Route for ImageGuessMode */}
+          <Route path="/image-guess-2p" element={<ImageGuess2p />} /> {/* Route for ImageGuessMode */}
+
           <Route path="/multi-choice" element={<MultiChoice />} /> {/* Route for MultiChoice */}
         </Routes>
       </div>
