@@ -63,7 +63,6 @@
 #playerInput {
     padding: 5px 10px;
     margin-right: 10px;
-}
 
 .letterTiles {
     height: 100px;
@@ -88,4 +87,5 @@
 
 .inactive {
     color: lightgrey;
+
 }
