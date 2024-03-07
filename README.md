@@ -3,7 +3,7 @@ Fluolinguo is a language learning platform with two main features: a multi-choic
 
 ### Demo 
 
-Live demo can be found [here][https://fluolingo.netlify.app/].
+Live demo can be found [here](https://fluolingo.netlify.app/).
 
 #### Features:
 
