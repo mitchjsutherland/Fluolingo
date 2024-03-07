@@ -45,7 +45,7 @@ export const AuthenticationProvider = ({ children }) => {
         if (responseData.success) {
           setEmail(responseData.email); // Set the authenticated user
           //setIsAuthenticated(true); // Set authentication status to true
-          sessionStorage.setItem("email",email);
+          sessionStorage.setItem("email",responseData.email);
           sessionStorage.setItem("isAuthenticated", "true");
           setErrorMessage(''); // Clear any previous error message
         } else {
@@ -96,9 +96,9 @@ export const AuthenticationProvider = ({ children }) => {
 
           const responseData = await response.json();
 
-          console.log(responseData.user.name);
-          //sessionStorage.setItem("user",JSON.stringify(responseData.user));
-          return responseData.user.name;
+          console.log("authentication context" + responseData.user);
+          sessionStorage.setItem("user",JSON.stringify(responseData.user));
+          return responseData.user;
 
       }
 
