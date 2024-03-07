@@ -3,6 +3,13 @@ Fluolinguo is a language learning platform with two main features: a multi-choic
 
 ### Demo 
 
+![image](https://github.com/FilipKotanski/Fluolingo/assets/19599271/5d5b0326-0e95-412b-afe4-ce669a065ffd)
+
+![image](https://github.com/FilipKotanski/Fluolingo/assets/19599271/d531ddbc-de1f-49a1-adb9-e327f92648a1)
+
+![image](https://github.com/FilipKotanski/Fluolingo/assets/19599271/2057db9c-3477-434d-8ee6-49d4a8afd4eb)
+
+
 Live demo can be found [here](https://fluolingo.netlify.app/).
 
 #### Features:
