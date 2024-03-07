@@ -54,7 +54,7 @@ function ImageGuess() {
 
     const [selectedLanguage, setSelectedLanguage] = useState('');
     const [gameWords, setGameWords] = useState([]);
-    const [currentWord, setCurrentWord] = useState('');
+    //const [currentWord, setCurrentWord] = useState('');
     const [correctAnswer, setCorrectAnswer] = useState('');
 
     const [scoreBoard, setScoreBoard] = useState(0);

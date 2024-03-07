@@ -123,7 +123,7 @@ app.post("/api/users/userData", async (req, res) => {
     }
 
     // Execute SQL query to retrieve user from the database
-    const userQueryResult = await pool.query('SELECT * FROM users WHERE email = $1', ["filip.kotanski@gmail.com"]);
+    const userQueryResult = await pool.query('SELECT * FROM users WHERE email = $1', [req.body.email]);
 
     // Check if the user exists in the database
     if (userQueryResult.rows.length === 0) {
@@ -454,7 +454,7 @@ app.post(
     // Successful authentication, send JSON response with success message
 
     const userEmail = req.body.email; // Extract email from request body
-    console.log(userEmail);
+    console.log("api/user/login: " + userEmail);
     const redirectUrl = `http://localhost:5173/users/dashboard/${encodeURIComponent(userEmail)}`;
     //const redirectUrl = "http://localhost:5173/users/dashboard/"
 

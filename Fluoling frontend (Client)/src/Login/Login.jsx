@@ -10,6 +10,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import "./Login.css";
 
+import logo from "../../public/flamingo-logo.svg";
+
 function Login() {
 
   const navigate = useNavigate();
@@ -55,7 +57,7 @@ function Login() {
   return (
     <div>
       <div className="logo">
-        <img src="../public/flamingo-logo.svg" alt="logo" />
+        <img src={logo} alt="logo" />
 
       {state && state.successMessage && (
         <div className="success-message">
