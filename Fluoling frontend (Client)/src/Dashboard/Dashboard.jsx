@@ -19,7 +19,7 @@ function Dashboard() {
     const { email } = useParams();
     const { logout, getUserData } = useAuthentication();
     const navigate = useNavigate();
-    const [user, setUser] = useState(null);
+    const [name, setName] = useState(null);
 
     // console.log(user);
     
@@ -35,11 +35,9 @@ function Dashboard() {
         } else {
           navigate("/users/dashboard");
           
-          const userObj = await getUserData();
+          const name = await getUserData();
 
-          console.log(userObj);
-          setUser(userObj);
-          console.log("use state variable: " + user?.name);
+          setName(name);
 
         }
       };
@@ -81,7 +79,7 @@ function Dashboard() {
             <div className="logo">
                 <img src="/flamingo-logo.svg" alt="Logo" />
             </div>
-            {showMessage && <div><h1>Hello {user?.name}. Welcome to Fluolingo!</h1>
+            {showMessage && <div><h1>Hello {name}. Welcome to Fluolingo!</h1>
                 <p>Select a language game:</p>
                 <div>
                     <button className="g-button" onClick={() => handleGameSelection('Image Guess')}>Image Guess</button>
