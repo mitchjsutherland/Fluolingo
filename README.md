@@ -1,6 +1,10 @@
 ### Overview:
 Fluolinguo is a language learning platform with two main features: a multi-choice quiz and an image guessing game. Users can register, log in, and access their dashboard to play these games. The application provides an interactive and engaging platform for users to improve their language skills through fun and educational games.
 
+### Demo 
+
+Live demo can be found [here]([https://fluolingo.netlify.app/]).
+
 #### Features:
 
 1. **User Authentication:**
