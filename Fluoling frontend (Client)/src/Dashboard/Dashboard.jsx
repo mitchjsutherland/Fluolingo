@@ -24,7 +24,7 @@ function Dashboard() {
     // console.log(user);
     
     const isAuthenticated = sessionStorage.getItem("isAuthenticated");
-    console.log(isAuthenticated);
+    // console.log(isAuthenticated);
 
     useEffect(() => {
       // Define an async function inside useEffect
