@@ -24,7 +24,7 @@ function ImageGuess2p() {
     const navigate = useNavigate();
 
     const isAuthenticated = sessionStorage.getItem("isAuthenticated");
-    console.log(isAuthenticated);
+    // console.log(isAuthenticated);
 
     useEffect(() => {
       // Checking if user is not loggedIn
@@ -43,21 +43,27 @@ function ImageGuess2p() {
     const [gameFeedback, setGameFeedback] = useState('');
     const [words, setWords] = useState([]);
     const [gameClock, setGameClock] = useState('hidden');
-    const [timer, setTimer] = useState(20); 
+    const [timer, setTimer] = useState(120); 
     const [letterTiles, setLetterTiles] = useState([]);
     const [gameComment, setGameComment] = useState('');
     const [gameCommentText, setGameCommentText] = useState('Are you both ready?');
-
-    const randomIndex = Math.floor(Math.random() * words.length);
-    const randomWord = words[randomIndex];
-    // let tiles = [];
-    const [scoreBoard, setScoreBoard] = useState(0);
+    
+    // const [scoreBoard, setScoreBoard] = useState(0);
     const [scoreBoardBox, setScoreBoardBox] = useState('hidden');
     const [scoreBoardPlayer1, setScoreBoardPlayer1] = useState(0);
     const [scoreBoardPlayer2, setScoreBoardPlayer2] = useState(0);
     const [currentPlayer, setCurrentPlayer] = useState(1);
     const [scoreStyle1, setScoreStyle1] = useState('active');
     const [scoreStyle2, setScoreStyle2] = useState('inactive');
+
+    const [frenchWords, setFrenchWords] = useState([]);
+    const [czechWords, setCzechWords] = useState([]);
+    const [turkishWords, setTurkishWords] = useState([]);
+    const [gameAlert, setGameAlert] = useState('hidden');
+
+    const [selectedLanguage, setSelectedLanguage] = useState('');
+    const [gameWords, setGameWords] = useState([]);
+    const [correctAnswer, setCorrectAnswer] = useState('');
 
 
 
@@ -73,24 +79,120 @@ function ImageGuess2p() {
           });
     }, []);
 
+    useEffect(() => {
+        
+        fetch('http://localhost:4000/api/words/french')
+          .then(response => response.json())
+          .then(data => {
+            setFrenchWords(data);
+          })
+          .catch(error => {
+            console.error('Error fetching words:', error);
+          });
+    }, []);
+
+    useEffect(() => {
+        
+        fetch('http://localhost:4000/api/words/czech')
+          .then(response => response.json())
+          .then(data => {
+            setCzechWords(data);
+          })
+          .catch(error => {
+            console.error('Error fetching words:', error);
+          });
+    }, []);
+
+    useEffect(() => {
+        
+        fetch('http://localhost:4000/api/words/turkish')
+          .then(response => response.json())
+          .then(data => {
+            setTurkishWords(data);
+          })
+          .catch(error => {
+            console.error('Error fetching words:', error);
+          });
+    }, []);
+
+    useEffect(() => {
+
+        chooseNewWord();
+
+    }, [startButton, scoreBoardPlayer1, scoreBoardPlayer2]);
+    
+    useEffect(() => {
+
+        showImage();
+
+    }, [startButton, currentWord]); 
+
+
+    useEffect(() => {
+
+        if (selectedLanguage === 'french' && frenchWords.length > 0) {
+            setGameWords(frenchWords);
+        } else if (selectedLanguage === 'czech' && czechWords.length > 0) {
+            setGameWords(czechWords);
+        } else if (selectedLanguage === 'turkish' && turkishWords.length > 0) {
+            setGameWords(turkishWords);
+        } else if (selectedLanguage === 'english' && words.length > 0) {
+            setGameWords(words);
+        }
+    }, [selectedLanguage, words, frenchWords, czechWords, turkishWords]);
+
 
 
     // Game functions ---------------------------------------------*
 
 
-    const startGame = () => {
-        
-        setPlayerControl('visible');
-        setGameClock('visible');
-        setGameCommentText("Let's Lingo")
-        setStartButton('Restart');
-        setTimer(20);
-        setScoreBoard(0);
-        setScoreBoardBox('visible');
-        setCurrentPlayer(1);
+    const handleLanguageChange = (language) => {
+      
+        setSelectedLanguage(language);
 
-        showImage();
-        startTimer();
+    };
+
+
+    const startGame = () => {
+
+        if (selectedLanguage === '') {
+
+            setGameAlert('visible');
+
+        } else {
+
+            setGameAlert('hidden');
+            setPlayerControl('visible');
+            setGameClock('visible');
+            setGameCommentText("Let's Lingo")
+            setStartButton('Restart');
+            setTimer(60);
+            setScoreBoardPlayer1(0);
+            setScoreBoardPlayer2(0);
+            setScoreBoardBox('visible');
+            setCurrentPlayer(1);
+            startTimer();
+
+        }
+        
+    };
+
+
+    const chooseNewWord = () => {
+
+        if (gameWords.length > 0) {
+
+            const randomIndex = Math.floor(Math.random() * gameWords.length);
+            const currentWord = words[randomIndex];
+            
+            setCurrentWord(currentWord);
+            console.log(currentWord)
+
+            const correctAnswer = gameWords[randomIndex]; // or the appropriate array
+            setCorrectAnswer(correctAnswer);
+            console.log(correctAnswer)
+
+        }
         
     };
 
@@ -98,20 +200,26 @@ function ImageGuess2p() {
     const showImage = () => {
 
         // console.log(words);
-        console.log(randomWord);
-        setCurrentWord(randomWord);
+        // console.log(gameWords);
+        // console.log(currentWord);
+        // console.log(correctAnswer);
 
-        const queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${APIkey}&q=${randomWord}&limit=1&offset=0&rating=g&lang=en&bundle=messaging_non_clips`;
+        let queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${APIkey}&q=${currentWord}&limit=1&offset=0&rating=g&lang=en&bundle=messaging_non_clips`;
 
         fetch(queryURL)
 
         .then((response) => 
-            // return 
             response.json())
-        .then((data) => {
-        // console.log(data.data[0]['images']['original']['url']);
-        setImageURL(data.data[0]['images']['original']['url']);
-        });
+            .then((data) => {
+                if (data.data && data.data.length > 0 && data.data[0].images && data.data[0].images.original && data.data[0].images.original.url) {
+                    setImageURL(data.data[0].images.original.url);
+                } else {
+                    console.error('Invalid Giphy API response:', data);
+                }
+            })
+            .catch((error) => {
+                console.error('Error fetching Giphy API:', error);
+            });
 
         createLetterTiles();
         
@@ -138,40 +246,96 @@ function ImageGuess2p() {
 
     };
 
+    const speakAnswer = (language, answer) => {
+        const languageCode = getLanguageCode(language);
+        const voiceName = getVoiceForLanguage(language);
+    
+        if (!languageCode || !voiceName) {
+          console.error('Unsupported language:', language);
+          return;
+        }
+    
+        const utterance = new SpeechSynthesisUtterance(answer.toLowerCase());
+        utterance.lang = languageCode;
+        utterance.voice = getVoiceByName(voiceName);
+    
+        try {
+          window.speechSynthesis.speak(utterance);
+        } catch (error) {
+          console.error('Error:', error);
+        }
+    };
 
-    const checkWord = (event) => {
+    const getLanguageCode = (language) => {
+        switch (language) {
+          case 'czech':
+            return 'cs-CZ';
+          case 'french':
+            return 'fr-FR';
+          case 'turkish':
+            return 'tr-TR';
+          default:
+            return null;
+        }
+    };
+    
+    const getVoiceForLanguage = (language) => {
+        switch (language) {
+          case 'czech':
+            return 'Josef';
+          case 'french':
+            return 'Bette';
+          case 'turkish':
+            return 'Omer';
+          default:
+            return null;
+        }
+    };
+    
+    const getVoiceByName = (name) => {
+        const voices = window.speechSynthesis.getVoices();
+        return voices.find(voice => voice.name === name);
+    };
 
-        // event.preventDefault();
 
+    const checkWord = () => {
+
+        // Action for Mitch - Review syntax on line below for verifying input in React
         const userAnswer = document.getElementById('playerInput').value;
         const newUserAnswer = userAnswer.charAt(0).toUpperCase() + userAnswer.slice(1);
-
-        // console.log(userAnswer);
         // console.log(newUserAnswer);
+        console.log(correctAnswer);
 
-        if (newUserAnswer === currentWord) {
+        if (newUserAnswer === correctAnswer) {
 
-            setGameFeedback(currentWord + ' is correct!');
-            setScoreBoardBox('visible');
-            updateScore();
+            successfulGuess();
 
-            const updatedTiles = letterTiles.map(tile => ({...tile, isGuessed: true }));
-            setLetterTiles(updatedTiles);
+            // chooseNewWord();
+            // showImage();
 
             setTimeout(() => {
-                // nextQuestion();
-            showImage();
-            setGameFeedback('');
+                setGameFeedback('');
             }, "2000");
 
         }   else {
 
-            setGameFeedback("That's not lingo!")
+            setGameFeedback('Try again! ')
             updateLetterTiles(newUserAnswer);
             switchTurn();
         };
 
     };
+
+    const successfulGuess = () => {
+
+        setGameFeedback(correctAnswer + ' is correct!');
+        speakAnswer(selectedLanguage, correctAnswer);
+        setScoreBoardBox('visible');
+        updateScore();
+
+        const updatedTiles = letterTiles.map(tile => ({...tile, isGuessed: true }));
+        setLetterTiles(updatedTiles);
+    }
 
 
     const updateScore = () => {
@@ -216,9 +380,9 @@ function ImageGuess2p() {
 
     const createLetterTiles = () => {
 
-        // console.log(randomWord);
+        // console.log(currentWord);
 
-        const newTiles = randomWord.split('').map((letter, index) => ({
+        const newTiles = correctAnswer.split('').map((letter, index) => ({
 
             id: index,
             letter,
@@ -228,12 +392,6 @@ function ImageGuess2p() {
 
         console.log(newTiles);
         setLetterTiles(newTiles);
-
-        // tiles.forEach(tile => {
-        //     console.log(tile.letter)
-        // });
-
-        // setLetterTiles(tiles);
  
     };
 
@@ -248,7 +406,7 @@ function ImageGuess2p() {
 
 
     const handleExit = () => {
-        // Refresh the page
+   
         navigate("/image-guess-mode");
     };
 
@@ -259,7 +417,14 @@ function ImageGuess2p() {
 
             <h1 className={gameComment}>{gameCommentText}</h1>
 
-            <div id="gameBox" className="mt-5">
+            <div className="mt-5">
+                <h3 className="mb-3">Choose your language:</h3>
+                <button className={`language-button ${selectedLanguage === 'french' ? 'selected' : ''}`} onClick={() => handleLanguageChange('french')}>French</button>
+                <button className={`language-button ${selectedLanguage === 'czech' ? 'selected' : ''}`} onClick={() => handleLanguageChange('czech')}>Czech</button>
+                <button className={`language-button ${selectedLanguage === 'turkish' ? 'selected' : ''}`} onClick={() => handleLanguageChange('turkish')}>Turkish</button>
+            </div>
+
+            <div id="gameBox" className="mt-3">
 
                 <div id="gameClock" className={gameClock}>
                     {/* <Countdown date={Date.now() + 10000} renderer={countDown} /> */}
@@ -306,6 +471,10 @@ function ImageGuess2p() {
 
                 </div>
                 
+            </div>
+
+            <div className="mb-2">
+                <p className={gameAlert}>Please select a language to play...</p>
             </div>
 
             <button onClick={startGame} className="mt-5" >{startButton}</button>

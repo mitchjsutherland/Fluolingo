@@ -16,7 +16,7 @@ function ImageGuessMode() {
     const navigate = useNavigate();
 
     const isAuthenticated = sessionStorage.getItem("isAuthenticated");
-    console.log(isAuthenticated);
+    // console.log(isAuthenticated);
 
     useEffect(() => {
       // Checking if user is not loggedIn
