@@ -4,7 +4,7 @@ import ImageDisplay from './ImageDisplay';
 import MultipleChoiceAnswers from './MultipleChoiceAnswers';
 //import fetchQuestions from './fetchAnswers';
 import fetchImage from './fetchImage';
-import './MultiChoice.css';
+import './MultiChoicenew.css';
 
 const languageFlags = {
   French: '🇫🇷',

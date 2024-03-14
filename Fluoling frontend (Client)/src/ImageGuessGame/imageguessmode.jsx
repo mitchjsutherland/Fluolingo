@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 // import Countdown from 'react-countdown';
 
 // Local import
-import './imageguess.css'
+import './imageguessnew.css'
 import ImageGuess from './imageguess';
 import ImageGuess2p from './imageguess2p';
 

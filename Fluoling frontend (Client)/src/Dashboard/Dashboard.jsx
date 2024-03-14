@@ -5,7 +5,7 @@ import { useParams,useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Card, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Dashboard.css';
+import './Dashboardnew.css';
 import ImageGuessMode from '../ImageGuessGame/imageguessmode';
 import { useAuthentication } from '../Authentication/AuthenticationContext';
 
