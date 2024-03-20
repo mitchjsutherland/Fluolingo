@@ -1,10 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-
 import { useAuthentication } from '../Authentication/AuthenticationContext';
-
 import { Form, Button, Card } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -55,51 +52,55 @@ function Login() {
   return (
     <div>
       <div className="logo">
-        <img src="../public/flamingo-logo.svg" alt="logo" />
+        {/* <img src="../public/flamingo-logo.svg" alt="logo" /> */}
 
-      {state && state.successMessage && (
-        <div className="success-message">
-          <p>Successful registration. Please log in now.</p>
-        </div>
-      )}
-      {errorMessage && <div className="error-message">{errorMessage}</div>}
+        {state && state.successMessage && (
+          <div className="success-message">
+            <p>Successful registration. Please log in now.</p>
+          </div>
+        )}
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
       
       </div>
-      <h1 className="heading">Fluolingo</h1>
-      <Card className="rounded p-3">
-        <h2>Welcome!</h2>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group>
-            <Form.Label>Email:</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Password:</Form.Label>
-            <Form.Control
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <div>
-            <br />
-          </div>
-          <Button variant="primary" type="submit" className="g-button">
-            Login
-          </Button>
-        </Form>
 
-        <div>
-          <br />
+      {/* <h1 className="heading">Fluolingo</h1> */}
+
+      {/* <Card className="rounded p-3">
+        <h2>Welcome!</h2> */}
+        <div className='loginFormContainer'>
+
+          <Form className="mainForm" onSubmit={handleSubmit}>
+
+            <Form.Group className="loginFormSection">
+              <Form.Label>Email:</Form.Label>
+              <Form.Control
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="loginFormSection">
+              <Form.Label>Password:</Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Button variant="primary" type="submit" className="g-button loginFormButton">
+              Login
+            </Button>
+          </Form>
+
+          <p className="loginCTA">No account? <Link to="/users/register">Register here</Link></p>
+          
         </div>
-        <p>Don't have an account? <Link to="/users/register">Register here</Link></p>
-      </Card>
+
+      {/* </Card> */}
     </div>
   );
 }

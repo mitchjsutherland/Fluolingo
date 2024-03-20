@@ -7,7 +7,7 @@ function Home() {
 
   return (
     <div className="body">
-      <div className='homecontainer'>
+      <div className='homeContainer'>
         <img className="homeLogo" src="../public/FluoLogoHome.svg" alt="Logo" />
         <div>
         <Link to="/users/login">

@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&family=Rubik+Bubbles&display=swap');
+
+/* body {
+    background-color: red;
+} */
+
+.loginFormContainer {
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    height: 100vh;
+    margin: 0 auto;
+    background-color: aquamarine;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    font-family: "Rubik Bubbles", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.mainForm {
+    margin-bottom: 5%;   
+}
+
+.loginFormSection {
+    margin-bottom: 10%;
+}
