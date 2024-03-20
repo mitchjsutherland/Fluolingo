@@ -4,16 +4,18 @@ import { Button } from 'react-bootstrap';
 import "./Homenew.css";
 
 function Home() {
+
   return (
-    <div>
-      <div className="logo">
-        <img src="../public/flamingo-logo.svg" alt="Logo" />
+    <div className="body">
+      <div className='homecontainer'>
+        <img className="homeLogo" src="../public/FluoLogoHome.svg" alt="Logo" />
+        <div>
+        <Link to="/users/login">
+          <Button variant="primary" className="g-button homeStartButton">Click to start</Button>  
+        </Link>
+        </div>
       </div>
-      <h1 className="heading">Fluolingo</h1>
-      <p>Welcome to Fluolingo!</p>
-      <Link to="/users/login">
-        <Button variant="primary" className="g-button">Login</Button>  
-      </Link>
+    
     </div>
   );
 }

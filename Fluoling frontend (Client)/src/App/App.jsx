@@ -23,14 +23,14 @@ function App() {
   return (
     <Router>
       <div className={darkMode ? 'dark' : ''}>
-        <div className="flex justify-end p-4">
+        {/* <div className="flex justify-end p-4">
           <button
             className="px-4 py-2 rounded-md bg-gray-700 text-white"
             onClick={toggleDarkMode}
           >
             {darkMode ? 'Light Mode' : 'Dark Mode'}
           </button>
-        </div>
+        </div> */}
         <AuthenticationProvider> 
         <Routes>
           <Route exact path="/" element={<Home />} />
