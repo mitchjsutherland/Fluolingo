@@ -6,6 +6,7 @@ import { Form, Button, Card } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import "./Loginnew.css";
+import Register from '../Register/Register.jsx';
 
 function Login() {
 
@@ -72,8 +73,9 @@ function Login() {
           <Form className="mainForm" onSubmit={handleSubmit}>
 
             <Form.Group className="loginFormSection">
-              <Form.Label>Email:</Form.Label>
+              <Form.Label className="loginFormLabel">Email:</Form.Label>
               <Form.Control
+                className="loginFormInput"
                 type="email"
                 name="email"
                 value={formData.email}
@@ -82,8 +84,9 @@ function Login() {
             </Form.Group>
 
             <Form.Group className="loginFormSection">
-              <Form.Label>Password:</Form.Label>
+              <Form.Label className="loginFormLabel">Password:</Form.Label>
               <Form.Control
+                className="loginFormInput"
                 type="password"
                 name="password"
                 value={formData.password}
@@ -96,7 +99,9 @@ function Login() {
             </Button>
           </Form>
 
-          <p className="loginCTA">No account? <Link to="/users/register">Register here</Link></p>
+          <p className="loginCTA">No account? <br/>
+          {/* <Link to="/users/register" className="loginAction">Register here</Link></p> */}
+          <Link to={Register} className="loginAction">Register here</Link></p>
           
         </div>
 
