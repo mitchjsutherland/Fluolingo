@@ -52,23 +52,14 @@ function Login() {
 
   return (
     <div>
-      <div className="logo">
-        {/* <img src="../public/flamingo-logo.svg" alt="logo" /> */}
-
-        {state && state.successMessage && (
-          <div className="success-message">
-            <p>Successful registration. Please log in now.</p>
-          </div>
-        )}
-        {errorMessage && <div className="error-message">{errorMessage}</div>}
-      
-      </div>
-
       {/* <h1 className="heading">Fluolingo</h1> */}
 
       {/* <Card className="rounded p-3">
         <h2>Welcome!</h2> */}
         <div className='loginFormContainer'>
+          
+
+          <Link to="/" className="loginHome mb-2">Home</Link>
 
           <Form className="mainForm" onSubmit={handleSubmit}>
 
@@ -97,6 +88,17 @@ function Login() {
             <Button variant="primary" type="submit" className="g-button loginFormButton">
               Login
             </Button>
+
+            <div className="loginFeedback">
+              {/* <img src="../public/flamingo-logo.svg" alt="logo" /> */}
+              {state && state.successMessage && (
+              <div className="success-message">
+                <p>Successful registration. Please log in now.</p>
+              </div>
+              )}
+              {errorMessage && <div className="error-message">{errorMessage}</div>}
+            </div>
+
           </Form>
 
           <p className="loginCTA">No account? <br/>

@@ -68,29 +68,32 @@ function Dashboard() {
     navigate('/users/login');
   };
 
-  
-
-    
-
-  
 
     return (
         <div>
-            <div className="logo">
-                <img src="/flamingo-logo.svg" alt="Logo" />
-            </div>
-            {showMessage && <div><h1>Hello {user?.name}. Welcome to Fluolingo!</h1>
-                <p>Select a language game:</p>
-                <div>
+
+            <div className="dashboardContainer">
+
+              <img className="dashboardLogo" src="../public/FluoLogoHome.svg" alt="Logo" />
+
+              {showMessage && <div><h1 className='dashboardWelcome'>Welcome back {user?.name}!</h1></div>}
+
+
+                <p className='dashboardQuestion'>What do you want to play?</p>
+
+                <div className='dashboardGameContainer'>
+                  <div className='dashboardCloud1'>
                     <button className="g-button" onClick={() => handleGameSelection('Image Guess')}>Image Guess</button>
+                  </div>
+                  <div className='dashboardCloud2'>
                     <button className="g-button" onClick={() => handleGameSelection('MultiChoice Quiz')}>MultiChoice Quiz</button>
+                  </div>
                 </div>
+
                 <a href="#" onClick={handleLogout}>Logout</a>
-            </div>}
-            {/* <div>
-                {selectedGame === 'Image Guess' && <ImageGuessMode />}
-                {selectedGame === 'MultiChoice Quiz' && <App />}
-            </div> */}
+              
+
+            </div>
         </div>
     );
 }
